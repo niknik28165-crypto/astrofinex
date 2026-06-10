@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AstroFinex · Золото 2026 · Исследовательский проект</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #070a11;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      padding: 20px 16px;
+      color: #f0f4ff;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    
+    .hero {
+      background: linear-gradient(135deg, #0c1222, #0a0f1a);
+      border-radius: 36px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(245, 176, 66, 0.3);
+    }
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      background: linear-gradient(135deg, #f5b042, #e35f5f, #b87cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .research-badge {
+      background: linear-gradient(90deg, #1a1525, #0f1625);
+      border-radius: 40px;
+      padding: 8px 18px;
+      margin-bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      border: 1px solid #b87cff;
+    }
+    .research-badge .text { font-size: 0.75rem; color: #d4b7ff; }
+    .research-badge .highlight { color: #f5d77b; font-weight: 600; }
+    
+    .site-definition {
+      font-size: 0.8rem;
+      color: #b9c2da;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #2a3448;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .hero-card {
+      background: rgba(15, 22, 37, 0.6);
+      border-radius: 16px;
+      padding: 8px 10px;
+      border: 1px solid #2a3448;
+      transition: all 0.2s;
+    }
+    .hero-card:hover { border-color: #f5b042; }
+    .hero-card .emoji { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+    .hero-card h3 { color: #f5b042; font-size: 0.7rem; margin-bottom: 3px; }
+    .hero-card p { font-size: 0.6rem; color: #b9c2da; line-height: 1.4; }
+    
+    .control-panel {
+      background: #0c1120;
+      border-radius: 28px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      border: 1px solid #2e3a4e;
+    }
+    .slider-group { margin-bottom: 14px; }
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    input[type="range"] { width: 100%; cursor: pointer; accent-color: #e38c4a; }
+    button {
+      background: #1e2a3a;
+      color: #f0f4ff;
+      padding: 5px 12px;
+      border-radius: 40px;
+      border: 1px solid #e38c4a;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .reset-btn { background: #3d1e1e; border-color: #c24a4a; }
+    .export-btn { background: #1e3a2a; border-color: #4ac28e; }
+    .refresh-btn { background: #2a3a5a; border-color: #5a8ec2; }
+    .button-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .badge {
+      background: #1e293b;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      border-left: 3px solid #f5b042;
+    }
+    
+    .graph-container {
+      background: #0a0f1a;
+      border-radius: 24px;
+      padding: 14px;
+      margin: 16px 0;
+      border: 1px solid #2c3548;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      background: #080c14;
+      border-radius: 16px;
+      display: block;
+    }
+    
+    .forecast-table {
+      background: #0f1625;
+      border-radius: 20px;
+      padding: 14px;
+      margin: 16px 0;
+      border: 1px solid #4a6a9a;
+    }
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+    .forecast-item {
+      background: #1a2235;
+      border-radius: 16px;
+      padding: 8px;
+    }
+    .forecast-item .date { font-size: 0.65rem; color: #8f9bb3; }
+    .forecast-item .price { font-size: 0.9rem; font-weight: bold; color: #f5d77b; }
+    .forecast-item .coeff { font-size: 0.55rem; color: #5a6885; margin-top: 3px; }
+    
+    .factors-table {
+      background: #0f1625;
+      border-radius: 20px;
+      padding: 14px;
+      margin: 16px 0;
+      border: 1px solid #4a6a9a;
+    }
+    .factors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+    }
+    .factor-card {
+      background: #1a2235;
+      border-radius: 14px;
+      padding: 8px;
+    }
+    .factor-card .factor-name { font-size: 0.65rem; font-weight: 600; color: #b87cff; }
+    .factor-card .factor-value { font-size: 0.85rem; font-weight: bold; color: #f5d77b; }
+    .factor-card .factor-impact { font-size: 0.55rem; color: #8f9bb3; }
+    
+    .methodology-full {
+      background: linear-gradient(135deg, #0a1020, #0c1222);
+      border-radius: 24px;
+      padding: 18px;
+      margin: 20px 0;
+      border: 1px solid #3a4a6a;
+    }
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .method-card {
+      background: #0f1625;
+      border-radius: 18px;
+      padding: 12px;
+    }
+    .method-card h4 {
+      color: #b87cff;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+    .formula {
+      background: #1a2235;
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: #f5d77b;
+      text-align: center;
+    }
+    .coeff-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .coeff-item {
+      background: #1a2235;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.65rem;
+      border-left: 2px solid #f5b042;
+    }
+    
+    .astro-full {
+      background: #0f1625;
+      border-radius: 24px;
+      padding: 16px;
+      margin: 16px 0;
+      border: 1px solid #6a4a9a;
+    }
+    .astro-section {
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a3448;
+    }
+    .astro-section h4 {
+      color: #b87cff;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .threshold-hint {
+      font-size: 0.55rem;
+      color: #5a6885;
+      background: #1a2235;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .astro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .astro-card {
+      background: #1a2235;
+      border-radius: 14px;
+      padding: 10px;
+      border-left: 3px solid;
+    }
+    .astro-card.positive { border-left-color: #4ac28e; }
+    .astro-card.negative { border-left-color: #e35f5f; }
+    .astro-card.neutral { border-left-color: #f5b042; }
+    .astro-card .title { font-size: 0.7rem; font-weight: 600; color: #f5d77b; }
+    .astro-card .interval { font-size: 0.6rem; color: #8f9bb3; margin-top: 4px; }
+    .astro-card .effect { font-size: 0.6rem; color: #b9c2da; margin-top: 6px; }
+    .astro-card .strength { font-size: 0.55rem; color: #9ee7b0; margin-top: 5px; }
+    .placeholder-message {
+      color: #5a6885;
+      font-size: 0.6rem;
+      text-align: center;
+      padding: 15px;
+      background: #1a2235;
+      border-radius: 14px;
+    }
+    
+    .feedback-button {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .feedback-btn {
+      background: linear-gradient(135deg, #f5b042, #e35f5f);
+      padding: 12px 28px;
+      border-radius: 40px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .feedback-btn:hover { opacity: 0.9; transform: scale(1.02); }
+    
+    .legal-block {
+      background: #1a1525;
+      border-radius: 20px;
+      padding: 18px;
+      margin: 24px 0 16px;
+      border: 1px solid #c24a4a;
+    }
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .legal-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.65rem;
+      color: #c4b8e0;
+    }
+    .legal-item .legal-icon { font-size: 1rem; opacity: 0.8; }
+    .legal-item strong { color: #ffaa88; }
+    .legal-footer-note {
+      text-align: center;
+      font-size: 0.55rem;
+      color: #8a7a9a;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #2a3448;
+    }
+    
+    @media (max-width: 700px) {
+      .hero-grid { grid-template-columns: 1fr 1fr; }
+      .forecast-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  
+  <div class="hero">
+    <div class="research-badge">
+      <span class="text"><span class="highlight">Исследовательский проект</span> · Сайт создан для проверки гипотез о влиянии экономических и астрологических факторов на цену золота. Все данные — экспериментальные.</span>
+    </div>
+    <h1>✨ AstroFinex · Золото 2026 ✨</h1>
+    <div class="site-definition">📊 Интерактивный конструктор гипотетических сценариев цены золота (XAU/USD).<br>🌙 7 категорий астрологических факторов с разными порогами включения.</div>
+    <div class="hero-grid">
+      <div class="hero-card"><span class="emoji">🧑‍💻</span><h3>ДЛЯ КОГО</h3><p>Частные лица, интересующиеся рыночными сценариями. Не для профессиональных трейдеров.</p></div>
+      <div class="hero-card"><span class="emoji">🎯</span><h3>ЗАЧЕМ</h3><p>Визуализировать гипотетические траектории цены золота с учётом экономических и астрологических факторов.</p></div>
+      <div class="hero-card"><span class="emoji">🛠️</span><h3>КАК РАБОТАТЬ</h3><p>Настройте три параметра ниже (цена, множитель августа, астрология) → график и прогноз пересчитаются автоматически.</p></div>
+      <div class="hero-card"><span class="emoji">📈</span><h3>ЧТО ВНУТРИ</h3><p>Реальная цена с Binance. Прогнозные точки от сегодня до августа. Астрология — опционально.</p></div>
+    </div>
+  </div>
+
+  <div class="control-panel">
+    <div class="slider-group">
+      <div class="slider-label"><span>📅 <span id="todayDateDisplay" class="yellow-hl">--</span></span><span>🔽 ТЕКУЩАЯ ЦЕНА XAU/USD</span><span id="priceValueDisplay" class="yellow-hl">$---</span></div>
+      <input type="range" id="priceSlider" min="3500" max="5200" step="10" value="4010">
+      <div style="background:#0a1020; border-radius:30px; padding:5px 10px; margin-top:8px; font-size:0.6rem;"><span id="priceSourceText">получение цены...</span></div>
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>🎯 МНОЖИТЕЛЬ ЦЕЛИ (АВГУСТ)</span><span id="multiplierDisplay" class="yellow-hl">1.42x</span></div>
+      <input type="range" id="targetMultiplier" min="1.20" max="2.00" step="0.01" value="1.42">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>🌙 АСТРОЛОГИЧЕСКАЯ ИНТЕНСИВНОСТЬ</span><span id="astroDisplay" class="purple-hl">30%</span></div>
+      <input type="range" id="astroFactor" min="0" max="100" step="5" value="30">
+    </div>
+    <div class="button-row">
+      <button class="refresh-btn" id="refreshPriceBtn">🔄 Обновить цену (Binance)</button>
+      <button class="reset-btn" id="resetBtn">⟳ Сбросить</button>
+      <button class="export-btn" id="exportBtn">📸 PNG графика</button>
+    </div>
+    <div class="badge-row"><div class="badge" id="currentDateBadge">📅 --</div><div class="badge" id="dynamicPriceBadge">💰 Цена: ---</div></div>
+  </div>
+
+  <div class="graph-container">
+    <canvas id="forecastCanvas" width="1000" height="420"></canvas>
+    <div style="text-align: center; font-size: 0.6rem; color: #5a6885; margin-top: 6px;">📊 При изменении любого ползунка график перестраивается</div>
+  </div>
+
+  <div class="forecast-table">
+    <h3 style="margin-bottom: 10px; font-size:0.9rem;">📋 ПРОГНОЗНЫЕ ЗНАЧЕНИЯ</h3>
+    <div class="forecast-grid" id="forecastGrid"></div>
+    <div style="font-size:0.55rem; text-align:center; margin-top:8px;">✨ Астрология добавляет до +12.5% к цене при 100% интенсивности</div>
+  </div>
+
+  <div class="methodology-full">
+    <h3>📐 МЕТОДОЛОГИЯ РАСЧЁТА</h3>
+    <div class="method-grid">
+      <div class="method-card"><h4>🔢 ФОРМУЛА ПРОГНОЗА</h4><p><strong>Цена_прогноза = Цена_сегодня × Базовый_коэффициент × АстроФактор</strong></p><div class="formula">АстроФактор = 1 + (Интенсивность_астрологии / 800)</div></div>
+      <div class="method-card"><h4>📊 БАЗОВЫЕ КОЭФФИЦИЕНТЫ</h4><div class="coeff-list"><div class="coeff-item"><strong>15 июня</strong> ×0.995</div><div class="coeff-item"><strong>30 июня</strong> ×1.085</div><div class="coeff-item"><strong>Июль</strong> ×1.22</div><div class="coeff-item"><strong>Август</strong> ×1.20–2.00 + поправки</div></div></div>
+      <div class="method-card"><h4>🛢️ ПОПРАВКИ К МНОЖИТЕЛЮ</h4><p>SPR &lt;250 млн → +0.10 | GCC &lt;25 т → +0.15 | Нефть &gt;$150 → +0.05<br>Доллар &gt;108 → -0.05 | VIX &gt;25 → +0.05</p></div>
+    </div>
+  </div>
+
+  <div class="factors-table">
+    <h3 style="margin-bottom: 10px; font-size:0.9rem;">📊 ТЕКУЩИЕ ЗНАЧЕНИЯ ФАКТОРОВ</h3>
+    <div class="factors-grid" id="factorsGrid"></div>
+    <div class="total-multiplier" style="margin-top:10px; text-align:center;">ИТОГОВЫЙ МНОЖИТЕЛЬ АВГУСТА: <strong id="totalMultiplier" class="green-up">1.42</strong></div>
+  </div>
+
+  <div class="astro-full">
+    <div style="text-align: center; margin-bottom: 14px;">
+      <span class="purple-hl" style="font-size:0.9rem;">✨ АСТРОЛОГИЧЕСКИЕ ФАКТОРЫ ✨</span>
+      <span id="astroActiveLabelBig" class="purple-hl" style="margin-left: 8px; font-size:0.7rem;">активны 30%</span>
+    </div>
+    
+    <div class="astro-section"><h4>🌙 ФАЗЫ ЛУНЫ <span class="threshold-hint">порог: 1%</span></h4><div class="astro-grid" id="moonPhasesGrid"></div></div>
+    <div class="astro-section"><h4>🪐 ПЛАНЕТНЫЕ АСПЕКТЫ <span class="threshold-hint">порог: 1%</span></h4><div class="astro-grid" id="aspectsGrid"></div></div>
+    <div class="astro-section"><h4>⭐ КОРОЛЕВСКИЕ ЗВЁЗДЫ <span class="threshold-hint">порог: 1%</span></h4><div class="astro-grid" id="starsGrid"></div></div>
+    <div class="astro-section"><h4>📜 ТРАНЗИТЫ К НАТАЛЬНОЙ КАРТЕ <span class="threshold-hint">порог: 1%</span></h4><div class="astro-grid" id="transitsGrid"></div></div>
+    <div class="astro-section"><h4>🔄 РЕТРОГРАДНЫЕ ПЛАНЕТЫ <span class="threshold-hint">порог: 25%</span></h4><div class="astro-grid" id="retroGrid"></div></div>
+    <div class="astro-section"><h4>🌞🌙 ЗАТМЕНИЯ 2026 <span class="threshold-hint">порог: 40%</span></h4><div class="astro-grid" id="eclipsesGrid"></div></div>
+    <div class="astro-section"><h4>⏰ ПЛАНЕТНЫЕ ЧАСЫ <span class="threshold-hint">порог: 60%</span></h4><div class="astro-grid" id="planetaryHoursGrid"></div></div>
+    
+    <div class="astro-note" style="background:#1a1025; border-radius:14px; padding:10px; font-size:0.6rem;">🔮 <strong>Как читать астрологический блок:</strong> Каждая категория включается при определённом пороге интенсивности. При 30% видны: фазы Луны, аспекты, звёзды, транзиты, ретроградные планеты. При 40%+ добавляются затмения. При 60%+ — планетные часы. Астрология — развлекательная опция, не имеет научного обоснования.</div>
+  </div>
+
+  <div class="feedback-button">
+    <a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn">
+      💡 Отправить предложение
+    </a>
+    <div style="font-size: 0.55rem; color: #5a6885; margin-top: 6px;">Анонимно · Что хотите убрать, добавить, изменить</div>
+  </div>
+
+  <div class="legal-block">
+    <h4>⚖️ ЮРИДИЧЕСКАЯ ИНФОРМАЦИЯ</h4>
+    <div class="legal-grid">
+      <div class="legal-item"><span class="legal-icon">🔬</span><div><strong>Исследовательский проект</strong><br>Сайт создан в научно-исследовательских целях. Все данные — экспериментальные.</div></div>
+      <div class="legal-item"><span class="legal-icon">⛔</span><div><strong>Не является инвестиционной рекомендацией</strong><br>Сайт не даёт советов по покупке/продаже. Решения вы принимаете самостоятельно.</div></div>
+      <div class="legal-item"><span class="legal-icon">📜</span><div><strong>Автор не зарегистрирован как инвестиционный советник</strong><br>В соответствии с 39-ФЗ, автор не состоит в реестре ЦБ РФ.</div></div>
+      <div class="legal-item"><span class="legal-icon">🎭</span><div><strong>Астрология — развлекательная опция</strong><br>Астрологические факторы не имеют научного обоснования.</div></div>
+      <div class="legal-item"><span class="legal-icon">⚠️</span><div><strong>Данные гипотетические</strong><br>Прошлые результаты не гарантируют будущих доходов.</div></div>
+    </div>
+    <div class="legal-footer-note">© 2026 AstroFinex · astrofinex.ru · Данный сайт не оказывает астрологических услуг. Торговля золотом сопряжена с высокими рисками.</div>
+  </div>
+
+</div>
+
+<script>
+  function getTodayDate() {
+    const now = new Date();
+    const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    return `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+  let todayDateStr = getTodayDate();
+  let currentGoldPrice = 4010;
+  let priceSource = "базовое";
+  
+  let factorsData = {
+    spr: { value: 302, correction: 0 }, gcc: { value: 51, correction: 0 },
+    oil: { value: 92, correction: 0 }, dxy: { value: 100.5, correction: 0 }, vix: { value: 18.2, correction: 0 }
+  };
+  function calculateCorrections() {
+    factorsData.spr.correction = factorsData.spr.value < 250 ? (factorsData.spr.value < 200 ? 0.20 : 0.10) : (factorsData.spr.value < 300 ? 0.05 : 0);
+    factorsData.gcc.correction = factorsData.gcc.value < 25 ? 0.15 : (factorsData.gcc.value > 55 ? -0.10 : 0);
+    factorsData.oil.correction = factorsData.oil.value > 200 ? 0.10 : (factorsData.oil.value > 150 ? 0.05 : 0);
+    factorsData.dxy.correction = factorsData.dxy.value > 108 ? -0.05 : (factorsData.dxy.value < 102 ? 0.05 : 0);
+    factorsData.vix.correction = factorsData.vix.value > 30 ? 0.10 : (factorsData.vix.value > 25 ? 0.05 : 0);
+  }
+  function getTotalMultiplier(baseMult) { calculateCorrections(); let total = baseMult + factorsData.spr.correction + factorsData.gcc.correction + factorsData.oil.correction + factorsData.dxy.correction + factorsData.vix.correction; return Math.max(1.10, Math.min(2.20, total)); }
+  
+  async function fetchGoldPrice() {
+    const statusDiv = document.getElementById('priceSourceText');
+    const refreshBtn = document.getElementById('refreshPriceBtn');
+    if (statusDiv) statusDiv.innerHTML = 'запрос к Binance...';
+    if (refreshBtn) refreshBtn.disabled = true;
+    try {
+      const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
+      if (response.ok) { const data = await response.json(); if (data && data.price) { currentGoldPrice = Math.round(parseFloat(data.price)); priceSource = 'Binance'; if (statusDiv) statusDiv.innerHTML = `✓ цена: $${currentGoldPrice} (Binance)`; document.getElementById('priceSlider').value = currentGoldPrice; updateUIFull(); if (refreshBtn) refreshBtn.disabled = false; return; } }
+    } catch(e) {}
+    try {
+      const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT');
+      if (response.ok) { const data = await response.json(); if (data && data.price) { currentGoldPrice = Math.round(parseFloat(data.price)); priceSource = 'Binance XAUT'; if (statusDiv) statusDiv.innerHTML = `✓ цена: $${currentGoldPrice} (Binance XAUT)`; document.getElementById('priceSlider').value = currentGoldPrice; updateUIFull(); if (refreshBtn) refreshBtn.disabled = false; return; } }
+    } catch(e) {}
+    if (statusDiv) statusDiv.innerHTML = `⚠ локальное значение: $${currentGoldPrice}`;
+    priceSource = 'локальное'; updateUIFull(); if (refreshBtn) refreshBtn.disabled = false;
+  }
+  
+  let historicalPoints = [{ date: "28 мая 2026", price: 4696 }, { date: "2 июня 2026", price: 4530 }, { date: "5 июня 2026", price: 4310 }];
+  function recalcForecastPoints(todayPrice, baseMultiplier, astroPercent) {
+    let totalMult = getTotalMultiplier(baseMultiplier);
+    let astroFactor = 1 + astroPercent / 800;
+    return { june15: Math.round(todayPrice * 0.995 * astroFactor), june30: Math.round(todayPrice * 1.085 * astroFactor), july: Math.round(todayPrice * 1.22 * astroFactor), august: Math.round(todayPrice * totalMult * astroFactor), totalMultiplier: totalMult };
+  }
+  
+  function getMoonPhases(p) { if (p < 1) return []; let i = p / 100; return [{ name: "🌑 Новолуние", interval: "6 июня 2026 (04:20 UTC)", effect: "Новый цикл. Возможен разворот тренда.", type: "neutral", strength: Math.round(35 * i) }, { name: "🌓 Первая четверть", interval: "13 июня 2026 (12:45 UTC)", effect: "Рост уверенности. Ускорение тренда.", type: "positive", strength: Math.round(30 * i) }, { name: "🌕 Полнолуние", interval: "20 июня 2026 (23:15 UTC)", effect: "Пик эмоций. Высокая волатильность.", type: "neutral", strength: Math.round(40 * i) }, { name: "🌗 Последняя четверть", interval: "27 июня 2026 (08:30 UTC)", effect: "Фиксация прибыли. Коррекция.", type: "negative", strength: Math.round(25 * i) }]; }
+  function getPlanetaryAspects(p) { if (p < 1) return []; let i = p / 100; return [{ name: "♃ Юпитер трин ♄ Сатурн", interval: "10–20 июня 2026", effect: "Структурный рост.", type: "positive", strength: Math.round(35 * i) }, { name: "♂ Марс квадрат ♅ Уран", interval: "8–12 июня 2026", effect: "Внезапные обвалы и отскоки.", type: "negative", strength: Math.round(45 * i) }, { name: "♀ Венера секстиль ♃ Юпитер", interval: "15–25 июня 2026", effect: "Поток капитала в золото.", type: "positive", strength: Math.round(30 * i) }, { name: "☉ Солнце оппозиция ♇ Плутон", interval: "22–28 июня 2026", effect: "Смена долгосрочного тренда.", type: "neutral", strength: Math.round(35 * i) }]; }
+  function getFixedStars(p) { if (p < 1) return []; let i = p / 100; return [{ name: "⭐ Регулус", interval: "весь июнь", effect: "Успех, рост, уверенность.", type: "positive", strength: Math.round(50 * i) }, { name: "✨ Альдебаран", interval: "15–25 июня", effect: "Стабильность, поддержка.", type: "positive", strength: Math.round(40 * i) }, { name: "🔥 Антарес", interval: "8–18 июня", effect: "Внезапные развороты.", type: "negative", strength: Math.round(45 * i) }, { name: "🌊 Фомальгаут", interval: "весь июнь", effect: "Неожиданные события.", type: "neutral", strength: Math.round(30 * i) }]; }
+  function getTransitsToGoldNatal(p) { if (p < 1) return []; let i = p / 100; return [{ name: "♃ Юпитер (Рак)", interval: "весь июнь", effect: "Экспансия, рост доверия к золоту.", type: "positive", strength: Math.round(55 * i) }, { name: "♄ Сатурн (Рыбы)", interval: "июнь–июль", effect: "Коррекции, задержки.", type: "negative", strength: Math.round(40 * i) }, { name: "♅ Уран (Телец)", interval: "весь год", effect: "Неожиданные скачки цены.", type: "neutral", strength: Math.round(35 * i) }, { name: "♆ Нептун (Овен)", interval: "весь год", effect: "Иллюзии, манипуляции.", type: "negative", strength: Math.round(30 * i) }, { name: "♇ Плутон (Водолей)", interval: "весь год", effect: "Трансформация золота как актива.", type: "neutral", strength: Math.round(45 * i) }]; }
+  function getRetrogradePlanets(p) { if (p < 25) return []; let i = p / 100; let items = [{ name: "☿ Меркурий ретроградный", interval: "18 июня – 12 июля 2026", effect: "Ложные пробои, возвраты к уровням.", type: "negative", strength: Math.round(40 * i) }, { name: "♀ Венера ретроградная", interval: "5–28 июля 2026", effect: "Изменение восприятия риска.", type: "neutral", strength: Math.round(35 * i) }]; if (p >= 50) items.push({ name: "♂ Марс ретроградный", interval: "сентябрь–ноябрь 2026", effect: "Замедление импульса.", type: "negative", strength: Math.round(25 * i) }); return items; }
+  function getEclipses2026(p) { if (p < 40) return []; let i = p / 100; return [{ name: "🌞 Солнечное затмение", interval: "17 февраля 2026", effect: "Долгосрочные тренды на год.", type: "neutral", strength: Math.round(15 * i) }, { name: "🌙 Лунное затмение", interval: "3 марта 2026", effect: "Коррекция после импульса.", type: "negative", strength: Math.round(15 * i) }, { name: "🌞 Солнечное затмение", interval: "12 августа 2026", effect: "Новый цикл, смена тренда.", type: "positive", strength: Math.round(35 * i) }, { name: "🌙 Лунное затмение", interval: "28 августа 2026", effect: "Пик волатильности.", type: "neutral", strength: Math.round(30 * i) }]; }
+  function getPlanetaryHours(p) { if (p < 60) return []; let i = p / 100; return [{ name: "🕐 Час Юпитера", interval: "вторник 10:00–11:00 UTC", effect: "Лучшее время для анализа.", type: "positive", strength: Math.round(25 * i) }, { name: "🕐 Час Венеры", interval: "пятница 15:00–16:00 UTC", effect: "Позитивные импульсы.", type: "positive", strength: Math.round(25 * i) }, { name: "🕐 Час Меркурия", interval: "среда 09:00–10:00 UTC", effect: "Быстрые движения.", type: "neutral", strength: Math.round(20 * i) }, { name: "🕐 Час Солнца", interval: "воскресенье 12:00–13:00 UTC", effect: "Ясность тренда на неделю.", type: "positive", strength: Math.round(20 * i) }]; }
+  
+  function renderCategory(data) {
+    if (!data.length) return '<div class="placeholder-message">🔮 Требуется более высокая интенсивность (см. порог справа)</div>';
+    return data.map(f => `<div class="astro-card ${f.type}"><div class="title">${f.name}</div><div class="interval">⏱️ ${f.interval}</div><div class="effect">📌 ${f.effect}</div><div class="strength">⚡ сила: ${f.strength}%</div></div>`).join('');
+  }
+  
+  const canvas = document.getElementById('forecastCanvas'); const ctx = canvas.getContext('2d');
+  let width = 1000, height = 420; canvas.width = width; canvas.height = height;
+  function drawChart(todayPrice, baseMultiplier, astroPercent) {
+    if (!ctx) return;
+    let forecast = recalcForecastPoints(todayPrice, baseMultiplier, astroPercent);
+    let points = [historicalPoints[0], historicalPoints[1], historicalPoints[2], { date: todayDateStr, price: todayPrice }, { date: "15 июня", price: forecast.june15 }, { date: "30 июня", price: forecast.june30 }, { date: "Июль", price: forecast.july }, { date: "Август", price: forecast.august }];
+    ctx.clearRect(0, 0, width, height);
+    let prices = points.map(p => p.price); let maxP = Math.max(...prices) + 150; let minP = Math.min(...prices) - 100; if (minP < 3500) minP = 3500;
+    function getX(i) { return 45 + (i / (points.length - 1)) * (width - 90); }
+    function getY(p) { return 30 + (1 - (p - minP) / (maxP - minP)) * (height - 60); }
+    ctx.beginPath(); ctx.strokeStyle = '#f5b042'; ctx.lineWidth = 2.5;
+    for (let i = 0; i < points.length; i++) { let x = getX(i), y = getY(points[i].price); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); } ctx.stroke();
+    for (let i = 0; i < points.length; i++) {
+      let x = getX(i), y = getY(points[i].price);
+      ctx.fillStyle = i >= 4 ? '#8bc34a' : (i === 3 ? '#ffaa44' : '#e35f5f');
+      ctx.beginPath(); ctx.arc(x, y, 5, 0, 2*Math.PI); ctx.fill();
+      ctx.fillStyle = '#ccd6f0'; ctx.font = '8px Inter';
+      let displayDate = points[i].date.length > 10 ? points[i].date.substring(0,8) : points[i].date;
+      ctx.fillText(displayDate, x-12, y-7); ctx.fillStyle = '#f5d77b'; ctx.fillText(`$${points[i].price}`, x-12, y+12);
+    }
+  }
+  
+  function updateUIFull() {
+    let price = parseFloat(document.getElementById('priceSlider').value);
+    let baseMult = parseFloat(document.getElementById('targetMultiplier').value);
+    let astro = parseFloat(document.getElementById('astroFactor').value);
+    let forecast = recalcForecastPoints(price, baseMult, astro);
+    document.getElementById('priceValueDisplay').innerHTML = `$${price}`;
+    document.getElementById('multiplierDisplay').innerHTML = `${baseMult.toFixed(2)}x`;
+    document.getElementById('astroDisplay').innerHTML = `${astro}%`;
+    document.getElementById('dynamicPriceBadge').innerHTML = `💰 Цена: $${price} (${priceSource}) | Астро: ${astro}%`;
+    document.getElementById('totalMultiplier').innerHTML = forecast.totalMultiplier.toFixed(2);
+    document.getElementById('todayDateDisplay').innerHTML = todayDateStr;
+    document.getElementById('currentDateBadge').innerHTML = `📅 ${todayDateStr}`;
+    document.getElementById('astroActiveLabelBig').innerHTML = `активны ${astro}%`;
+    document.getElementById('forecastGrid').innerHTML = `<div class="forecast-item"><div class="date">15 июня</div><div class="price">$${forecast.june15}</div><div class="coeff">×0.995</div></div><div class="forecast-item"><div class="date">30 июня</div><div class="price">$${forecast.june30}</div><div class="coeff">×1.085</div></div><div class="forecast-item"><div class="date">Июль</div><div class="price">$${forecast.july}</div><div class="coeff">×1.22</div></div><div class="forecast-item"><div class="date">Август</div><div class="price">$${forecast.august}</div><div class="coeff">×${forecast.totalMultiplier.toFixed(2)}</div></div>`;
+    document.getElementById('factorsGrid').innerHTML = `<div class="factor-card"><div class="factor-name">🛢️ SPR (США)</div><div class="factor-value">${factorsData.spr.value} млн</div><div class="factor-impact">поправка: ${factorsData.spr.correction > 0 ? '+' : ''}${factorsData.spr.correction.toFixed(2)}</div></div><div class="factor-card"><div class="factor-name">🌍 GCC</div><div class="factor-value">${factorsData.gcc.value} т/мес</div><div class="factor-impact">поправка: ${factorsData.gcc.correction > 0 ? '+' : ''}${factorsData.gcc.correction.toFixed(2)}</div></div><div class="factor-card"><div class="factor-name">🛢️ Нефть Brent</div><div class="factor-value">$${factorsData.oil.value}</div><div class="factor-impact">поправка: +${factorsData.oil.correction.toFixed(2)}</div></div><div class="factor-card"><div class="factor-name">💵 Доллар DXY</div><div class="factor-value">${factorsData.dxy.value}</div><div class="factor-impact">поправка: ${factorsData.dxy.correction.toFixed(2)}</div></div><div class="factor-card"><div class="factor-name">📉 VIX</div><div class="factor-value">${factorsData.vix.value}</div><div class="factor-impact">поправка: ${factorsData.vix.correction > 0 ? '+' : ''}${factorsData.vix.correction.toFixed(2)}</div></div>`;
+    document.getElementById('moonPhasesGrid').innerHTML = renderCategory(getMoonPhases(astro));
+    document.getElementById('aspectsGrid').innerHTML = renderCategory(getPlanetaryAspects(astro));
+    document.getElementById('starsGrid').innerHTML = renderCategory(getFixedStars(astro));
+    document.getElementById('transitsGrid').innerHTML = renderCategory(getTransitsToGoldNatal(astro));
+    document.getElementById('retroGrid').innerHTML = renderCategory(getRetrogradePlanets(astro));
+    document.getElementById('eclipsesGrid').innerHTML = renderCategory(getEclipses2026(astro));
+    document.getElementById('planetaryHoursGrid').innerHTML = renderCategory(getPlanetaryHours(astro));
+    drawChart(price, baseMult, astro);
+  }
+  
+  function resetSettings() { document.getElementById('targetMultiplier').value = "1.42"; document.getElementById('astroFactor').value = "30"; updateUIFull(); }
+  function exportPNG() { let link = document.createElement('a'); link.download = 'astrofinex_gold.png'; link.href = canvas.toDataURL(); link.click(); }
+  
+  document.getElementById('priceSlider').addEventListener('input', updateUIFull);
+  document.getElementById('targetMultiplier').addEventListener('input', updateUIFull);
+  document.getElementById('astroFactor').addEventListener('input', updateUIFull);
+  document.getElementById('resetBtn').addEventListener('click', resetSettings);
+  document.getElementById('exportBtn').addEventListener('click', exportPNG);
+  document.getElementById('refreshPriceBtn').addEventListener('click', () => { fetchGoldPrice(); });
+  
+  calculateCorrections();
+  fetchGoldPrice().then(() => updateUIFull());
+</script>
+</body>
+</html>
