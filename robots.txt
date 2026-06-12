@@ -1,0 +1,7 @@
+User-agent: Yandex
+Disallow:
+Host: astrofinex.ru
+
+User-agent: *
+Disallow:
+Sitemap: https://astrofinex.ru/sitemap.xml
