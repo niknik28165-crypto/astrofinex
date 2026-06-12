@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>AstroFinex · Золото 2026 · 5 сценариев</title>
   <meta name="description" content="Интерактивный прогноз цены золота (XAU/USD) до декабря 2026. Экономические факторы, астрология, сценарии. Бесплатно.">
-<meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow">
+  
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
       (function(m,e,t,r,i,k,a){
@@ -709,7 +710,18 @@
     });
   });
   
-  function getMoonPhases(p) { if (p < 1) return []; let i = p / 100; return [{ name: "🌑 Новолуние", interval: "6 июня 2026 (04:20 UTC)", effect: "Новый цикл. Возможен разворот тренда.", type: "neutral", strength: Math.round(35 * i) }, { name: "🌓 Первая четверть", interval: "13 июня 2026 (12:45 UTC)", effect: "Рост уверенности. Ускорение тренда.", type: "positive", strength: Math.round(30 * i) }, { name: "🌕 Полнолуние", interval: "20 июня 2026 (23:15 UTC)", effect: "Пик эмоций. Высокая волатильность.", type: "neutral", strength: Math.round(40 * i) }, { name: "🌗 Последняя четверть", interval: "27 июня 2026 (08:30 UTC)", effect: "Фиксация прибыли. Коррекция.", type: "negative", strength: Math.round(25 * i) }]; }
+  // ========== ИСПРАВЛЕННЫЕ АСТРОЛОГИЧЕСКИЕ ДАТЫ ==========
+  function getMoonPhases(p) {
+    if (p < 1) return [];
+    let i = p / 100;
+    return [
+        { name: "🌑 Новолуние", interval: "15 июня 2026 (10:54 UTC)", effect: "Новый цикл. Возможен разворот тренда.", type: "neutral", strength: Math.round(35 * i) },
+        { name: "🌓 Первая четверть", interval: "22 июня 2026 (05:55 UTC)", effect: "Рост уверенности. Ускорение тренда.", type: "positive", strength: Math.round(30 * i) },
+        { name: "🌕 Полнолуние", interval: "30 июня 2026 (07:57 UTC)", effect: "Пик эмоций. Высокая волатильность.", type: "neutral", strength: Math.round(40 * i) },
+        { name: "🌗 Последняя четверть", interval: "8 июня 2026 (18:01 UTC)", effect: "Фиксация прибыли. Коррекция.", type: "negative", strength: Math.round(25 * i) }
+    ];
+  }
+  
   function getPlanetaryAspects(p) { if (p < 1) return []; let i = p / 100; return [{ name: "♃ Юпитер трин ♄ Сатурн", interval: "10–20 июня 2026", effect: "Структурный рост.", type: "positive", strength: Math.round(35 * i) }, { name: "♂ Марс квадрат ♅ Уран", interval: "8–12 июня 2026", effect: "Внезапные обвалы и отскоки.", type: "negative", strength: Math.round(45 * i) }, { name: "♀ Венера секстиль ♃ Юпитер", interval: "15–25 июня 2026", effect: "Поток капитала в золото.", type: "positive", strength: Math.round(30 * i) }, { name: "☉ Солнце оппозиция ♇ Плутон", interval: "22–28 июня 2026", effect: "Смена долгосрочного тренда.", type: "neutral", strength: Math.round(35 * i) }]; }
   function getFixedStars(p) { if (p < 1) return []; let i = p / 100; return [{ name: "⭐ Регулус", interval: "весь июнь", effect: "Успех, рост, уверенность.", type: "positive", strength: Math.round(50 * i) }, { name: "✨ Альдебаран", interval: "15–25 июня", effect: "Стабильность, поддержка.", type: "positive", strength: Math.round(40 * i) }, { name: "🔥 Антарес", interval: "8–18 июня", effect: "Внезапные развороты.", type: "negative", strength: Math.round(45 * i) }, { name: "🌊 Фомальгаут", interval: "весь июнь", effect: "Неожиданные события.", type: "neutral", strength: Math.round(30 * i) }]; }
   function getTransitsToGoldNatal(p) { if (p < 1) return []; let i = p / 100; return [{ name: "♃ Юпитер (Рак)", interval: "весь июнь", effect: "Экспансия, рост доверия к золоту.", type: "positive", strength: Math.round(55 * i) }, { name: "♄ Сатурн (Рыбы)", interval: "июнь–июль", effect: "Коррекции, задержки.", type: "negative", strength: Math.round(40 * i) }, { name: "♅ Уран (Телец)", interval: "весь год", effect: "Неожиданные скачки цены.", type: "neutral", strength: Math.round(35 * i) }, { name: "♆ Нептун (Овен)", interval: "весь год", effect: "Иллюзии, манипуляции.", type: "negative", strength: Math.round(30 * i) }, { name: "♇ Плутон (Водолей)", interval: "весь год", effect: "Трансформация золота как актива.", type: "neutral", strength: Math.round(45 * i) }]; }
