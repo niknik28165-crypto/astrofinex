@@ -546,7 +546,7 @@
     spr: { value: 302, correction: 0, date: "5 июня 2026" },
     gcc: { value: 51, correction: 0, date: "1 июня 2026" },
     oil: { value: 92, correction: 0, date: "10 июня 2026", source: "ручной ввод" },
-    usdRub: { value: 92.5, correction: 0, date: getTodayDate(), source: "ЦБ РФ" },
+    usdRub: { value: 71.9, correction: 0, date: getTodayDate(), source: "ЦБ РФ" },
     vix: { value: 18.2, correction: 0, date: "10 июня 2026", source: "CBOE" },
     escalation: { value: 0, correction: 0 }
   };
@@ -559,6 +559,7 @@
     else hint.innerHTML = `${mult.toFixed(2)} = флэт (0%) к декабрю`;
   }
   
+  // ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ КУРСА РУБЛЯ (ЦБ РФ) ==========
   async function updateUSDRUB() {
     try {
       const response = await fetch('https://www.cbr.ru/scripts/XML_daily.asp');
@@ -566,6 +567,8 @@
       const xmlText = await response.text();
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+      
+      // Ищем узел Valute с кодом валюты "R01235" (доллар США)
       const usdNode = xmlDoc.querySelector('Valute[ID="R01235"]');
       if (usdNode) {
         const valueNode = usdNode.querySelector('Value');
@@ -576,13 +579,35 @@
           if (!isNaN(rate) && rate > 0) {
             factorsData.usdRub.value = rate;
             factorsData.usdRub.date = getTodayDate();
-            console.log(`USD/RUB обновлён: ${rate} ₽`);
+            console.log(`✅ USD/RUB обновлён с ЦБ РФ: ${rate} ₽`);
             return true;
           }
         }
       }
-    } catch(e) { console.log('Ошибка получения курса USD/RUB от ЦБ РФ:', e); }
-    return false;
+      
+      // Fallback: пробуем найти по CharCode "USD"
+      const usdCharNode = xmlDoc.querySelector('Valute[CharCode="USD"]');
+      if (usdCharNode) {
+        const valueNode = usdCharNode.querySelector('Value');
+        if (valueNode) {
+          let rateStr = valueNode.textContent;
+          rateStr = rateStr.replace(',', '.');
+          const rate = parseFloat(rateStr);
+          if (!isNaN(rate) && rate > 0) {
+            factorsData.usdRub.value = rate;
+            factorsData.usdRub.date = getTodayDate();
+            console.log(`✅ USD/RUB обновлён (по CharCode): ${rate} ₽`);
+            return true;
+          }
+        }
+      }
+      
+      console.log('❌ Не удалось найти курс USD в XML ЦБ РФ');
+      return false;
+    } catch(e) { 
+      console.log('❌ Ошибка получения курса USD/RUB от ЦБ РФ:', e); 
+      return false;
+    }
   }
   
   const escalationSlider = document.getElementById('escalationSlider');
@@ -710,7 +735,6 @@
     });
   });
   
-  // ========== ИСПРАВЛЕННЫЕ АСТРОЛОГИЧЕСКИЕ ДАТЫ ==========
   function getMoonPhases(p) {
     if (p < 1) return [];
     let i = p / 100;
