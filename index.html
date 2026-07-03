@@ -40,7 +40,6 @@
       margin: 0 auto;
     }
 
-    /* ===== ШАПКА ===== */
     .header {
       background: linear-gradient(135deg, #0c1222, #0a0f1a);
       border-radius: 16px;
@@ -79,7 +78,6 @@
       white-space: nowrap;
     }
 
-    /* ===== ГРАФИК ===== */
     .graph-wrap {
       background: #0f1726;
       border-radius: 16px;
@@ -107,7 +105,6 @@
       gap: 4px 12px;
     }
 
-    /* ===== УПРАВЛЕНИЕ ===== */
     .controls {
       background: #0c1120;
       border-radius: 16px;
@@ -279,7 +276,6 @@
       background: #2a3a5a;
     }
 
-    /* ===== АСТРОЛОГИЯ ===== */
     .astro-wrap {
       background: #0f1625;
       border-radius: 14px;
@@ -357,7 +353,6 @@
     }
     .astro-note strong { color: #b87cff; }
 
-    /* ===== ФУТЕР ===== */
     .footer {
       background: #1a1525;
       border-radius: 16px;
@@ -392,7 +387,6 @@
       width: 100%;
     }
 
-    /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
     @media (max-width: 768px) {
       body { padding: 4px 1.5%; }
       .controls-row {
@@ -444,7 +438,6 @@
 <body>
 <div class="container">
 
-  <!-- ===== ШАПКА ===== -->
   <div class="header">
     <div class="header-top">
       <h1>✨ AstroFinex · Золото 2026</h1>
@@ -456,7 +449,6 @@
     </div>
   </div>
 
-  <!-- ===== ГРАФИК ===== -->
   <div class="graph-wrap">
     <canvas id="forecastCanvas" width="1000" height="350"></canvas>
     <div class="graph-legend">
@@ -466,7 +458,6 @@
     </div>
   </div>
 
-  <!-- ===== УПРАВЛЕНИЕ ===== -->
   <div class="controls">
     <div class="controls-row">
       <div class="control-item">
@@ -502,7 +493,6 @@
       </div>
     </div>
 
-    <!-- кнопки сценариев -->
     <div class="scene-row">
       <div class="scene-btn" data-mult="0.90" data-esc="70" data-frs="6.0">🔻 Падение</div>
       <div class="scene-btn" data-mult="1.00" data-esc="50" data-frs="5.5">📉 Умеренное</div>
@@ -511,14 +501,12 @@
       <div class="scene-btn" data-mult="1.70" data-esc="0" data-frs="2.5">🚀 Рост</div>
     </div>
 
-    <!-- прогнозные точки -->
     <div class="forecast-strip">
       <span>📊 Прогноз:</span>
       <div class="points" id="forecastPoints"></div>
       <span class="total" id="totalMultiplierDisplay">×1.42</span>
     </div>
 
-    <!-- Дополнительно -->
     <div class="controls-extra">
       <button class="extra-toggle" id="extraToggle">⚙️ Дополнительно ▾</button>
       <div class="extra-panel" id="extraPanel">
@@ -526,12 +514,12 @@
           <button id="refreshPriceBtn">🔄 Обновить золото</button>
           <button id="resetBtn">⟳ Сброс</button>
           <button id="exportBtn">📸 PNG</button>
+          <span class="status" id="dataStatusExtra">● актуально</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== АСТРОЛОГИЯ ===== -->
   <div class="astro-wrap">
     <div class="astro-header" id="astroToggle">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -552,7 +540,6 @@
     </div>
   </div>
 
-  <!-- ===== ФУТЕР ===== -->
   <div class="footer">
     <div class="footer-grid">
       <div class="footer-item"><span class="icon">🔬</span><div><strong>Исследовательский проект</strong><br>Сайт создан в научно-исследовательских целях. Все данные — экспериментальные.</div></div>
@@ -568,8 +555,7 @@
 
 <script>
   // ============================================================
-  //  РАБОЧАЯ ВЕРСИЯ — ГРАФИК ТОЧНО РАБОТАЕТ
-  //  + ИСПРАВЛЕНА ПРОБЛЕМА С ОТРИСОВКОЙ В YANDEX
+  //  РАБОЧАЯ ВЕРСИЯ — ЦЕНА ПОДТЯГИВАЕТСЯ ИЗ НЕСКОЛЬКИХ ИСТОЧНИКОВ
   // ============================================================
 
   function getTodayDate() {
@@ -579,7 +565,9 @@
   }
   document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
 
-  // ——— исторические данные ———
+  let currentGoldPrice = 4180;
+  let priceSource = 'локальное';
+
   const historicalData = [
     { date: "28 мая 2026", price: 4696 },
     { date: "2 июня 2026", price: 4530 },
@@ -602,10 +590,6 @@
     return historicalData.filter(p => isDateBeforeToday(p.date));
   }
 
-  // ——— состояние ———
-  let currentGoldPrice = 4020;
-  let priceSource = 'локальное';
-  let isFirstDraw = true;
   const factorsData = {
     spr: { value: 302, correction: 0 },
     gcc: { value: 51, correction: 0 },
@@ -615,7 +599,6 @@
     escalation: { value: 0, correction: 0 }
   };
 
-  // ——— DOM ———
   const targetMult = document.getElementById('targetMultiplier');
   const escalationSlider = document.getElementById('escalationSlider');
   const astroSlider = document.getElementById('astroFactor');
@@ -623,7 +606,6 @@
   const canvas = document.getElementById('forecastCanvas');
   const ctx = canvas.getContext('2d');
 
-  // ——— коррекции ———
   function calcCorrections() {
     const s = factorsData.spr;
     s.correction = s.value < 250 ? (s.value < 200 ? 0.20 : 0.10) : (s.value < 300 ? 0.05 : 0);
@@ -654,20 +636,16 @@
     calcCorrections();
     const frs = parseFloat(frsSlider.value);
     const frsCorr = getFRSCorrection(frs);
-
     const economicCorrection = factorsData.spr.correction + factorsData.gcc.correction +
                                factorsData.oil.correction + factorsData.usdRub.correction +
                                factorsData.vix.correction + frsCorr;
-
     let adjustedBase = base + economicCorrection;
     adjustedBase = Math.max(0.70, Math.min(2.00, adjustedBase));
-
     const escalationFactor = 1 + factorsData.escalation.correction;
     let total = adjustedBase * escalationFactor;
     return Math.max(0.50, Math.min(2.00, total));
   }
 
-  // ——— прогноз ———
   function calcForecast(price, baseMult, astroPct) {
     const astroFactor = 1 + astroPct / 800;
     const total = getTotalMult(baseMult);
@@ -683,7 +661,6 @@
     };
   }
 
-  // ——— астрология ———
   function getAstroItems(pct) {
     if (pct < 1) return [];
     const i = pct / 100;
@@ -708,6 +685,83 @@
       push('🕐 Час Венеры (пт 15:00)', 'positive', 25);
     }
     return items;
+  }
+
+  // ============================================================
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — 3 ИСТОЧНИКА ★★★
+  // ============================================================
+
+  async function fetchGold() {
+    const status = document.getElementById('priceSourceText');
+    const statusExtra = document.getElementById('dataStatusExtra');
+    status.textContent = '⏳...';
+    status.style.color = '#f5b042';
+    statusExtra.textContent = '⏳ загрузка...';
+    statusExtra.style.color = '#f5b042';
+
+    // ——— 1. GOLD-API (лучший вариант) ———
+    try {
+      const resp = await fetch('https://www.gold-api.com/price/XAU');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data?.price) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Gold-API';
+          status.textContent = '✓ Gold-API';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.style.color = '#6fcf97';
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) { console.warn('Gold-API не ответил', e); }
+
+    // ——— 2. EXCHANGE-RATE.HOST ———
+    try {
+      const resp = await fetch('https://api.exchangerate.host/convert?from=XAU&to=USD');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data?.result) {
+          currentGoldPrice = Math.round(parseFloat(data.result));
+          priceSource = '✓ Exchange-Rate';
+          status.textContent = '✓ Exchange-Rate';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.style.color = '#6fcf97';
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) { console.warn('Exchange-Rate не ответил', e); }
+
+    // ——— 3. ПРОКСИ К BINANCE (запасной) ———
+    try {
+      const proxyUrl = 'https://api.allorigins.win/raw?url=';
+      const targetUrl = 'https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT';
+      const resp = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data?.price) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Прокси';
+          status.textContent = '✓ Прокси';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.style.color = '#6fcf97';
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) { console.warn('Прокси не ответил', e); }
+
+    // ——— 4. ЗАПАСНОЕ ЗНАЧЕНИЕ ———
+    priceSource = '⚠ локальное';
+    status.textContent = '⚠ локальное';
+    status.style.color = '#ff6b6b';
+    statusExtra.textContent = '⚠ локальное';
+    statusExtra.style.color = '#ff6b6b';
+    updateUI();
   }
 
   // ============================================================
@@ -758,33 +812,24 @@
     }
     document.getElementById('astroActiveLabelBig').textContent = 'активны ' + astro + '%';
 
-    // ============================================================
-    //  ГРАФИК — ВЫЗЫВАЕТСЯ ЗДЕСЬ (С ПРОВЕРКОЙ ГОТОВНОСТИ)
-    // ============================================================
     drawChart(price, base, astro);
   }
 
   // ============================================================
-  //  ГРАФИК (РАБОТАЕТ С ПРИНУДИТЕЛЬНОЙ ОТРИСОВКОЙ)
+  //  ГРАФИК
   // ============================================================
 
   function drawChart(todayPrice, baseMult, astroPct) {
-    // Проверка готовности canvas
     if (!canvas || !ctx) {
-      console.warn('Canvas не готов, повторная попытка...');
       setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100);
       return;
     }
 
-    // Принудительно устанавливаем размер canvas
     const rect = canvas.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
-      // Устанавливаем внутренние размеры только если они отличаются
       const dpr = window.devicePixelRatio || 1;
       const displayWidth = rect.width;
       const displayHeight = rect.height || (rect.width * 350 / 1000);
-      
-      // Проверяем, нужно ли менять размер
       if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
         canvas.width = Math.round(displayWidth * dpr);
         canvas.height = Math.round(displayHeight * dpr);
@@ -794,6 +839,8 @@
 
     const W = canvas.width / (window.devicePixelRatio || 1);
     const H = canvas.height / (window.devicePixelRatio || 1);
+
+    if (W < 10 || H < 10) return;
 
     const f = calcForecast(todayPrice, baseMult, astroPct);
 
@@ -820,13 +867,6 @@
 
     ctx.clearRect(0, 0, W, H);
 
-    // Проверяем, что координаты корректны
-    if (W < 10 || H < 10) {
-      console.warn('Canvas слишком мал, пропускаем отрисовку');
-      return;
-    }
-
-    // Сетка
     ctx.strokeStyle = '#1e2a3e';
     ctx.lineWidth = 0.5;
     ctx.font = 'bold 10px Inter, sans-serif';
@@ -849,7 +889,6 @@
     const forecastStartIdx = points.findIndex(p => p.isForecast);
     const todayIdx = points.findIndex(p => p.isToday);
 
-    // История
     if (history.length > 0) {
       ctx.beginPath();
       ctx.strokeStyle = '#e35f5f';
@@ -866,7 +905,6 @@
       ctx.stroke();
     }
 
-    // Прогноз
     if (todayIdx !== -1 && forecastStartIdx < points.length) {
       ctx.beginPath();
       const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
@@ -880,7 +918,6 @@
       ctx.stroke();
     }
 
-    // Точки
     for (let i = 0; i < points.length; i++) {
       const x = getX(i), y = getY(points[i].price);
       let color = '#6fcf97';
@@ -899,71 +936,20 @@
       ctx.font = 'bold 8px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
-      let label = points[i].label;
-      ctx.fillText(label, x, y - 6);
+      ctx.fillText(points[i].label, x, y - 6);
 
       ctx.fillStyle = '#f5d77b';
       ctx.font = 'bold 9px Inter, sans-serif';
       ctx.textBaseline = 'top';
       ctx.fillText('$' + points[i].price, x, y + 4);
     }
-
-    // Первая отрисовка завершена
-    if (isFirstDraw) {
-      isFirstDraw = false;
-    }
   }
 
-  // ============================================================
-  //  ЗАГРУЗКА ДАННЫХ
-  // ============================================================
-
-  async function fetchGold() {
-    const status = document.getElementById('priceSourceText');
-    status.textContent = '⏳...';
-    try {
-      const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
-      if (resp.ok) {
-        const data = await resp.json();
-        if (data?.price) {
-          currentGoldPrice = Math.round(parseFloat(data.price));
-          status.textContent = '✓ Binance';
-          updateUI();
-          return;
-        }
-      }
-    } catch (_) {}
-    try {
-      const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT');
-      if (resp.ok) {
-        const data = await resp.json();
-        if (data?.price) {
-          currentGoldPrice = Math.round(parseFloat(data.price));
-          status.textContent = '✓ XAUT';
-          updateUI();
-          return;
-        }
-      }
-    } catch (_) {}
-    status.textContent = '⚠ локальное';
-    updateUI();
-  }
-
-  // ============================================================
-  //  ПРИНУДИТЕЛЬНАЯ ОТРИСОВКА ПОСЛЕ ЗАГРУЗКИ
-  // ============================================================
-
-  function forceDrawAfterLoad() {
-    // Ждём, пока canvas полностью загрузится
-    if (canvas && canvas.getContext) {
-      // Небольшая задержка для уверенности
-      setTimeout(() => {
-        const price = currentGoldPrice;
-        const base = parseFloat(targetMult.value);
-        const astro = parseFloat(astroSlider.value);
-        drawChart(price, base, astro);
-      }, 50);
-    }
+  function forceDraw() {
+    const price = currentGoldPrice;
+    const base = parseFloat(targetMult.value);
+    const astro = parseFloat(astroSlider.value);
+    drawChart(price, base, astro);
   }
 
   // ============================================================
@@ -1035,19 +1021,10 @@
     arrow.classList.toggle('open');
   });
 
-  // ============================================================
-  //  ПЕРЕРИСОВКА ПРИ ИЗМЕНЕНИИ РАЗМЕРА ОКНА
-  // ============================================================
-
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      const price = currentGoldPrice;
-      const base = parseFloat(targetMult.value);
-      const astro = parseFloat(astroSlider.value);
-      drawChart(price, base, astro);
-    }, 100);
+    resizeTimeout = setTimeout(forceDraw, 100);
   });
 
   // ============================================================
@@ -1055,27 +1032,12 @@
   // ============================================================
 
   calcCorrections();
+  fetchGold().then(forceDraw);
 
-  // Сначала загружаем данные, потом рисуем график
-  fetchGold().then(() => {
-    // Дополнительная принудительная отрисовка после загрузки
-    forceDrawAfterLoad();
-  });
+  setTimeout(forceDraw, 500);
+  setTimeout(forceDraw, 1500);
 
-  // Даже если fetchGold не сработает, рисуем через 1 секунду
-  setTimeout(() => {
-    const price = currentGoldPrice;
-    const base = parseFloat(targetMult.value);
-    const astro = parseFloat(astroSlider.value);
-    drawChart(price, base, astro);
-  }, 1000);
-
-  // Дополнительная отрисовка после полной загрузки страницы
-  if (document.readyState === 'complete') {
-    forceDrawAfterLoad();
-  } else {
-    window.addEventListener('load', forceDrawAfterLoad);
-  }
+  window.addEventListener('load', forceDraw);
 </script>
 </body>
 </html>
