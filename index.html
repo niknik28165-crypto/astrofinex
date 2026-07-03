@@ -23,276 +23,421 @@
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
+    html, body {
+      width: 100%;
+      min-height: 100vh;
       background: #070a11;
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      padding: 6px 12px 12px;
       color: #f0f4ff;
-      min-height: 100vh;
-      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    body {
+      padding: 6px 2%;
     }
     .container {
-      max-width: 1200px;
+      width: 100%;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
-    /* ——— шапка (компактная) ——— */
+    /* ===== ШАПКА ===== */
     .header {
       background: linear-gradient(135deg, #0c1222, #0a0f1a);
       border-radius: 16px;
-      padding: 6px 14px 8px;
-      margin-bottom: 6px;
+      padding: 8px 3% 10px;
+      margin-bottom: 8px;
       border: 1px solid rgba(245, 176, 66, 0.3);
-      flex-shrink: 0;
+      width: 100%;
     }
     .header-top {
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px 12px;
     }
     .header h1 {
-      font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+      font-size: clamp(0.9rem, 2.2vw, 1.6rem);
       background: linear-gradient(135deg, #f5b042, #e35f5f, #b87cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 700;
+      white-space: nowrap;
     }
     .header-price {
-      font-size: 0.65rem;
+      font-size: clamp(0.55rem, 1vw, 0.8rem);
       background: #1e2a3e;
-      padding: 2px 10px;
+      padding: 4px 14px;
       border-radius: 40px;
       border: 1px solid #f5b04260;
       white-space: nowrap;
     }
     .header-price span { color: #f5d77b; font-weight: 700; }
-    .header-date { font-size: 0.6rem; color: #8a9bb8; }
-
-    .research-badge {
-      background: linear-gradient(90deg, #1a1525, #0f1625);
-      border-radius: 40px;
-      padding: 3px 12px;
-      margin-top: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      border: 1px solid #b87cff;
+    .header-date {
+      font-size: clamp(0.5rem, 0.9vw, 0.7rem);
+      color: #d6e2ff;
+      white-space: nowrap;
     }
-    .research-badge .text { font-size: 0.55rem; color: #d4b7ff; }
-    .research-badge .highlight { color: #f5d77b; font-weight: 600; }
 
-    /* ——— график (уменьшенный по вертикали) ——— */
+    /* ===== ГРАФИК ===== */
     .graph-wrap {
       background: #0f1726;
       border-radius: 16px;
-      padding: 4px 8px 2px;
+      padding: 4px 1% 2px;
       border: 1px solid #2a3a52;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      width: 100%;
     }
     canvas {
       width: 100% !important;
       height: auto !important;
-      max-height: 350px;
+      aspect-ratio: 1000 / 350;
+      max-height: 70vh;
       background: #0a101c;
       border-radius: 12px;
       display: block;
     }
     .graph-legend {
-      display: flex; justify-content: space-between;
-      font-size: 0.5rem; color: #6a7a8a; padding: 2px 4px 0;
-      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: clamp(0.4rem, 0.7vw, 0.6rem);
+      color: #d6e2ff;
+      padding: 4px 2% 0;
+      gap: 4px 12px;
     }
 
-    /* ——— управление (компактное, но читаемое) ——— */
+    /* ===== УПРАВЛЕНИЕ ===== */
     .controls {
       background: #0c1120;
       border-radius: 16px;
-      padding: 8px 14px 6px;
+      padding: 8px 3% 6px;
       border: 1px solid #2e3a4e;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      width: 100%;
     }
     .controls-row {
-      display: flex; flex-wrap: wrap; gap: 6px 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px 16px;
+      width: 100%;
     }
     .control-item {
-      flex: 1 0 110px; min-width: 85px;
+      min-width: 0;
+      width: 100%;
     }
     .control-item label {
-      display: flex; justify-content: space-between;
-      font-size: 0.55rem; font-weight: 600; color: #bcc9e5; margin-bottom: 1px;
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      font-weight: 600;
+      color: #d6e2ff;
+      margin-bottom: 2px;
+      gap: 4px;
     }
-    .control-item label span:last-child { color: #f5d77b; }
+    .control-item label span:last-child {
+      color: #f5d77b;
+      font-weight: 700;
+      white-space: nowrap;
+    }
     .control-item .sub {
-      font-size: 0.45rem; color: #6a7a9a; display: block; margin-top: 0px;
-      line-height: 1.2;
+      font-size: clamp(0.35rem, 0.6vw, 0.5rem);
+      color: #d6e2ff;
+      display: block;
+      margin-top: 1px;
+      line-height: 1.3;
+      opacity: 0.85;
     }
-    .control-item .sub .highlight { color: #f5b042; }
-    .control-item .sub .danger { color: #e35f5f; }
+    .control-item .sub .highlight { color: #f5d77b; }
+    .control-item .sub .danger { color: #ff6b6b; }
     input[type="range"] {
-      width: 100%; accent-color: #e38c4a; cursor: pointer;
-      background: transparent; height: 3px;
+      width: 100%;
+      accent-color: #e38c4a;
+      cursor: pointer;
+      background: transparent;
+      height: 4px;
     }
 
     .esc-scale {
-      display: flex; justify-content: space-between;
-      font-size: 0.4rem; margin-top: 1px; padding: 0 2px;
-      flex-wrap: wrap; gap: 1px;
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.3rem, 0.5vw, 0.45rem);
+      margin-top: 1px;
+      padding: 0 2px;
+      flex-wrap: wrap;
+      gap: 1px;
     }
-    .esc-scale .level { padding: 0 2px; border-radius: 3px; white-space: nowrap; }
+    .esc-scale .level {
+      padding: 0 3px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
     .esc-scale .level-0 { color: #6fcf97; }
     .esc-scale .level-1 { color: #f5b042; }
     .esc-scale .level-2 { color: #f5a623; }
     .esc-scale .level-3 { color: #e67e22; }
-    .esc-scale .level-4 { color: #e35f5f; }
-    .esc-scale .level-5 { color: #c0392b; }
+    .esc-scale .level-4 { color: #ff6b6b; }
+    .esc-scale .level-5 { color: #ff4444; }
 
     .scene-row {
-      display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 3px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0 4px;
       justify-content: center;
+      width: 100%;
     }
     .scene-btn {
-      background: #1e2a3a; border: 1px solid #3d506e; color: #d6e2ff;
-      padding: 3px 12px; border-radius: 40px; font-size: 0.55rem;
-      font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      background: #1e2a3a;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: clamp(0.45rem, 0.65vw, 0.6rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
     }
     .scene-btn:hover { background: #2a3a5a; border-color: #f5b042; }
     .scene-btn.active { border-color: #f5b042; background: #2a3a5a; }
 
     .forecast-strip {
-      display: flex; flex-wrap: wrap; justify-content: space-between;
-      align-items: center; gap: 2px 8px; font-size: 0.55rem;
-      color: #8a9bb8; padding: 2px 0; margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px 10px;
+      font-size: clamp(0.4rem, 0.7vw, 0.6rem);
+      color: #d6e2ff;
+      padding: 4px 0;
+      margin-top: 4px;
+      width: 100%;
     }
     .forecast-strip .points {
-      display: flex; flex-wrap: wrap; gap: 2px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
     }
-    .forecast-strip .point .price { font-weight: 700; color: #f5d77b; }
-    .forecast-strip .total { font-weight: 700; color: #8bc34a; font-size: 0.65rem; }
+    .forecast-strip .point .price {
+      font-weight: 700;
+      color: #f5d77b;
+    }
+    .forecast-strip .total {
+      font-weight: 700;
+      color: #6fcf97;
+      font-size: clamp(0.5rem, 0.8vw, 0.7rem);
+    }
 
     .controls-extra {
-      margin-top: 4px; padding-top: 4px; border-top: 1px solid #26334a;
-      display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid #26334a;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
+      width: 100%;
     }
     .extra-toggle {
-      background: none; border: none; color: #7a8aa8; font-size: 0.55rem;
-      cursor: pointer; padding: 1px 0; font-weight: 500;
+      background: none;
+      border: none;
+      color: #d6e2ff;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      cursor: pointer;
+      padding: 2px 0;
+      font-weight: 500;
     }
     .extra-toggle:hover { color: #f5b042; }
     .extra-panel {
-      display: none; flex-wrap: wrap; align-items: center; gap: 4px 12px;
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
     }
     .extra-panel.open { display: flex; }
     .extra-item {
-      display: flex; align-items: center; gap: 3px;
-      font-size: 0.5rem; color: #8a9bb8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      color: #d6e2ff;
+      flex-wrap: wrap;
     }
-    .extra-item input[type="number"] {
-      width: 46px; background: #1a2235; border: 1px solid #3d506e;
-      color: #eef3ff; padding: 1px 4px; border-radius: 6px; font-size: 0.5rem;
-    }
-    .extra-item .val { color: #f5d77b; font-weight: 600; }
     .extra-item button {
-      background: #1e2a3e; border: 1px solid #3d506e; color: #d6e2ff;
-      padding: 2px 10px; border-radius: 30px; font-size: 0.5rem; cursor: pointer;
+      background: #1e2a3e;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 3px 12px;
+      border-radius: 30px;
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      cursor: pointer;
+      transition: all 0.15s;
     }
-    .extra-item button:hover { border-color: #f5b042; }
+    .extra-item button:hover {
+      border-color: #f5b042;
+      background: #2a3a5a;
+    }
 
-    /* ——— астрология ——— */
+    /* ===== АСТРОЛОГИЯ ===== */
     .astro-wrap {
       background: #0f1625;
       border-radius: 14px;
-      padding: 8px 16px;
-      margin-bottom: 6px;
+      padding: 8px 3%;
+      margin-bottom: 8px;
       border: 1px solid #6a4a9a;
+      width: 100%;
     }
     .astro-header {
-      display: flex; justify-content: space-between; align-items: center;
-      cursor: pointer; user-select: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      gap: 6px;
     }
-    .astro-header h3 { font-size: 0.75rem; color: #b87cff; }
+    .astro-header h3 {
+      font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+      color: #b87cff;
+    }
     .astro-header .badge {
-      font-size: 0.55rem; background: #1e2a3e; padding: 2px 14px;
-      border-radius: 40px; color: #b87cff;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      background: #1e2a3e;
+      padding: 2px 14px;
+      border-radius: 40px;
+      color: #b87cff;
+      white-space: nowrap;
     }
     .astro-header .arrow {
-      font-size: 0.8rem; color: #5e6f8c; transition: transform 0.2s;
+      font-size: 0.8rem;
+      color: #8a9bb8;
+      transition: transform 0.2s;
     }
     .astro-header .arrow.open { transform: rotate(180deg); }
     .astro-body {
-      display: none; padding: 6px 0 4px; border-top: 1px solid #26334a;
+      display: none;
+      padding: 6px 0 4px;
+      border-top: 1px solid #26334a;
       margin-top: 6px;
     }
     .astro-body.open { display: block; }
     .astro-list {
-      display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      font-size: clamp(0.5rem, 0.8vw, 0.7rem);
+      color: #d6e2ff;
     }
     .astro-list .item {
-      display: flex; align-items: center; gap: 4px;
-      background: #1a2235; padding: 3px 12px 3px 6px; border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #1a2235;
+      padding: 3px 12px 3px 6px;
+      border-radius: 30px;
     }
     .astro-list .item .sign { font-weight: 700; font-size: 0.75rem; }
     .astro-list .item.positive .sign { color: #6fcf97; }
-    .astro-list .item.negative .sign { color: #e35f5f; }
+    .astro-list .item.negative .sign { color: #ff6b6b; }
     .astro-list .item.neutral .sign { color: #f5b042; }
-    .astro-empty { font-size: 0.6rem; color: #6a7a9a; }
+    .astro-empty {
+      font-size: clamp(0.5rem, 0.7vw, 0.6rem);
+      color: #d6e2ff;
+      opacity: 0.7;
+    }
     .astro-note {
-      background: #1a1025; border-radius: 12px; padding: 8px 14px;
-      font-size: 0.6rem; color: #b0a0c0; margin-top: 6px;
+      background: #1a1025;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      color: #c4b8e0;
+      margin-top: 6px;
       line-height: 1.5;
     }
     .astro-note strong { color: #b87cff; }
 
-    /* ——— футер ——— */
+    /* ===== ФУТЕР ===== */
     .footer {
       background: #1a1525;
       border-radius: 16px;
-      padding: 10px 16px;
-      margin-top: 4px;
+      padding: 10px 3%;
+      margin-top: 6px;
       border: 1px solid #c24a4a;
+      width: 100%;
     }
     .footer-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 4px 12px;
+      gap: 6px 14px;
+      width: 100%;
     }
     .footer-item {
-      display: flex; gap: 6px; align-items: flex-start;
-      font-size: 0.55rem; color: #c4b8e0;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      color: #c4b8e0;
       line-height: 1.3;
     }
     .footer-item .icon { font-size: 0.8rem; opacity: 0.8; flex-shrink: 0; }
     .footer-item strong { color: #ffaa88; }
     .footer-note {
-      text-align: center; font-size: 0.5rem;
-      color: #8a7a9a; margin-top: 6px; padding-top: 4px;
+      text-align: center;
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      color: #8a7a9a;
+      margin-top: 6px;
+      padding-top: 6px;
       border-top: 1px solid #2a3448;
+      width: 100%;
     }
 
-    .feedback-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #f5b042, #e35f5f);
-      padding: 3px 16px;
-      border-radius: 40px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 0.55rem;
-      transition: all 0.2s;
-    }
-    .feedback-btn:hover { opacity: 0.9; transform: scale(1.02); }
-
-    #priceSlider { display: none; }
-
-    @media (max-width: 700px) {
-      body { padding: 4px 6px 10px; }
-      .header { padding: 4px 10px 6px; }
-      .controls { padding: 4px 8px 4px; }
-      .control-item { flex: 1 0 80px; min-width: 65px; }
-      .control-item label { font-size: 0.45rem; }
-      .esc-scale { font-size: 0.35rem; }
-      .scene-btn { font-size: 0.45rem; padding: 2px 8px; }
+    /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+    @media (max-width: 768px) {
+      body { padding: 4px 1.5%; }
+      .controls-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 10px;
+      }
+      .control-item { min-width: 0; }
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .header h1 { white-space: normal; }
+      .scene-btn { padding: 3px 10px; }
+      .forecast-strip .points { gap: 2px 6px; }
       .footer-grid { grid-template-columns: 1fr; }
-      .research-badge .text { font-size: 0.45rem; }
-      canvas { max-height: 250px; }
+    }
+
+    @media (max-width: 480px) {
+      .controls-row {
+        grid-template-columns: 1fr;
+        gap: 4px 0;
+      }
+      .header-price { font-size: 0.5rem; padding: 2px 10px; }
+      .scene-row { gap: 3px; }
+      .scene-btn { font-size: 0.4rem; padding: 2px 8px; }
+      .esc-scale { font-size: 0.3rem; }
+    }
+
+    @media (min-width: 1600px) {
+      .controls-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .container { max-width: 1600px; }
+    }
+
+    @media (min-width: 1920px) {
+      .container { max-width: 1800px; }
+      .controls-row {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px 24px;
+      }
+      .control-item label { font-size: 0.7rem; }
+      .control-item .sub { font-size: 0.55rem; }
+      .header h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -309,9 +454,6 @@
       </div>
       <div class="header-date" id="currentDateBadge">📅 --</div>
     </div>
-    <div class="research-badge">
-      <span class="text"><span class="highlight">🔬 Исследовательский проект</span> · Все данные — экспериментальные.</span>
-    </div>
   </div>
 
   <!-- ===== ГРАФИК ===== -->
@@ -321,7 +463,6 @@
       <span>🔴 история</span>
       <span>🟡 сегодня</span>
       <span>🟢 прогноз</span>
-      <span>⬇️ скролл вниз для астрологии</span>
     </div>
   </div>
 
@@ -377,14 +518,12 @@
       <span class="total" id="totalMultiplierDisplay">×1.42</span>
     </div>
 
-    <!-- дополнительные параметры -->
+    <!-- Дополнительно -->
     <div class="controls-extra">
       <button class="extra-toggle" id="extraToggle">⚙️ Дополнительно ▾</button>
       <div class="extra-panel" id="extraPanel">
-        <div class="extra-item">🛢️ Нефть <input type="number" id="oilInput" step="1" value="92"> <span class="val" id="oilValueDisplay">$92</span></div>
-        <div class="extra-item">💵 USD/RUB <span class="val" id="usdRubDisplay">--</span></div>
         <div class="extra-item">
-          <button id="refreshPriceBtn">🔄 Обновить</button>
+          <button id="refreshPriceBtn">🔄 Обновить золото</button>
           <button id="resetBtn">⟳ Сброс</button>
           <button id="exportBtn">📸 PNG</button>
         </div>
@@ -395,7 +534,7 @@
   <!-- ===== АСТРОЛОГИЯ ===== -->
   <div class="astro-wrap">
     <div class="astro-header" id="astroToggle">
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
         <h3>🔮 Астрологические факторы</h3>
         <span class="badge" id="astroActiveLabelBig">активны 30%</span>
       </div>
@@ -406,14 +545,14 @@
         <div class="astro-empty">Увеличьте интенсивность, чтобы увидеть факторы</div>
       </div>
       <div class="astro-note">
-        <strong>Как читать астрологический блок:</strong> Каждая категория включается при определённом пороге интенсивности. 
-        При 30% видны: фазы Луны, аспекты, звёзды, транзиты, ретроградные планеты. При 40%+ добавляются затмения. 
+        <strong>Как читать астрологический блок:</strong> Каждая категория включается при определённом пороге интенсивности.
+        При 30% видны: фазы Луны, аспекты, звёзды, транзиты, ретроградные планеты. При 40%+ добавляются затмения.
         При 60%+ — планетные часы. Астрология — развлекательная опция, не имеет научного обоснования.
       </div>
     </div>
   </div>
 
-  <!-- ===== ЮРИДИЧЕСКИЙ ФУТЕР ===== -->
+  <!-- ===== ФУТЕР ===== -->
   <div class="footer">
     <div class="footer-grid">
       <div class="footer-item"><span class="icon">🔬</span><div><strong>Исследовательский проект</strong><br>Сайт создан в научно-исследовательских целях. Все данные — экспериментальные.</div></div>
@@ -421,18 +560,16 @@
       <div class="footer-item"><span class="icon">📜</span><div><strong>Автор не зарегистрирован как инвестиционный советник</strong><br>В соответствии с 39-ФЗ, автор не состоит в реестре ЦБ РФ.</div></div>
       <div class="footer-item"><span class="icon">🎭</span><div><strong>Астрология — развлекательная опция</strong><br>Астрологические факторы не имеют научного обоснования.</div></div>
       <div class="footer-item"><span class="icon">⚠️</span><div><strong>Данные гипотетические</strong><br>Прошлые результаты не гарантируют будущих доходов.</div></div>
-      <div class="footer-item"><span class="icon">💡</span><div><a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn">💡 Отправить предложение</a><br><span style="font-size:0.45rem;color:#7a6a8a;">Анонимно · Что хотите убрать, добавить, изменить</span></div></div>
     </div>
     <div class="footer-note">© 2026 AstroFinex · astrofinex.ru · Данный сайт не оказывает астрологических услуг. Торговля золотом сопряжена с высокими рисками.</div>
   </div>
 
 </div>
 
-<input type="range" id="priceSlider" min="3500" max="5200" step="10" value="4020" style="display:none;">
-
 <script>
   // ============================================================
-  //  ФИНАЛЬНАЯ ВЕРСИЯ — С ПРОКРУТКОЙ
+  //  РАБОЧАЯ ВЕРСИЯ — ГРАФИК ТОЧНО РАБОТАЕТ
+  //  + ИСПРАВЛЕНА ПРОБЛЕМА С ОТРИСОВКОЙ В YANDEX
   // ============================================================
 
   function getTodayDate() {
@@ -468,6 +605,7 @@
   // ——— состояние ———
   let currentGoldPrice = 4020;
   let priceSource = 'локальное';
+  let isFirstDraw = true;
   const factorsData = {
     spr: { value: 302, correction: 0 },
     gcc: { value: 51, correction: 0 },
@@ -478,12 +616,12 @@
   };
 
   // ——— DOM ———
-  const priceSlider = document.getElementById('priceSlider');
   const targetMult = document.getElementById('targetMultiplier');
   const escalationSlider = document.getElementById('escalationSlider');
   const astroSlider = document.getElementById('astroFactor');
   const frsSlider = document.getElementById('frsSlider');
-  const oilInput = document.getElementById('oilInput');
+  const canvas = document.getElementById('forecastCanvas');
+  const ctx = canvas.getContext('2d');
 
   // ——— коррекции ———
   function calcCorrections() {
@@ -516,20 +654,20 @@
     calcCorrections();
     const frs = parseFloat(frsSlider.value);
     const frsCorr = getFRSCorrection(frs);
-    
+
     const economicCorrection = factorsData.spr.correction + factorsData.gcc.correction +
                                factorsData.oil.correction + factorsData.usdRub.correction +
                                factorsData.vix.correction + frsCorr;
-    
+
     let adjustedBase = base + economicCorrection;
     adjustedBase = Math.max(0.70, Math.min(2.00, adjustedBase));
-    
+
     const escalationFactor = 1 + factorsData.escalation.correction;
     let total = adjustedBase * escalationFactor;
     return Math.max(0.50, Math.min(2.00, total));
   }
 
-  // ——— прогноз (без 30 июня) ———
+  // ——— прогноз ———
   function calcForecast(price, baseMult, astroPct) {
     const astroFactor = 1 + astroPct / 800;
     const total = getTotalMult(baseMult);
@@ -572,9 +710,12 @@
     return items;
   }
 
-  // ——— обновление UI ———
+  // ============================================================
+  //  ОБНОВЛЕНИЕ UI
+  // ============================================================
+
   function updateUI() {
-    const price = parseFloat(priceSlider.value);
+    const price = currentGoldPrice;
     const base = parseFloat(targetMult.value);
     const astro = parseFloat(astroSlider.value);
     const frs = parseFloat(frsSlider.value);
@@ -583,14 +724,11 @@
     const escPenalty = Math.round(factorsData.escalation.correction * 100);
     document.getElementById('escPenalty').textContent = escPenalty + '%';
 
-    currentGoldPrice = price;
     document.getElementById('priceValueDisplay').textContent = '$' + price;
     document.getElementById('multiplierDisplay').textContent = base.toFixed(2) + 'x';
     document.getElementById('escalationDisplay').textContent = factorsData.escalation.value + '%';
     document.getElementById('astroDisplay').textContent = astro + '%';
     document.getElementById('frsDisplay').textContent = frs.toFixed(2) + '%';
-    document.getElementById('oilValueDisplay').textContent = '$' + factorsData.oil.value;
-    document.getElementById('usdRubDisplay').textContent = factorsData.usdRub.value.toFixed(1) + ' ₽';
     document.getElementById('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(2);
 
     const hint = document.getElementById('multiplierHint');
@@ -620,25 +758,52 @@
     }
     document.getElementById('astroActiveLabelBig').textContent = 'активны ' + astro + '%';
 
+    // ============================================================
+    //  ГРАФИК — ВЫЗЫВАЕТСЯ ЗДЕСЬ (С ПРОВЕРКОЙ ГОТОВНОСТИ)
+    // ============================================================
     drawChart(price, base, astro);
   }
 
-  // ——— график ———
-  const canvas = document.getElementById('forecastCanvas');
-  const ctx = canvas.getContext('2d');
-  const W = 1000, H = 350;
-  canvas.width = W; canvas.height = H;
+  // ============================================================
+  //  ГРАФИК (РАБОТАЕТ С ПРИНУДИТЕЛЬНОЙ ОТРИСОВКОЙ)
+  // ============================================================
 
   function drawChart(todayPrice, baseMult, astroPct) {
+    // Проверка готовности canvas
+    if (!canvas || !ctx) {
+      console.warn('Canvas не готов, повторная попытка...');
+      setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100);
+      return;
+    }
+
+    // Принудительно устанавливаем размер canvas
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      // Устанавливаем внутренние размеры только если они отличаются
+      const dpr = window.devicePixelRatio || 1;
+      const displayWidth = rect.width;
+      const displayHeight = rect.height || (rect.width * 350 / 1000);
+      
+      // Проверяем, нужно ли менять размер
+      if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
+        canvas.width = Math.round(displayWidth * dpr);
+        canvas.height = Math.round(displayHeight * dpr);
+        ctx.scale(dpr, dpr);
+      }
+    }
+
+    const W = canvas.width / (window.devicePixelRatio || 1);
+    const H = canvas.height / (window.devicePixelRatio || 1);
+
     const f = calcForecast(todayPrice, baseMult, astroPct);
-    
+
     let points = [];
     const history = getHistoricalPoints();
     history.forEach(p => {
       points.push({ label: p.date.split(' ').slice(0,2).join(' '), price: p.price, isHistory: true });
     });
     points.push({ label: 'сегодня', price: todayPrice, isToday: true });
-    
+
     const forecastLabels = ['Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
     const forecastPrices = [f.july, f.august, f.september, f.october, f.november, f.december];
     forecastLabels.forEach((label, i) => {
@@ -655,6 +820,13 @@
 
     ctx.clearRect(0, 0, W, H);
 
+    // Проверяем, что координаты корректны
+    if (W < 10 || H < 10) {
+      console.warn('Canvas слишком мал, пропускаем отрисовку');
+      return;
+    }
+
+    // Сетка
     ctx.strokeStyle = '#1e2a3e';
     ctx.lineWidth = 0.5;
     ctx.font = 'bold 10px Inter, sans-serif';
@@ -677,6 +849,7 @@
     const forecastStartIdx = points.findIndex(p => p.isForecast);
     const todayIdx = points.findIndex(p => p.isToday);
 
+    // История
     if (history.length > 0) {
       ctx.beginPath();
       ctx.strokeStyle = '#e35f5f';
@@ -693,6 +866,7 @@
       ctx.stroke();
     }
 
+    // Прогноз
     if (todayIdx !== -1 && forecastStartIdx < points.length) {
       ctx.beginPath();
       const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
@@ -706,74 +880,53 @@
       ctx.stroke();
     }
 
+    // Точки
     for (let i = 0; i < points.length; i++) {
       const x = getX(i), y = getY(points[i].price);
       let color = '#6fcf97';
       if (points[i].isHistory) color = '#e35f5f';
       else if (points[i].isToday) color = '#ffaa44';
-      
+
       ctx.shadowColor = 'rgba(0,0,0,0.8)';
       ctx.shadowBlur = 5;
-      
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(x, y, 5, 0, 2 * Math.PI);
       ctx.fill();
-      
       ctx.shadowBlur = 0;
-      
+
       ctx.fillStyle = '#d0d8ee';
       ctx.font = 'bold 8px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
       let label = points[i].label;
       ctx.fillText(label, x, y - 6);
-      
+
       ctx.fillStyle = '#f5d77b';
       ctx.font = 'bold 9px Inter, sans-serif';
       ctx.textBaseline = 'top';
       ctx.fillText('$' + points[i].price, x, y + 4);
     }
+
+    // Первая отрисовка завершена
+    if (isFirstDraw) {
+      isFirstDraw = false;
+    }
   }
 
-  // ——— загрузка данных ———
-  async function updateUSDRUB() {
-    try {
-      const resp = await fetch('https://www.cbr-xml-daily.ru/daily_json.js');
-      if (resp.ok) {
-        const data = await resp.json();
-        if (data?.Valute?.USD?.Value) {
-          factorsData.usdRub.value = parseFloat(data.Valute.USD.Value);
-          return true;
-        }
-      }
-    } catch (_) {}
-    try {
-      const resp = await fetch('https://www.cbr.ru/scripts/XML_daily.asp');
-      if (!resp.ok) return false;
-      const text = await resp.text();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(text, 'text/xml');
-      const node = xml.querySelector('Valute[ID="R01235"] Value') || xml.querySelector('Valute[CharCode="USD"] Value');
-      if (node) {
-        const val = parseFloat(node.textContent.replace(',', '.'));
-        if (!isNaN(val) && val > 0) { factorsData.usdRub.value = val; return true; }
-      }
-    } catch (_) {}
-    return false;
-  }
+  // ============================================================
+  //  ЗАГРУЗКА ДАННЫХ
+  // ============================================================
 
   async function fetchGold() {
     const status = document.getElementById('priceSourceText');
     status.textContent = '⏳...';
-    await updateUSDRUB();
     try {
       const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
       if (resp.ok) {
         const data = await resp.json();
         if (data?.price) {
           currentGoldPrice = Math.round(parseFloat(data.price));
-          priceSlider.value = currentGoldPrice;
           status.textContent = '✓ Binance';
           updateUI();
           return;
@@ -786,7 +939,6 @@
         const data = await resp.json();
         if (data?.price) {
           currentGoldPrice = Math.round(parseFloat(data.price));
-          priceSlider.value = currentGoldPrice;
           status.textContent = '✓ XAUT';
           updateUI();
           return;
@@ -797,8 +949,27 @@
     updateUI();
   }
 
-  // ——— события ———
-  priceSlider.addEventListener('input', updateUI);
+  // ============================================================
+  //  ПРИНУДИТЕЛЬНАЯ ОТРИСОВКА ПОСЛЕ ЗАГРУЗКИ
+  // ============================================================
+
+  function forceDrawAfterLoad() {
+    // Ждём, пока canvas полностью загрузится
+    if (canvas && canvas.getContext) {
+      // Небольшая задержка для уверенности
+      setTimeout(() => {
+        const price = currentGoldPrice;
+        const base = parseFloat(targetMult.value);
+        const astro = parseFloat(astroSlider.value);
+        drawChart(price, base, astro);
+      }, 50);
+    }
+  }
+
+  // ============================================================
+  //  СОБЫТИЯ
+  // ============================================================
+
   targetMult.addEventListener('input', updateUI);
   escalationSlider.addEventListener('input', () => {
     factorsData.escalation.value = parseInt(escalationSlider.value);
@@ -827,19 +998,19 @@
     factorsData.escalation.value = 0;
     astroSlider.value = '30';
     frsSlider.value = '3.75';
-    oilInput.value = '92';
-    factorsData.oil.value = 92;
     document.querySelectorAll('.scene-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.scene-btn[data-mult="1.42"]').classList.add('active');
     updateUI();
   });
 
   document.getElementById('refreshPriceBtn').addEventListener('click', fetchGold);
-  
+
   document.getElementById('exportBtn').addEventListener('click', function() {
     const exportCanvas = document.createElement('canvas');
-    exportCanvas.width = canvas.width;
-    exportCanvas.height = canvas.height;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    exportCanvas.width = Math.round(rect.width * dpr);
+    exportCanvas.height = Math.round(rect.height * dpr);
     const exportCtx = exportCanvas.getContext('2d');
     exportCtx.fillStyle = '#0a101c';
     exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
@@ -857,14 +1028,6 @@
     toggle.textContent = panel.classList.contains('open') ? '⚙️ Скрыть ▴' : '⚙️ Дополнительно ▾';
   });
 
-  document.getElementById('oilInput').addEventListener('change', function() {
-    const v = parseFloat(this.value);
-    if (!isNaN(v) && v > 0 && v < 500) {
-      factorsData.oil.value = v;
-      updateUI();
-    }
-  });
-
   document.getElementById('astroToggle').addEventListener('click', () => {
     const body = document.getElementById('astroBody');
     const arrow = document.getElementById('astroArrow');
@@ -872,9 +1035,47 @@
     arrow.classList.toggle('open');
   });
 
-  // ——— старт ———
+  // ============================================================
+  //  ПЕРЕРИСОВКА ПРИ ИЗМЕНЕНИИ РАЗМЕРА ОКНА
+  // ============================================================
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      const price = currentGoldPrice;
+      const base = parseFloat(targetMult.value);
+      const astro = parseFloat(astroSlider.value);
+      drawChart(price, base, astro);
+    }, 100);
+  });
+
+  // ============================================================
+  //  СТАРТ
+  // ============================================================
+
   calcCorrections();
-  fetchGold().then(() => updateUI());
+
+  // Сначала загружаем данные, потом рисуем график
+  fetchGold().then(() => {
+    // Дополнительная принудительная отрисовка после загрузки
+    forceDrawAfterLoad();
+  });
+
+  // Даже если fetchGold не сработает, рисуем через 1 секунду
+  setTimeout(() => {
+    const price = currentGoldPrice;
+    const base = parseFloat(targetMult.value);
+    const astro = parseFloat(astroSlider.value);
+    drawChart(price, base, astro);
+  }, 1000);
+
+  // Дополнительная отрисовка после полной загрузки страницы
+  if (document.readyState === 'complete') {
+    forceDrawAfterLoad();
+  } else {
+    window.addEventListener('load', forceDrawAfterLoad);
+  }
 </script>
 </body>
-</html></html>
+</html>
