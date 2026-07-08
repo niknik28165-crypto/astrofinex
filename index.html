@@ -852,7 +852,6 @@
   }
   document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
 
-  // ★★★ ИСПРАВЛЕНО: запасное значение 4080 ★★★
   var currentGoldPrice = 4080;
   var priceSource = 'локальное';
 
@@ -1444,7 +1443,7 @@
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ИСПРАВЛЕННЫЙ ПОРЯДОК ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ТОЛЬКО ПРОКСИ (РАБОТАЕТ) ★★★
   // ============================================================
 
   async function fetchGold() {
@@ -1455,25 +1454,7 @@
     statusExtra.textContent = '⏳ загрузка...';
     statusExtra.style.color = '#f5b042';
 
-    // ——— 1. BINANCE (НАПРЯМУЮ) ———
-    try {
-      var resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
-      if (resp.ok) {
-        var data = await resp.json();
-        if (data && data.price) {
-          currentGoldPrice = Math.round(parseFloat(data.price));
-          priceSource = '✓ Binance';
-          status.textContent = '✓ Binance';
-          status.style.color = '#6fcf97';
-          statusExtra.textContent = '● актуально';
-          statusExtra.style.color = '#6fcf97';
-          updateUI();
-          return;
-        }
-      }
-    } catch (e) { console.warn('Binance не ответил', e); }
-
-    // ——— 2. ПРОКСИ К BINANCE ———
+    // ——— 1. ПРОКСИ К BINANCE (РАБОТАЕТ) ———
     try {
       var proxyUrl = 'https://api.allorigins.win/raw?url=';
       var targetUrl = 'https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT';
@@ -1493,25 +1474,7 @@
       }
     } catch (e) { console.warn('Прокси не ответил', e); }
 
-    // ——— 3. GOLD-API ———
-    try {
-      var resp = await fetch('https://www.gold-api.com/price/XAU');
-      if (resp.ok) {
-        var data = await resp.json();
-        if (data && data.price) {
-          currentGoldPrice = Math.round(parseFloat(data.price));
-          priceSource = '✓ Gold-API';
-          status.textContent = '✓ Gold-API';
-          status.style.color = '#6fcf97';
-          statusExtra.textContent = '● актуально';
-          statusExtra.style.color = '#6fcf97';
-          updateUI();
-          return;
-        }
-      }
-    } catch (e) { console.warn('Gold-API не ответил', e); }
-
-    // ——— 4. ЗАПАСНОЕ ЗНАЧЕНИЕ (4080) ———
+    // ——— 2. ЗАПАСНОЕ ЗНАЧЕНИЕ (4080) ———
     priceSource = '⚠ локальное';
     status.textContent = '⚠ локальное';
     status.style.color = '#ff6b6b';
