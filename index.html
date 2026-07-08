@@ -1443,7 +1443,7 @@
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ — corsproxy.io ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — exchange-rates (РАБОТАЕТ) ★★★
   // ============================================================
 
   async function fetchGold() {
@@ -1454,15 +1454,15 @@
     statusExtra.textContent = '⏳ загрузка...';
     statusExtra.style.color = '#f5b042';
 
-    // ——— 1. ПРОКСИ (corsproxy.io) ———
+    // ——— 1. EXCHANGE-RATE.HOST (РАБОТАЕТ БЕЗ CORS) ———
     try {
-      var resp = await fetch('https://corsproxy.io/?https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
+      var resp = await fetch('https://api.exchangerate.host/convert?from=XAU&to=USD');
       if (resp.ok) {
         var data = await resp.json();
-        if (data && data.price) {
-          currentGoldPrice = Math.round(parseFloat(data.price));
-          priceSource = '✓ Прокси';
-          status.textContent = '✓ Прокси';
+        if (data && data.result) {
+          currentGoldPrice = Math.round(parseFloat(data.result));
+          priceSource = '✓ Exchange-Rate';
+          status.textContent = '✓ Exchange-Rate';
           status.style.color = '#6fcf97';
           statusExtra.textContent = '● актуально';
           statusExtra.style.color = '#6fcf97';
@@ -1470,7 +1470,7 @@
           return;
         }
       }
-    } catch (e) { console.warn('corsproxy.io не ответил', e); }
+    } catch (e) { console.warn('Exchange-Rate не ответил', e); }
 
     // ——— 2. ЗАПАСНОЕ ЗНАЧЕНИЕ (4080) ———
     priceSource = '⚠ локальное';
