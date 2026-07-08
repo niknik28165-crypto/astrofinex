@@ -1443,7 +1443,7 @@
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ТОЛЬКО ПРОКСИ (РАБОТАЕТ) ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — corsproxy.io ★★★
   // ============================================================
 
   async function fetchGold() {
@@ -1454,11 +1454,9 @@
     statusExtra.textContent = '⏳ загрузка...';
     statusExtra.style.color = '#f5b042';
 
-    // ——— 1. ПРОКСИ К BINANCE (РАБОТАЕТ) ———
+    // ——— 1. ПРОКСИ (corsproxy.io) ———
     try {
-      var proxyUrl = 'https://api.allorigins.win/raw?url=';
-      var targetUrl = 'https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT';
-      var resp = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+      var resp = await fetch('https://corsproxy.io/?https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
       if (resp.ok) {
         var data = await resp.json();
         if (data && data.price) {
@@ -1472,7 +1470,7 @@
           return;
         }
       }
-    } catch (e) { console.warn('Прокси не ответил', e); }
+    } catch (e) { console.warn('corsproxy.io не ответил', e); }
 
     // ——— 2. ЗАПАСНОЕ ЗНАЧЕНИЕ (4080) ———
     priceSource = '⚠ локальное';
