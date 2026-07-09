@@ -170,6 +170,16 @@
       background: transparent;
       height: 4px;
     }
+    input[type="number"] {
+      background: #0a101c;
+      border: 1px solid #2a3a52;
+      color: #f5d77b;
+      border-radius: 6px;
+      padding: 2px 8px;
+      width: 90px;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      font-weight: 700;
+    }
 
     .economy-composition {
       background: #0a101c;
@@ -369,6 +379,12 @@
       border-color: #f5b042;
       background: #2a3a5a;
     }
+    .extra-item .status {
+      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+    }
+    .extra-item .status.ok { color: #6fcf97; }
+    .extra-item .status.loading { color: #f5b042; }
+    .extra-item .status.error { color: #ff6b6b; }
 
     .astro-wrap {
       background: #0f1625;
@@ -447,7 +463,6 @@
     }
     .astro-note strong { color: #b87cff; }
 
-    /* ===== НОВЫЙ БЛОК — ПРОВЕРКА ПРОГНОЗА ===== */
     .verify-wrap {
       background: #0f1726;
       border-radius: 14px;
@@ -503,11 +518,6 @@
       color: #d6e2ff;
       font-size: clamp(0.35rem, 0.5vw, 0.45rem);
       opacity: 0.8;
-    }
-    .verify-table .interp-mark {
-      color: #f5d77b;
-      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
-      margin-left: 2px;
     }
     .verify-stats {
       display: flex;
@@ -804,7 +814,12 @@
           <button id="refreshPriceBtn">🔄 Обновить золото</button>
           <button id="resetBtn">⟳ Сброс</button>
           <button id="exportBtn">📸 PNG</button>
-          <span class="status" id="dataStatusExtra">● актуально</span>
+          <span class="status ok" id="dataStatusExtra">● актуально</span>
+        </div>
+        <div class="extra-item" style="border-left:1px solid #26334a;padding-left:12px;">
+          <span>💰 Ручная цена:</span>
+          <input type="number" id="manualPriceInput" value="4080" step="10">
+          <button id="setPriceBtn">Установить</button>
         </div>
       </div>
     </div>
@@ -832,7 +847,6 @@
     </div>
   </div>
 
-  <!-- ===== БЛОК — ПРОВЕРКА ПРОГНОЗА ===== -->
   <div class="verify-wrap">
     <div class="verify-header">
       <h3>📊 Проверка прогноза на исторических данных</h3>
@@ -1094,7 +1108,7 @@
   }
 
   // ============================================================
-  //  ТАБЛИЦА ПРОВЕРКИ (БЕЗ АСТРОЛОГИИ)
+  //  ТАБЛИЦА ПРОВЕРКИ
   // ============================================================
 
   function renderVerifyTable() {
@@ -1485,7 +1499,7 @@
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ТОЛЬКО РАБОЧИЙ ИСТОЧНИК ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — 3 ИСТОЧНИКА ★★★
   // ============================================================
 
   async function fetchGold() {
@@ -1494,34 +1508,96 @@
     status.textContent = '⏳...';
     status.style.color = '#f5b042';
     statusExtra.textContent = '⏳ загрузка...';
-    statusExtra.style.color = '#f5b042';
+    statusExtra.className = 'status loading';
 
-    // ——— 1. EXCHANGE-RATE.HOST (РАБОТАЕТ БЕЗ CORS) ———
+    // ——— 1. GOLD-API ———
+    try {
+      var resp = await fetch('https://www.gold-api.com/price/XAU');
+      if (resp.ok) {
+        var data = await resp.json();
+        if (data && data.price && parseFloat(data.price) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Gold-API';
+          status.textContent = '✓ Gold-API';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.className = 'status ok';
+          document.getElementById('manualPriceInput').value = currentGoldPrice;
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) { console.warn('Gold-API не ответил', e); }
+
+    // ——— 2. EXCHANGE-RATE.HOST ———
     try {
       var resp = await fetch('https://api.exchangerate.host/convert?from=XAU&to=USD');
       if (resp.ok) {
         var data = await resp.json();
-        if (data && data.result) {
+        if (data && data.result && parseFloat(data.result) > 0) {
           currentGoldPrice = Math.round(parseFloat(data.result));
           priceSource = '✓ Exchange-Rate';
           status.textContent = '✓ Exchange-Rate';
           status.style.color = '#6fcf97';
           statusExtra.textContent = '● актуально';
-          statusExtra.style.color = '#6fcf97';
+          statusExtra.className = 'status ok';
+          document.getElementById('manualPriceInput').value = currentGoldPrice;
           updateUI();
           return;
         }
       }
     } catch (e) { console.warn('Exchange-Rate не ответил', e); }
 
-    // ——— 2. ЗАПАСНОЕ ЗНАЧЕНИЕ (4080) ———
+    // ——— 3. ПРОКСИ К BINANCE ———
+    try {
+      var proxyUrl = 'https://api.allorigins.win/raw?url=';
+      var targetUrl = 'https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT';
+      var resp = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+      if (resp.ok) {
+        var data = await resp.json();
+        if (data && data.price && parseFloat(data.price) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Binance (прокси)';
+          status.textContent = '✓ Binance';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.className = 'status ok';
+          document.getElementById('manualPriceInput').value = currentGoldPrice;
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) { console.warn('Прокси не ответил', e); }
+
+    // ——— 4. ЗАПАСНОЕ ———
     priceSource = '⚠ локальное';
     status.textContent = '⚠ локальное';
     status.style.color = '#ff6b6b';
     statusExtra.textContent = '⚠ локальное';
-    statusExtra.style.color = '#ff6b6b';
-    currentGoldPrice = 4080;
+    statusExtra.className = 'status error';
     updateUI();
+  }
+
+  // ============================================================
+  //  РУЧНАЯ УСТАНОВКА ЦЕНЫ
+  // ============================================================
+
+  function setManualPrice() {
+    var input = document.getElementById('manualPriceInput');
+    var price = parseFloat(input.value);
+    if (price && price > 0) {
+      currentGoldPrice = Math.round(price);
+      priceSource = '✋ ручная';
+      var status = document.getElementById('priceSourceText');
+      status.textContent = '✋ ручная';
+      status.style.color = '#f5b042';
+      var statusExtra = document.getElementById('dataStatusExtra');
+      statusExtra.textContent = '● ручная ' + new Date().toLocaleTimeString();
+      statusExtra.className = 'status ok';
+      updateUI();
+    } else {
+      alert('Введите корректную цену (положительное число)');
+    }
   }
 
   // ============================================================
@@ -1579,6 +1655,14 @@
     fetchGold();
   });
 
+  document.getElementById('setPriceBtn').addEventListener('click', function() {
+    setManualPrice();
+  });
+
+  document.getElementById('manualPriceInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') setManualPrice();
+  });
+
   document.getElementById('exportBtn').addEventListener('click', function() {
     var exportCanvas = document.createElement('canvas');
     var rect = canvas.getBoundingClientRect();
@@ -1621,12 +1705,13 @@
 
   calcCorrections();
   
-  // Сразу показываем с запасным значением 4080
   currentGoldPrice = 4080;
+  document.getElementById('manualPriceInput').value = 4080;
   updateUI();
 
-  // Асинхронно загружаем реальную цену
-  fetchGold();
+  setTimeout(function() {
+    fetchGold();
+  }, 500);
 
   setTimeout(function() {
     forceDraw();
