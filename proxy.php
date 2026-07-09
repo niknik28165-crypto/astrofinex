@@ -45,4 +45,3 @@ if ($httpCode2 === 200 && $response2) {
 // 3. Запасное значение
 echo json_encode(['price' => 4080, 'source' => 'local']);
 ?>
-?>
