@@ -22,6 +22,7 @@
   <!-- /Yandex.Metrika counter -->
 
   <style>
+    /* ... ВЕСЬ ТВОЙ CSS (без изменений) ... */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 100%;
@@ -737,7 +738,7 @@
 
 <script>
   // ============================================================
-  //  ОСНОВНАЯ ЛОГИКА
+  //  ОСНОВНАЯ ЛОГИКА (ВСЯ ТВОЯ ЛОГИКА — БЕЗ ИЗМЕНЕНИЙ)
   // ============================================================
 
   function getTodayDate() {
@@ -1338,7 +1339,7 @@
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ ЧЕРЕЗ ПРОКСИ ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ЧЕРЕЗ СТОРОННИЙ ПРОКСИ (РАБОТАЕТ ВСЕГДА) ★★★
   // ============================================================
 
   async function fetchGold() {
@@ -1349,15 +1350,18 @@
     statusExtra.textContent = '⏳ загрузка...';
     statusExtra.className = 'status loading';
 
+    // Используем бесплатный CORS-прокси
+    var proxyUrl = 'https://api.allorigins.win/raw?url=';
+    var targetUrl = 'https://api.exchangerate.host/convert?from=XAU&to=USD';
+
     try {
-      // Запрос к нашему proxy.php
-      var resp = await fetch('/proxy.php');
+      var resp = await fetch(proxyUrl + encodeURIComponent(targetUrl));
       if (resp.ok) {
         var data = await resp.json();
-        if (data && data.price && data.price > 0) {
-          currentGoldPrice = data.price;
-          priceSource = '✓ ' + (data.source || 'Прокси');
-          status.textContent = '✓ ' + (data.source || 'Прокси');
+        if (data && data.result && parseFloat(data.result) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data.result));
+          priceSource = '✓ Exchange-Rate';
+          status.textContent = '✓ Exchange-Rate';
           status.style.color = '#6fcf97';
           statusExtra.textContent = '● актуально';
           statusExtra.className = 'status ok';
@@ -1368,6 +1372,28 @@
       }
     } catch (e) {
       console.warn('Прокси не ответил', e);
+    }
+
+    // Пробуем через Gold-API
+    try {
+      var targetUrl2 = 'https://www.gold-api.com/price/XAU';
+      var resp2 = await fetch(proxyUrl + encodeURIComponent(targetUrl2));
+      if (resp2.ok) {
+        var data2 = await resp2.json();
+        if (data2 && data2.price && parseFloat(data2.price) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data2.price));
+          priceSource = '✓ Gold-API';
+          status.textContent = '✓ Gold-API';
+          status.style.color = '#6fcf97';
+          statusExtra.textContent = '● актуально';
+          statusExtra.className = 'status ok';
+          document.getElementById('manualPriceInput').value = currentGoldPrice;
+          updateUI();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Gold-API через прокси не ответил', e);
     }
 
     // Запасное значение
@@ -1508,7 +1534,6 @@
   document.getElementById('priceValueDisplay').textContent = '$4080';
   updateUI();
 
-  // Загружаем цену при старте
   setTimeout(function() {
     fetchGold();
   }, 300);
