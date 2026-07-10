@@ -22,7 +22,7 @@
   <!-- /Yandex.Metrika counter -->
 
   <style>
-    /* ... ВЕСЬ ТВОЙ CSS (без изменений) ... */
+    /* ===== ВЕСЬ ТВОЙ CSS (БЕЗ ИЗМЕНЕНИЙ) ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 100%;
@@ -553,17 +553,19 @@
 <body>
 <div class="container">
 
+  <!-- ===== ШАПКА ===== -->
   <div class="header">
     <div class="header-top">
       <h1>✨ AstroFinex · Золото 2026</h1>
       <div class="header-price">
-        XAU/USD <span id="priceValueDisplay">$4080</span>
+        XAU/USD <span id="priceValueDisplay">$---</span>
         <span style="font-weight:400;color:#8a9bb8;font-size:0.5rem;margin-left:3px;" id="priceSourceText">загрузка...</span>
       </div>
       <div class="header-date" id="currentDateBadge">📅 --</div>
     </div>
   </div>
 
+  <!-- ===== ГРАФИК ===== -->
   <div class="graph-wrap">
     <canvas id="forecastCanvas" width="1000" height="350"></canvas>
     <div class="graph-legend">
@@ -573,6 +575,7 @@
     </div>
   </div>
 
+  <!-- ===== УПРАВЛЕНИЕ ===== -->
   <div class="controls">
     <div class="controls-row">
       <div class="control-item">
@@ -665,6 +668,7 @@
     </div>
   </div>
 
+  <!-- ===== АСТРОЛОГИЯ ===== -->
   <div class="astro-wrap">
     <div class="astro-header" id="astroToggle">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -687,6 +691,7 @@
     </div>
   </div>
 
+  <!-- ===== ПРОВЕРКА ПРОГНОЗА ===== -->
   <div class="verify-wrap">
     <div class="verify-header">
       <h3>📊 Проверка прогноза на исторических данных</h3>
@@ -723,6 +728,7 @@
     </div>
   </div>
 
+  <!-- ===== ФУТЕР ===== -->
   <div class="footer">
     <div class="footer-grid">
       <div class="footer-item"><span class="icon">🔬</span><div><strong>Исследовательский проект</strong><br>Сайт создан в научно-исследовательских целях. Все данные — экспериментальные.</div></div>
@@ -738,31 +744,32 @@
 
 <script>
   // ============================================================
-  //  ОСНОВНАЯ ЛОГИКА (ВСЯ ТВОЯ ЛОГИКА — БЕЗ ИЗМЕНЕНИЙ)
+  //  ОСНОВНАЯ ЛОГИКА
   // ============================================================
 
   function getTodayDate() {
-    var d = new Date();
-    var m = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-    return d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+    const d = new Date();
+    const m = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+    return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`;
   }
   document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
 
-  var currentGoldPrice = 4080;
-  var priceSource = 'локальное';
+  let currentGoldPrice = 4080;
+  let priceSource = 'локальное';
+  let updateCounter = 0;
 
   // ============================================================
   //  ИСТОРИЧЕСКИЕ ДАННЫЕ
   // ============================================================
 
-  var historicalData = [
+  const historicalData = [
     { date: "28 мая 2026", price: 4696 },
     { date: "2 июня 2026", price: 4530 },
     { date: "5 июня 2026", price: 4310 },
     { date: "30 июня 2026", price: 4010 }
   ];
 
-  var TABLE_ROWS = [
+  const TABLE_ROWS = [
     { start: "28 мая 2026", target: "2 июня 2026" },
     { start: "2 июня 2026", target: "5 июня 2026" },
     { start: "5 июня 2026", target: "30 июня 2026" }
@@ -772,7 +779,7 @@
   //  АСТРОЛОГИЧЕСКИЕ ФАКТОРЫ
   // ============================================================
 
-  var astroFactors = [
+  const astroFactors = [
     { id: 'new_moon', name: '🌑 Новолуние', type: 'neutral', weight: 0, threshold: 5 },
     { id: 'regulus', name: '⭐ Регулус', type: 'positive', weight: 2.5, threshold: 10 },
     { id: 'jupiter_saturn', name: '♃ Юпитер трин Сатурн', type: 'positive', weight: 2.0, threshold: 15 },
@@ -789,25 +796,25 @@
   // ============================================================
 
   function parseDateRu(s) {
-    var parts = s.split(' ');
+    const parts = s.split(' ');
     if (parts.length < 3) return null;
-    var day = parseInt(parts[0], 10);
-    var monthMap = {'января':0,'февраля':1,'марта':2,'апреля':3,'мая':4,'июня':5,'июля':6,'августа':7,'сентября':8,'октября':9,'ноября':10,'декабря':11};
-    var month = monthMap[parts[1]];
+    const day = parseInt(parts[0], 10);
+    const monthMap = {'января':0,'февраля':1,'марта':2,'апреля':3,'мая':4,'июня':5,'июля':6,'августа':7,'сентября':8,'октября':9,'ноября':10,'декабря':11};
+    const month = monthMap[parts[1]];
     if (month === undefined) return null;
-    var year = parseInt(parts[2], 10) || 2026;
+    const year = parseInt(parts[2], 10) || 2026;
     return new Date(year, month, day);
   }
 
   function getDaysBetween(date1, date2) {
-    var d1 = parseDateRu(date1);
-    var d2 = parseDateRu(date2);
+    const d1 = parseDateRu(date1);
+    const d2 = parseDateRu(date2);
     if (!d1 || !d2) return 0;
     return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
   }
 
   function getPriceForDate(dateStr) {
-    for (var i = 0; i < historicalData.length; i++) {
+    for (let i = 0; i < historicalData.length; i++) {
       if (historicalData[i].date === dateStr) {
         return historicalData[i].price;
       }
@@ -819,7 +826,7 @@
   //  ФАКТОРЫ
   // ============================================================
 
-  var factorsData = {
+  const factorsData = {
     spr: { value: 302, correction: 0 },
     gcc: { value: 51, correction: 0 },
     oil: { value: 92, correction: 0 },
@@ -828,25 +835,25 @@
     escalation: { value: 0, correction: 0 }
   };
 
-  var economyIndexSlider = document.getElementById('economyIndexSlider');
-  var escalationSlider = document.getElementById('escalationSlider');
-  var astroSlider = document.getElementById('astroFactor');
-  var frsSlider = document.getElementById('frsSlider');
-  var canvas = document.getElementById('forecastCanvas');
-  var ctx = canvas.getContext('2d');
+  const economyIndexSlider = document.getElementById('economyIndexSlider');
+  const escalationSlider = document.getElementById('escalationSlider');
+  const astroSlider = document.getElementById('astroFactor');
+  const frsSlider = document.getElementById('frsSlider');
+  const canvas = document.getElementById('forecastCanvas');
+  const ctx = canvas.getContext('2d');
 
   function calcCorrections() {
-    var s = factorsData.spr;
+    const s = factorsData.spr;
     s.correction = s.value < 250 ? (s.value < 200 ? 0.20 : 0.10) : (s.value < 300 ? 0.05 : 0);
-    var g = factorsData.gcc;
+    const g = factorsData.gcc;
     g.correction = g.value < 25 ? 0.15 : (g.value > 55 ? -0.10 : 0);
-    var o = factorsData.oil;
+    const o = factorsData.oil;
     o.correction = o.value > 200 ? 0.10 : (o.value > 150 ? 0.05 : 0);
-    var u = factorsData.usdRub;
+    const u = factorsData.usdRub;
     u.correction = u.value > 100 ? -0.05 : (u.value < 85 ? 0.05 : 0);
-    var v = factorsData.vix;
+    const v = factorsData.vix;
     v.correction = v.value > 30 ? 0.10 : (v.value > 25 ? 0.05 : 0);
-    var e = factorsData.escalation;
+    const e = factorsData.escalation;
     e.correction = -(e.value / 100) * 0.25;
   }
 
@@ -873,9 +880,9 @@
   // ============================================================
 
   function getActiveAstroFactors(astroPct) {
-    var active = [];
-    for (var i = 0; i < astroFactors.length; i++) {
-      var f = astroFactors[i];
+    const active = [];
+    for (let i = 0; i < astroFactors.length; i++) {
+      const f = astroFactors[i];
       if (astroPct >= f.threshold) {
         active.push(f);
       }
@@ -885,12 +892,12 @@
 
   function calcAstroBonus(astroPct) {
     if (astroPct === 0) return 0;
-    var active = getActiveAstroFactors(astroPct);
-    var total = 0;
-    for (var i = 0; i < active.length; i++) {
+    const active = getActiveAstroFactors(astroPct);
+    let total = 0;
+    for (let i = 0; i < active.length; i++) {
       total += active[i].weight;
     }
-    var bonus = total * (astroPct / 100);
+    let bonus = total * (astroPct / 100);
     if (bonus > 5) bonus = 5;
     if (bonus < -5) bonus = -5;
     return bonus;
@@ -898,12 +905,12 @@
 
   function getAstroItems(pct) {
     if (pct < 1) return [];
-    var active = getActiveAstroFactors(pct);
-    var items = [];
-    for (var i = 0; i < active.length; i++) {
-      var f = active[i];
-      var type = f.type;
-      var strength = Math.round(f.weight * (pct / 100) * 100) / 100;
+    const active = getActiveAstroFactors(pct);
+    const items = [];
+    for (let i = 0; i < active.length; i++) {
+      const f = active[i];
+      const type = f.type;
+      const strength = Math.round(f.weight * (pct / 100) * 100) / 100;
       items.push({
         name: f.name,
         type: type,
@@ -920,21 +927,21 @@
   // ============================================================
 
   function getTotalMult(base) {
-    var economicCorrection = getEconomyIndexCorrection();
-    var frs = parseFloat(frsSlider.value);
-    var frsCorr = getFRSCorrection(frs);
-    var adjustedBase = base + economicCorrection;
+    const economicCorrection = getEconomyIndexCorrection();
+    const frs = parseFloat(frsSlider.value);
+    const frsCorr = getFRSCorrection(frs);
+    let adjustedBase = base + economicCorrection;
     adjustedBase = Math.max(0.70, Math.min(2.00, adjustedBase));
-    var escalationFactor = 1 + factorsData.escalation.correction;
-    var total = adjustedBase * escalationFactor * (1 + frsCorr);
+    const escalationFactor = 1 + factorsData.escalation.correction;
+    const total = adjustedBase * escalationFactor * (1 + frsCorr);
     return Math.max(0.40, Math.min(2.50, total));
   }
 
   function calcForecast(price, baseMult, astroPct) {
-    var astroBonus = calcAstroBonus(astroPct);
-    var astroFactor = 1 + astroBonus / 100;
-    var total = getTotalMult(baseMult) * astroFactor;
-    var delta = total - 1;
+    const astroBonus = calcAstroBonus(astroPct);
+    const astroFactor = 1 + astroBonus / 100;
+    const total = getTotalMult(baseMult) * astroFactor;
+    const delta = total - 1;
     return {
       july:   Math.round(price * (1 + delta * 0.50)),
       august: Math.round(price * (1 + delta * 0.70)),
@@ -952,48 +959,48 @@
   // ============================================================
 
   function renderVerifyTable() {
-    var tbody = document.getElementById('verifyTableBody');
-    var statsDiv = document.getElementById('verifyStats');
-    var statusDiv = document.getElementById('dataStatusVerify');
+    const tbody = document.getElementById('verifyTableBody');
+    const statsDiv = document.getElementById('verifyStats');
+    const statusDiv = document.getElementById('dataStatusVerify');
     
     if (!tbody) return;
 
-    var base = parseFloat(economyIndexSlider.value);
+    const base = parseFloat(economyIndexSlider.value);
 
-    var html = '';
-    var errors = [];
-    var directionCorrect = 0;
-    var totalValid = 0;
+    let html = '';
+    const errors = [];
+    let directionCorrect = 0;
+    let totalValid = 0;
 
-    for (var i = 0; i < TABLE_ROWS.length; i++) {
-      var row = TABLE_ROWS[i];
-      var startPrice = getPriceForDate(row.start);
-      var targetPrice = getPriceForDate(row.target);
+    for (let i = 0; i < TABLE_ROWS.length; i++) {
+      const row = TABLE_ROWS[i];
+      const startPrice = getPriceForDate(row.start);
+      const targetPrice = getPriceForDate(row.target);
 
       if (startPrice === null || targetPrice === null) {
         continue;
       }
 
       totalValid++;
-      var days = getDaysBetween(row.start, row.target);
+      const days = getDaysBetween(row.start, row.target);
       
-      var total = getTotalMult(base);
-      var delta = total - 1;
-      var horizonFactor = days / 180;
-      var forecastPrice = Math.round(startPrice * (1 + delta * horizonFactor));
+      const total = getTotalMult(base);
+      const delta = total - 1;
+      const horizonFactor = days / 180;
+      const forecastPrice = Math.round(startPrice * (1 + delta * horizonFactor));
       
-      var error = Math.round(((forecastPrice - targetPrice) / targetPrice) * 1000) / 10;
-      var absError = Math.abs(error);
+      const error = Math.round(((forecastPrice - targetPrice) / targetPrice) * 1000) / 10;
+      const absError = Math.abs(error);
       
-      var errorClass = 'error-good';
+      let errorClass = 'error-good';
       if (absError >= 5) errorClass = 'error-bad';
       else if (absError >= 3) errorClass = 'error-mid';
       
-      var errorDisplay = (error > 0 ? '+' : '') + error + '%';
-      var horizonLabel = ' (' + days + ' дн.)';
+      const errorDisplay = (error > 0 ? '+' : '') + error + '%';
+      const horizonLabel = ' (' + days + ' дн.)';
 
-      var actualDir = targetPrice - startPrice;
-      var forecastDir = forecastPrice - startPrice;
+      const actualDir = targetPrice - startPrice;
+      const forecastDir = forecastPrice - startPrice;
       if ((actualDir >= 0 && forecastDir >= 0) || (actualDir <= 0 && forecastDir <= 0)) {
         directionCorrect++;
       }
@@ -1022,20 +1029,17 @@
     tbody.innerHTML = html;
 
     if (errors.length > 0) {
-      var sum = 0;
-      for (var e = 0; e < errors.length; e++) {
-        sum += errors[e];
-      }
-      var avgError = sum / errors.length;
-      var maxError = Math.max.apply(null, errors);
-      var minError = Math.min.apply(null, errors);
+      const sum = errors.reduce((a, b) => a + b, 0);
+      const avgError = sum / errors.length;
+      const maxError = Math.max(...errors);
+      const minError = Math.min(...errors);
 
-      var avgClass = avgError < 3 ? 'good' : (avgError < 5 ? 'mid' : 'bad');
-      var maxClass = maxError < 3 ? 'good' : (maxError < 5 ? 'mid' : 'bad');
-      var minClass = minError < 3 ? 'good' : (minError < 5 ? 'mid' : 'bad');
-      var dirClass = directionCorrect === totalValid ? 'good' : 'mid';
+      const avgClass = avgError < 3 ? 'good' : (avgError < 5 ? 'mid' : 'bad');
+      const maxClass = maxError < 3 ? 'good' : (maxError < 5 ? 'mid' : 'bad');
+      const minClass = minError < 3 ? 'good' : (minError < 5 ? 'mid' : 'bad');
+      const dirClass = directionCorrect === totalValid ? 'good' : 'mid';
 
-      var statsHtml = 
+      const statsHtml = 
         '<span class="stat">🔹 Средняя ошибка: <span class="val ' + avgClass + '">' + avgError.toFixed(1) + '%</span></span>' +
         '<span class="stat">🔹 Максимальная ошибка: <span class="val ' + maxClass + '">' + maxError.toFixed(1) + '%</span></span>' +
         '<span class="stat">🔹 Минимальная ошибка: <span class="val ' + minClass + '">' + minError.toFixed(1) + '%</span></span>' +
@@ -1055,13 +1059,13 @@
   // ============================================================
 
   function renderEconomyComposition() {
-    var list = document.getElementById('compFactorsList');
-    var total = document.getElementById('compTotalValue');
-    var base = parseFloat(economyIndexSlider.value);
-    var correction = getEconomyIndexCorrection();
-    var effective = Math.max(0.70, Math.min(2.00, base + correction));
+    const list = document.getElementById('compFactorsList');
+    const total = document.getElementById('compTotalValue');
+    const base = parseFloat(economyIndexSlider.value);
+    const correction = getEconomyIndexCorrection();
+    const effective = Math.max(0.70, Math.min(2.00, base + correction));
 
-    var factors = [
+    const factors = [
       { name: 'S&P 500', icon: '📈', value: factorsData.spr.value, corr: factorsData.spr.correction, desc: factorsData.spr.value < 250 ? (factorsData.spr.value < 200 ? 'кризис' : 'низко') : (factorsData.spr.value < 300 ? 'нейтрально' : 'перегрев') },
       { name: 'GCC', icon: '🏭', value: factorsData.gcc.value, corr: factorsData.gcc.correction, desc: factorsData.gcc.value < 25 ? 'дефицит' : (factorsData.gcc.value > 55 ? 'перегрев' : 'нейтрально') },
       { name: 'Нефть Brent', icon: '🛢️', value: '$' + factorsData.oil.value, corr: factorsData.oil.correction, desc: factorsData.oil.value > 200 ? 'высокая' : (factorsData.oil.value > 150 ? 'умеренно' : 'нейтрально') },
@@ -1069,11 +1073,11 @@
       { name: 'VIX', icon: '😱', value: factorsData.vix.value, corr: factorsData.vix.correction, desc: factorsData.vix.value > 30 ? 'паника' : (factorsData.vix.value > 25 ? 'тревога' : 'спокойно') }
     ];
 
-    var html = '';
-    for (var i = 0; i < factors.length; i++) {
-      var f = factors[i];
-      var effectClass = f.corr > 0.01 ? 'positive' : (f.corr < -0.01 ? 'negative' : 'neutral');
-      var effectText = f.corr > 0.01 ? '+' + Math.round(f.corr * 100) + '%' : (f.corr < -0.01 ? Math.round(f.corr * 100) + '%' : '0%');
+    let html = '';
+    for (let i = 0; i < factors.length; i++) {
+      const f = factors[i];
+      const effectClass = f.corr > 0.01 ? 'positive' : (f.corr < -0.01 ? 'negative' : 'neutral');
+      const effectText = f.corr > 0.01 ? '+' + Math.round(f.corr * 100) + '%' : (f.corr < -0.01 ? Math.round(f.corr * 100) + '%' : '0%');
       html += '<div class="comp-row">' +
         '<span class="factor-name"><span class="icon">' + f.icon + '</span> ' + f.name + '</span>' +
         '<span class="factor-value">' + f.value + '</span>' +
@@ -1086,13 +1090,14 @@
   }
 
   function updateUI() {
-    var price = currentGoldPrice;
-    var base = parseFloat(economyIndexSlider.value);
-    var astro = parseFloat(astroSlider.value);
-    var frs = parseFloat(frsSlider.value);
-    var f = calcForecast(price, base, astro);
+    updateCounter++;
+    const price = currentGoldPrice;
+    const base = parseFloat(economyIndexSlider.value);
+    const astro = parseFloat(astroSlider.value);
+    const frs = parseFloat(frsSlider.value);
+    const f = calcForecast(price, base, astro);
 
-    var escPenalty = Math.round(factorsData.escalation.correction * 100);
+    const escPenalty = Math.round(factorsData.escalation.correction * 100);
     document.getElementById('escPenalty').textContent = escPenalty + '%';
 
     document.getElementById('priceValueDisplay').textContent = '$' + price;
@@ -1102,35 +1107,35 @@
     document.getElementById('frsDisplay').textContent = frs.toFixed(2) + '%';
     document.getElementById('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
 
-    var astroBonus = f.astroBonus || 0;
-    var bonusDisplay = document.getElementById('astroBonusDisplay');
+    const astroBonus = f.astroBonus || 0;
+    const bonusDisplay = document.getElementById('astroBonusDisplay');
     if (bonusDisplay) {
       bonusDisplay.textContent = (astroBonus >= 0 ? '+' : '') + astroBonus.toFixed(2) + '%';
       bonusDisplay.style.color = astroBonus > 0.1 ? '#6fcf97' : (astroBonus < -0.1 ? '#ff6b6b' : '#f5d77b');
     }
 
-    var hint = document.getElementById('economyIndexHint');
+    const hint = document.getElementById('economyIndexHint');
     if (base < 0.98) hint.innerHTML = 'базовый тренд <span class="highlight">−' + Math.round((1 - base)*100) + '%</span> к декабрю';
     else if (base > 1.02) hint.innerHTML = 'базовый тренд <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> к декабрю';
     else hint.innerHTML = '→ флэт к декабрю';
 
-    var economicCorr = getEconomyIndexCorrection();
-    var effectiveBase = Math.max(0.70, Math.min(2.00, base + economicCorr));
-    var frsCorr = getFRSCorrection(frs);
-    var escFactor = 1 + factorsData.escalation.correction;
-    var astroFactor = 1 + astroBonus / 100;
-    var total = effectiveBase * escFactor * (1 + frsCorr) * astroFactor;
-    var totalDisplay = Math.max(0.40, Math.min(2.50, total));
+    const economicCorr = getEconomyIndexCorrection();
+    const effectiveBase = Math.max(0.70, Math.min(2.00, base + economicCorr));
+    const frsCorr = getFRSCorrection(frs);
+    const escFactor = 1 + factorsData.escalation.correction;
+    const astroFactor = 1 + astroBonus / 100;
+    const total = effectiveBase * escFactor * (1 + frsCorr) * astroFactor;
+    const totalDisplay = Math.max(0.40, Math.min(2.50, total));
 
-    var frsPct = Math.round(frsCorr * 100);
-    var escPct = Math.round(factorsData.escalation.correction * 100);
-    var astroPct = Math.round(astroBonus * 100) / 100;
+    const frsPct = Math.round(frsCorr * 100);
+    const escPct = Math.round(factorsData.escalation.correction * 100);
+    const astroPct = Math.round(astroBonus * 100) / 100;
 
     document.getElementById('formulaText').innerHTML =
       '<span class="highlight">' + effectiveBase.toFixed(2) + '</span> × (1 <span class="' + (escPct < 0 ? 'red' : 'green') + '">' + (escPct >= 0 ? '+ ' : '') + escPct + '%</span>) × (1 <span class="' + (frsPct < 0 ? 'red' : 'green') + '">' + (frsPct >= 0 ? '+ ' : '') + frsPct + '%</span>) × (1 <span class="purple">' + (astroPct >= 0 ? '+ ' : '') + astroPct.toFixed(2) + '%</span>) = <span class="green">' + totalDisplay.toFixed(3) + '</span>';
 
-    var pts = document.getElementById('forecastPoints');
-    var data = [
+    const pts = document.getElementById('forecastPoints');
+    const data = [
       { label: 'Июл', val: f.july },
       { label: 'Авг', val: f.august },
       { label: 'Сен', val: f.september },
@@ -1138,27 +1143,27 @@
       { label: 'Ноя', val: f.november },
       { label: 'Дек', val: f.december }
     ];
-    var ptsHtml = '';
-    for (var i = 0; i < data.length; i++) {
+    let ptsHtml = '';
+    for (let i = 0; i < data.length; i++) {
       ptsHtml += '<span class="point"><span class="date">' + data[i].label + '</span> <span class="price">$' + data[i].val + '</span></span>';
     }
     pts.innerHTML = ptsHtml;
 
-    var astroItems = getAstroItems(astro);
-    var container = document.getElementById('astroListContainer');
-    var badge = document.getElementById('astroActiveLabelBig');
+    const astroItems = getAstroItems(astro);
+    const container = document.getElementById('astroListContainer');
+    const badge = document.getElementById('astroActiveLabelBig');
     
     if (astroItems.length === 0) {
       container.innerHTML = '<span class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть факторы</span>';
       if (badge) badge.textContent = 'отключены (' + astro + '%)';
     } else {
-      var astroHtml = '';
-      var posCount = 0, negCount = 0, neuCount = 0;
-      for (var k = 0; k < astroItems.length; k++) {
-        var a = astroItems[k];
-        var sign = a.type === 'positive' ? '+' : (a.type === 'negative' ? '–' : '•');
-        var cls = a.type;
-        var strengthDisplay = (a.strength >= 0 ? '+' : '') + a.strength.toFixed(2) + '%';
+      let astroHtml = '';
+      let posCount = 0, negCount = 0, neuCount = 0;
+      for (let k = 0; k < astroItems.length; k++) {
+        const a = astroItems[k];
+        const sign = a.type === 'positive' ? '+' : (a.type === 'negative' ? '–' : '•');
+        const cls = a.type;
+        const strengthDisplay = (a.strength >= 0 ? '+' : '') + a.strength.toFixed(2) + '%';
         astroHtml += '<span class="item ' + cls + '"><span class="sign">' + sign + '</span> ' + a.name + ' <span style="opacity:0.6;font-size:0.8em;">(' + strengthDisplay + ')</span></span>';
         if (a.type === 'positive') posCount++;
         else if (a.type === 'negative') negCount++;
@@ -1166,7 +1171,7 @@
       }
       container.innerHTML = astroHtml;
       if (badge) {
-        var bonusText = (astroBonus >= 0 ? '+' : '') + astroBonus.toFixed(2) + '%';
+        const bonusText = (astroBonus >= 0 ? '+' : '') + astroBonus.toFixed(2) + '%';
         badge.textContent = 'активны ' + astroItems.length + ' факт. (' + posCount + '🟢 ' + negCount + '🔴 ' + neuCount + '⚪) бонус ' + bonusText;
         badge.style.color = astroBonus > 0.1 ? '#6fcf97' : (astroBonus < -0.1 ? '#ff6b6b' : '#b87cff');
       }
@@ -1183,15 +1188,15 @@
 
   function drawChart(todayPrice, baseMult, astroPct) {
     if (!canvas || !ctx) {
-      setTimeout(function() { drawChart(todayPrice, baseMult, astroPct); }, 100);
+      setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100);
       return;
     }
 
-    var rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
-      var dpr = window.devicePixelRatio || 1;
-      var displayWidth = rect.width;
-      var displayHeight = rect.height || (rect.width * 350 / 1000);
+      const dpr = window.devicePixelRatio || 1;
+      const displayWidth = rect.width;
+      const displayHeight = rect.height || (rect.width * 350 / 1000);
       if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
         canvas.width = Math.round(displayWidth * dpr);
         canvas.height = Math.round(displayHeight * dpr);
@@ -1199,44 +1204,41 @@
       }
     }
 
-    var W = canvas.width / (window.devicePixelRatio || 1);
-    var H = canvas.height / (window.devicePixelRatio || 1);
+    const W = canvas.width / (window.devicePixelRatio || 1);
+    const H = canvas.height / (window.devicePixelRatio || 1);
 
     if (W < 10 || H < 10) return;
 
-    var f = calcForecast(todayPrice, baseMult, astroPct);
+    const f = calcForecast(todayPrice, baseMult, astroPct);
 
-    var points = [];
-    var history = [];
-    var now = new Date();
-    for (var i = 0; i < historicalData.length; i++) {
-      var d = parseDateRu(historicalData[i].date);
+    const points = [];
+    const history = [];
+    const now = new Date();
+    for (let i = 0; i < historicalData.length; i++) {
+      const d = parseDateRu(historicalData[i].date);
       if (d && d < now) {
         history.push(historicalData[i]);
       }
     }
-    for (var h = 0; h < history.length; h++) {
-      var labelParts = history[h].date.split(' ');
+    for (let h = 0; h < history.length; h++) {
+      const labelParts = history[h].date.split(' ');
       points.push({ label: labelParts[0] + ' ' + labelParts[1], price: history[h].price, isHistory: true });
     }
     points.push({ label: 'сегодня', price: todayPrice, isToday: true });
 
-    var forecastLabels = ['Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
-    var forecastPrices = [f.july, f.august, f.september, f.october, f.november, f.december];
-    for (var fl = 0; fl < forecastLabels.length; fl++) {
+    const forecastLabels = ['Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+    const forecastPrices = [f.july, f.august, f.september, f.october, f.november, f.december];
+    for (let fl = 0; fl < forecastLabels.length; fl++) {
       points.push({ label: forecastLabels[fl], price: forecastPrices[fl], isForecast: true });
     }
 
-    var prices = [];
-    for (var p = 0; p < points.length; p++) {
-      prices.push(points[p].price);
-    }
-    var maxP = Math.max.apply(null, prices);
-    var minP = Math.min.apply(null, prices);
-    var range = maxP - minP || 100;
-    var pad = range * 0.18;
-    var yMax = maxP + pad;
-    var yMin = Math.max(minP - pad, 2500);
+    const prices = points.map(p => p.price);
+    const maxP = Math.max(...prices);
+    const minP = Math.min(...prices);
+    const range = maxP - minP || 100;
+    const pad = range * 0.18;
+    const yMax = maxP + pad;
+    const yMin = Math.max(minP - pad, 2500);
 
     ctx.clearRect(0, 0, W, H);
 
@@ -1245,44 +1247,34 @@
     ctx.font = 'bold 10px Inter, sans-serif';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    for (var yl = 0; yl <= 5; yl++) {
-      var y = 15 + yl * (H - 30) / 5;
+    for (let i = 0; i <= 5; i++) {
+      const y = 15 + i * (H - 30) / 5;
       ctx.beginPath();
       ctx.moveTo(35, y);
       ctx.lineTo(W - 10, y);
       ctx.stroke();
       ctx.fillStyle = '#6a7a9a';
-      var val = Math.round(yMax - yl * (yMax - yMin) / 5);
+      const val = Math.round(yMax - i * (yMax - yMin) / 5);
       ctx.fillText('$' + val, 30, y);
     }
 
-    function getX(idx) {
-      return 45 + (idx / (points.length - 1)) * (W - 80);
-    }
-    function getY(price) {
-      return 15 + (1 - (price - yMin) / (yMax - yMin)) * (H - 30);
-    }
+    const getX = (i) => 45 + (i / (points.length - 1)) * (W - 80);
+    const getY = (p) => 15 + (1 - (p - yMin) / (yMax - yMin)) * (H - 30);
 
-    var forecastStartIdx = -1;
-    var todayIdx = -1;
-    for (var si = 0; si < points.length; si++) {
-      if (points[si].isForecast && forecastStartIdx === -1) forecastStartIdx = si;
-      if (points[si].isToday) todayIdx = si;
-    }
+    const forecastStartIdx = points.findIndex(p => p.isForecast);
+    const todayIdx = points.findIndex(p => p.isToday);
 
     if (history.length > 0) {
       ctx.beginPath();
       ctx.strokeStyle = '#e35f5f';
       ctx.lineWidth = 2;
-      for (var hi = 0; hi < history.length; hi++) {
-        var xh = getX(hi);
-        var yh = getY(points[hi].price);
-        if (hi === 0) ctx.moveTo(xh, yh);
-        else ctx.lineTo(xh, yh);
+      const historyCount = history.length;
+      for (let i = 0; i < historyCount; i++) {
+        const x = getX(i), y = getY(points[i].price);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
       if (todayIdx !== -1) {
-        var xToday = getX(todayIdx);
-        var yToday = getY(points[todayIdx].price);
+        const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
         ctx.lineTo(xToday, yToday);
       }
       ctx.stroke();
@@ -1290,31 +1282,28 @@
 
     if (todayIdx !== -1 && forecastStartIdx < points.length) {
       ctx.beginPath();
-      var xToday2 = getX(todayIdx);
-      var yToday2 = getY(points[todayIdx].price);
-      ctx.moveTo(xToday2, yToday2);
-      for (var fi = forecastStartIdx; fi < points.length; fi++) {
-        var xf = getX(fi);
-        var yf = getY(points[fi].price);
-        ctx.lineTo(xf, yf);
+      const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
+      ctx.moveTo(xToday, yToday);
+      for (let i = forecastStartIdx; i < points.length; i++) {
+        const x = getX(i), y = getY(points[i].price);
+        ctx.lineTo(x, y);
       }
       ctx.strokeStyle = '#6fcf97';
       ctx.lineWidth = 2.5;
       ctx.stroke();
     }
 
-    for (var di = 0; di < points.length; di++) {
-      var xp = getX(di);
-      var yp = getY(points[di].price);
-      var color = '#6fcf97';
-      if (points[di].isHistory) color = '#e35f5f';
-      else if (points[di].isToday) color = '#ffaa44';
+    for (let i = 0; i < points.length; i++) {
+      const x = getX(i), y = getY(points[i].price);
+      let color = '#6fcf97';
+      if (points[i].isHistory) color = '#e35f5f';
+      else if (points[i].isToday) color = '#ffaa44';
 
       ctx.shadowColor = 'rgba(0,0,0,0.8)';
       ctx.shadowBlur = 5;
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.arc(xp, yp, 5, 0, 2 * Math.PI);
+      ctx.arc(x, y, 5, 0, 2 * Math.PI);
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -1322,46 +1311,43 @@
       ctx.font = 'bold 8px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
-      ctx.fillText(points[di].label, xp, yp - 6);
+      ctx.fillText(points[i].label, x, y - 6);
 
       ctx.fillStyle = '#f5d77b';
       ctx.font = 'bold 9px Inter, sans-serif';
       ctx.textBaseline = 'top';
-      ctx.fillText('$' + points[di].price, xp, yp + 4);
+      ctx.fillText('$' + points[i].price, x, y + 4);
     }
   }
 
   function forceDraw() {
-    var price = currentGoldPrice;
-    var base = parseFloat(economyIndexSlider.value);
-    var astro = parseFloat(astroSlider.value);
+    const price = currentGoldPrice;
+    const base = parseFloat(economyIndexSlider.value);
+    const astro = parseFloat(astroSlider.value);
     drawChart(price, base, astro);
   }
 
   // ============================================================
-  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ЧЕРЕЗ СТОРОННИЙ ПРОКСИ (РАБОТАЕТ ВСЕГДА) ★★★
+  //  ★★★ ЗАГРУЗКА ЦЕНЫ — ЧЕРЕЗ BINANCE (РАБОТАЕТ БЕЗ CORS) ★★★
   // ============================================================
 
   async function fetchGold() {
-    var status = document.getElementById('priceSourceText');
-    var statusExtra = document.getElementById('dataStatusExtra');
+    const status = document.getElementById('priceSourceText');
+    const statusExtra = document.getElementById('dataStatusExtra');
     status.textContent = '⏳...';
     status.style.color = '#f5b042';
     statusExtra.textContent = '⏳ загрузка...';
     statusExtra.className = 'status loading';
 
-    // Используем бесплатный CORS-прокси
-    var proxyUrl = 'https://api.allorigins.win/raw?url=';
-    var targetUrl = 'https://api.exchangerate.host/convert?from=XAU&to=USD';
-
     try {
-      var resp = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+      // Binance XAUUSDT (золото)
+      const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
       if (resp.ok) {
-        var data = await resp.json();
-        if (data && data.result && parseFloat(data.result) > 0) {
-          currentGoldPrice = Math.round(parseFloat(data.result));
-          priceSource = '✓ Exchange-Rate';
-          status.textContent = '✓ Exchange-Rate';
+        const data = await resp.json();
+        if (data && data.price && parseFloat(data.price) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Binance';
+          status.textContent = '✓ Binance';
           status.style.color = '#6fcf97';
           statusExtra.textContent = '● актуально';
           statusExtra.className = 'status ok';
@@ -1371,19 +1357,18 @@
         }
       }
     } catch (e) {
-      console.warn('Прокси не ответил', e);
+      console.warn('Binance XAUUSDT не ответил', e);
     }
 
-    // Пробуем через Gold-API
     try {
-      var targetUrl2 = 'https://www.gold-api.com/price/XAU';
-      var resp2 = await fetch(proxyUrl + encodeURIComponent(targetUrl2));
-      if (resp2.ok) {
-        var data2 = await resp2.json();
-        if (data2 && data2.price && parseFloat(data2.price) > 0) {
-          currentGoldPrice = Math.round(parseFloat(data2.price));
-          priceSource = '✓ Gold-API';
-          status.textContent = '✓ Gold-API';
+      // Binance XAUTUSDT (золото в токенах)
+      const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.price && parseFloat(data.price) > 0) {
+          currentGoldPrice = Math.round(parseFloat(data.price));
+          priceSource = '✓ Binance XAUT';
+          status.textContent = '✓ Binance XAUT';
           status.style.color = '#6fcf97';
           statusExtra.textContent = '● актуально';
           statusExtra.className = 'status ok';
@@ -1393,7 +1378,7 @@
         }
       }
     } catch (e) {
-      console.warn('Gold-API через прокси не ответил', e);
+      console.warn('Binance XAUTUSDT не ответил', e);
     }
 
     // Запасное значение
@@ -1414,15 +1399,15 @@
   // ============================================================
 
   function setManualPrice() {
-    var input = document.getElementById('manualPriceInput');
-    var price = parseFloat(input.value);
+    const input = document.getElementById('manualPriceInput');
+    const price = parseFloat(input.value);
     if (price && price > 0) {
       currentGoldPrice = Math.round(price);
       priceSource = '✋ ручная';
-      var status = document.getElementById('priceSourceText');
+      const status = document.getElementById('priceSourceText');
       status.textContent = '✋ ручная';
       status.style.color = '#f5b042';
-      var statusExtra = document.getElementById('dataStatusExtra');
+      const statusExtra = document.getElementById('dataStatusExtra');
       statusExtra.textContent = '● ручная ' + new Date().toLocaleTimeString();
       statusExtra.className = 'status ok';
       updateUI();
@@ -1436,89 +1421,77 @@
   // ============================================================
 
   economyIndexSlider.addEventListener('input', updateUI);
-  escalationSlider.addEventListener('input', function() {
-    factorsData.escalation.value = parseInt(escalationSlider.value, 10);
+  escalationSlider.addEventListener('input', () => {
+    factorsData.escalation.value = parseInt(escalationSlider.value);
     updateUI();
   });
   astroSlider.addEventListener('input', updateUI);
   frsSlider.addEventListener('input', updateUI);
 
-  document.getElementById('compToggle').addEventListener('click', function() {
-    var body = document.getElementById('compBody');
-    var arrow = document.getElementById('compArrow');
+  document.getElementById('compToggle').addEventListener('click', () => {
+    const body = document.getElementById('compBody');
+    const arrow = document.getElementById('compArrow');
     body.classList.toggle('open');
     arrow.classList.toggle('open');
   });
 
-  var sceneBtns = document.querySelectorAll('.scene-btn');
-  for (var sb = 0; sb < sceneBtns.length; sb++) {
-    sceneBtns[sb].addEventListener('click', function() {
-      var btns = document.querySelectorAll('.scene-btn');
-      for (var b = 0; b < btns.length; b++) {
-        btns[b].classList.remove('active');
-      }
-      this.classList.add('active');
-      var mult = parseFloat(this.getAttribute('data-mult'));
-      var esc = parseInt(this.getAttribute('data-esc'), 10);
-      var frs = parseFloat(this.getAttribute('data-frs'));
+  document.querySelectorAll('.scene-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.scene-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const mult = parseFloat(btn.dataset.mult);
+      const esc = parseInt(btn.dataset.esc);
+      const frs = parseFloat(btn.dataset.frs);
       if (!isNaN(mult)) economyIndexSlider.value = mult;
       if (!isNaN(esc)) { escalationSlider.value = esc; factorsData.escalation.value = esc; }
       if (!isNaN(frs)) frsSlider.value = frs;
       updateUI();
     });
-  }
+  });
 
-  document.getElementById('resetBtn').addEventListener('click', function() {
+  document.getElementById('resetBtn').addEventListener('click', () => {
     economyIndexSlider.value = '1.12';
     escalationSlider.value = '0';
     factorsData.escalation.value = 0;
     astroSlider.value = '0';
     frsSlider.value = '3.75';
-    var btns = document.querySelectorAll('.scene-btn');
-    for (var b2 = 0; b2 < btns.length; b2++) {
-      btns[b2].classList.remove('active');
-    }
+    document.querySelectorAll('.scene-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.scene-btn[data-mult="1.12"]').classList.add('active');
     updateUI();
   });
 
-  document.getElementById('refreshPriceBtn').addEventListener('click', function() {
-    fetchGold();
-  });
-
-  document.getElementById('setPriceBtn').addEventListener('click', function() {
-    setManualPrice();
-  });
-
-  document.getElementById('manualPriceInput').addEventListener('keypress', function(e) {
+  document.getElementById('refreshPriceBtn').addEventListener('click', fetchGold);
+  document.getElementById('setPriceBtn').addEventListener('click', setManualPrice);
+  
+  document.getElementById('manualPriceInput').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') setManualPrice();
   });
 
   document.getElementById('exportBtn').addEventListener('click', function() {
-    var exportCanvas = document.createElement('canvas');
-    var rect = canvas.getBoundingClientRect();
-    var dpr = window.devicePixelRatio || 1;
+    const exportCanvas = document.createElement('canvas');
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
     exportCanvas.width = Math.round(rect.width * dpr);
     exportCanvas.height = Math.round(rect.height * dpr);
-    var exportCtx = exportCanvas.getContext('2d');
+    const exportCtx = exportCanvas.getContext('2d');
     exportCtx.fillStyle = '#0a101c';
     exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
     exportCtx.drawImage(canvas, 0, 0);
-    var link = document.createElement('a');
+    const link = document.createElement('a');
     link.download = 'astrofinex_gold_' + getTodayDate().replace(/\s/g, '_') + '.png';
     link.href = exportCanvas.toDataURL('image/png');
     link.click();
   });
 
-  document.getElementById('astroToggle').addEventListener('click', function() {
-    var body = document.getElementById('astroBody');
-    var arrow = document.getElementById('astroArrow');
+  document.getElementById('astroToggle').addEventListener('click', () => {
+    const body = document.getElementById('astroBody');
+    const arrow = document.getElementById('astroArrow');
     body.classList.toggle('open');
     arrow.classList.toggle('open');
   });
 
-  var resizeTimeout;
-  window.addEventListener('resize', function() {
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(forceDraw, 100);
   });
@@ -1531,19 +1504,18 @@
   
   currentGoldPrice = 4080;
   document.getElementById('manualPriceInput').value = 4080;
-  document.getElementById('priceValueDisplay').textContent = '$4080';
   updateUI();
 
-  setTimeout(function() {
+  setTimeout(() => {
     fetchGold();
   }, 300);
 
-  setTimeout(function() {
+  setTimeout(() => {
     forceDraw();
     renderVerifyTable();
   }, 500);
 
-  window.addEventListener('load', function() {
+  window.addEventListener('load', () => {
     forceDraw();
     renderVerifyTable();
     setTimeout(fetchGold, 2000);
