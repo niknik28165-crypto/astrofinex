@@ -36,7 +36,7 @@
 
     .top-warning {
       background: #1a0a0a;
-      border-left: 4px solid #ff4444;
+      border-left: 4px solid #ffaa00;
       border-radius: 10px;
       padding: 8px 16px;
       margin-bottom: 8px;
@@ -44,8 +44,8 @@
       color: #ffaa88;
       line-height: 1.5;
     }
-    .top-warning strong { color: #ff6b6b; }
-    .top-warning .highlight-red { color: #ff4444; font-weight: 700; }
+    .top-warning strong { color: #ffaa00; }
+    .top-warning .highlight-red { color: #ff6b6b; font-weight: 700; }
 
     .header {
       background: linear-gradient(135deg, #0c1222, #0a0f1a);
@@ -624,38 +624,14 @@
     .footer {
       background: #0c1120;
       border-radius: 16px;
-      padding: 12px 3%;
+      padding: 6px 3%;
       margin-top: 6px;
       border: 1px solid #2a3a52;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 6px 12px;
-    }
-    .footer-item {
-      display: flex;
-      gap: 6px;
-      align-items: flex-start;
-      font-size: clamp(0.4rem, 0.65vw, 0.55rem);
-      color: #c4b8e0;
-      line-height: 1.3;
-    }
-    .footer-item .icon { font-size: 0.7rem; opacity: 0.8; flex-shrink: 0; }
-    .footer-item strong { color: #f5d77b; }
-    .footer-item a {
-      color: #8a9bb8;
-      text-decoration: none;
-      border-bottom: 1px dotted #3d506e;
-    }
-    .footer-item a:hover { color: #f5b042; border-bottom-color: #f5b042; }
-    .footer-note {
       text-align: center;
+    }
+    .footer-note {
       font-size: clamp(0.35rem, 0.55vw, 0.5rem);
       color: #6a7a9a;
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid #1e2a3e;
     }
     .footer-note .red { color: #ff6b6b; font-weight: 600; }
 
@@ -794,9 +770,11 @@
 
 <div class="container">
 
+  <!-- ===== ПРЕДУПРЕЖДЕНИЕ (полная версия, не строгое) ===== -->
   <div class="top-warning">
-    ⚠️ <strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ) · 
-    <span class="highlight-red">НЕТ ЛИЦЕНЗИИ ЦБ РФ</span> · 
+    ⚠️ <strong>ПРЕДУПРЕЖДЕНИЕ</strong> · 
+    <span class="highlight-red">НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</span> (ст. 4.1 39-ФЗ) · 
+    <strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> · 
     Все расчёты — <strong>гипотетическая симуляция</strong> · 
     🧪 <strong>ИССЛЕДОВАТЕЛЬСКИЙ ПРОЕКТ</strong> · 18+
   </div>
@@ -848,10 +826,14 @@
           </div>
         </div>
 
+        <!-- ===== ФОРМУЛА (переименовано, убрано "Скрыть") ===== -->
         <button class="formula-toggle" id="formulaToggle">
-          📐 Показать формулу <span class="arrow" id="formulaArrow">▾</span>
+          📐 Формула <span class="arrow" id="formulaArrow">▾</span>
         </button>
         <div class="formula-details" id="formulaDetails">
+          <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1e2a3e;font-size:clamp(0.5rem,0.7vw,0.65rem);color:#f5d77b;font-weight:700;">
+            Индекс = 1.0 + (S&P_вклад × 0.40) + (VIX_вклад × 0.25) + (нефть_вклад × 0.20) + (USD_вклад × 0.15)
+          </div>
           <div class="row"><span class="label">📈 S&P 500 (40%)</span><span class="value gold" id="fSp">--</span></div>
           <div class="row"><span class="label">😱 VIX (25%)</span><span class="value gold" id="fVix">--</span></div>
           <div class="row"><span class="label">🛢️ Нефть Brent (20%)</span><span class="value gold" id="fOil">--</span></div>
@@ -966,50 +948,50 @@
     <h2>🧪 О проекте</h2>
     <p class="highlight">AstroFinex — интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026 года.</p>
     <p><strong>🧪 Научно-исследовательский характер:</strong> Проект создан как <span class="highlight">экспериментальная платформа</span> для визуализации влияния различных факторов на гипотетическую цену золота.</p>
-    <p><strong>📊 Формула (упрощённая, без GCC):</strong></p>
-    <div style="background:#0a101c;border-radius:10px;padding:12px 16px;margin:8px 0;font-family:monospace;font-size:clamp(0.5rem,0.7vw,0.65rem);color:#f5d77b;border:1px solid #1e2a3e;">
-      Индекс = 1.0 + (S&P_вклад × 0.40) + (VIX_вклад × 0.25) + (нефть_вклад × 0.20) + (USD_вклад × 0.15)
-    </div>
+    <!-- ===== УБРАН БЛОК "Формула (упрощённая, без GCC)" ===== -->
     <div class="steps">
       <div class="step-item"><span class="num">1</span><span class="step-title">Выберите стратегию</span><span class="step-desc">Падение, Умеренная, Нейтральная, Базовый, Рост</span></div>
       <div class="step-item"><span class="num">2</span><span class="step-title">Настройте параметры</span><span class="step-desc">Индекс экономики, Эскалация, Ставка ФРС, Астрология</span></div>
       <div class="step-item"><span class="num">3</span><span class="step-title">Оцените результат</span><span class="step-desc">Мгновенный расчёт на графике и в таблице</span></div>
     </div>
+    <!-- ===== ДИСКЛЕЙМЕР (полная версия) ===== -->
     <div class="disclaimer">
       <div class="disclaimer-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ:</div>
       <ul>
-        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ)</li>
-        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong></li>
-        <li><strong>ВСЕ РАСЧЁТЫ ГИПОТЕТИЧЕСКИ</strong></li>
-        <li><strong>АСТРОЛОГИЯ — РАЗВЛЕЧЕНИЕ</strong></li>
-        <li><strong>18+</strong></li>
+        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 Федерального закона № 39-ФЗ) — сайт не даёт рекомендаций по покупке или продаже финансовых инструментов.</li>
+        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> — AstroFinex не зарегистрирован как инвестиционный советник и НЕ ИМЕЕТ лицензии Банка России на осуществление брокерской, дилерской или инвестиционной деятельности.</li>
+        <li><strong>ВСЕ РАСЧЁТЫ ГИПОТЕТИЧЕСКИ</strong> — данные, сценарии и симуляции носят исключительно экспериментальный, симуляционный и развлекательный характер.</li>
+        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong> — проект создан в научно-исследовательских и образовательных целях для демонстрации влияния экономических и геополитических факторов на гипотетические модели ценообразования. Не предназначен для принятия инвестиционных решений.</li>
+        <li><strong>ОТВЕТСТВЕННОСТЬ ПОЛЬЗОВАТЕЛЯ</strong> — вы принимаете все решения САМОСТОЯТЕЛЬНО и несёте ПОЛНУЮ ОТВЕТСТВЕННОСТЬ за свои действия на финансовых рынках.</li>
+        <li><strong>АСТРОЛОГИЯ — РАЗВЛЕЧЕНИЕ</strong> — астрологический блок является опцией для ознакомления, не имеет научного обоснования и не используется в реальном финансовом анализе.</li>
+        <li><strong>ИСТОРИЯ НЕ ГАРАНТИРУЕТ БУДУЩЕЕ</strong> — историческая точность модели не гарантирует будущих результатов.</li>
+        <li><strong>НЕ ЯВЛЯЕТСЯ ОФЕРТОЙ</strong> (ст. 437 ГК РФ) — никакая информация на сайте не является публичной офертой.</li>
+        <li><strong>18+</strong> — сервис предназначен для лиц старше 18 лет.</li>
       </ul>
     </div>
   </div>
 
+  <!-- ===== ФУТЕР (только копирайт) ===== -->
   <div class="footer">
-    <div class="footer-grid">
-      <div class="footer-item"><span class="icon">📧</span><div><strong>Контакты</strong> astrofinex@example.com</div></div>
-      <div class="footer-item"><span class="icon">📋</span><div>Политика конфиденциальности</div></div>
-      <div class="footer-item"><span class="icon">📄</span><div>Пользовательское соглашение</div></div>
-      <div class="footer-item"><span class="icon">🔮</span><div><strong>Версия</strong> AstroFinex v3.2 · 2026</div></div>
-    </div>
     <div class="footer-note">© 2026 AstroFinex · Все права защищены · 18+</div>
   </div>
 
 </div>
 
-<a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn">
+<!-- ===== КНОПКА ОБРАТНОЙ СВЯЗИ ===== -->
+<a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn" id="feedbackBtn">
   <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg>
   💬 Обратная связь
 </a>
 
 <script>
 // ============================================================
-//  AstroFinex v3.2 — Упрощённая, рабочая версия
-//  Убрал GCC (CORS ошибка)
-//  Веса: S&P 40%, VIX 25%, Нефть 20%, USD/RUB 15%
-//  Источник: Yahoo Finance (работает напрямую)
+//  AstroFinex v3.2 — Исправленная версия
+//  Изменения:
+//  1. Предупреждение — полная версия, не строгое
+//  2. Кнопка "Формула" вместо "Скрыть формулу"
+//  3. Убран блок "Формула (упрощённая, без GCC)" из "О проекте"
+//  4. Футер — только копирайт
 // ============================================================
 
 function getTodayDate() {
@@ -1095,7 +1077,6 @@ function getAstroItems(pct) {
 // ===== ФАКТОРЫ ЭКОНОМИКИ =====
 const WEIGHTS = { sp: 0.40, vix: 0.25, oil: 0.20, usd: 0.15 };
 
-// Резервные значения (если Yahoo не ответит)
 const factorsData = {
   sp: { value: 302 },
   vix: { value: 18.2 },
@@ -1216,7 +1197,6 @@ function updateUI() {
   document.getElementById('frsDisplay').textContent = frs.toFixed(2) + '%';
   document.getElementById('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
 
-  // Астрология бонус
   const bonus = f.astroBonus || 0;
   const bonusDisplay = document.getElementById('astroBonusDisplay');
   if (bonusDisplay) {
@@ -1224,13 +1204,11 @@ function updateUI() {
     bonusDisplay.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#f5d77b');
   }
 
-  // Подсказка
   const hint = document.getElementById('economyIndexHint');
   if (base < 0.98) hint.innerHTML = 'базовый тренд <span class="highlight">−' + Math.round((1 - base)*100) + '%</span> к декабрю';
   else if (base > 1.02) hint.innerHTML = 'базовый тренд <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> к декабрю';
   else hint.innerHTML = '→ флэт к декабрю';
 
-  // Формула
   const sp = calcFactorContribution('sp', factorsData.sp.value) * WEIGHTS.sp;
   const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
   const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
@@ -1246,7 +1224,6 @@ function updateUI() {
   document.getElementById('fAstro').textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
   document.getElementById('fResult').textContent = f.totalMult.toFixed(3);
 
-  // Прогнозные точки
   const pts = document.getElementById('forecastPoints');
   const data = [
     { label: 'Июл', val: f.july },
@@ -1258,7 +1235,6 @@ function updateUI() {
   ];
   pts.innerHTML = data.map(d => `<span class="point"><span class="date">${d.label}</span> <span class="price">$${d.val}</span></span>`).join('');
 
-  // Астрология список
   const astroItems = getAstroItems(astro);
   const container = document.getElementById('astroListContainer');
   const badge = document.getElementById('astroActiveLabelBig');
@@ -1504,7 +1480,6 @@ async function loadAllData() {
     const usd = await fetchYahoo('USDRUB=X');
     if (usd !== null && usd > 0) factorsData.usd.value = usd;
 
-    // Сохраняем в кеш
     try {
       localStorage.setItem('astrofinex_factors', JSON.stringify({
         timestamp: Date.now(),
@@ -1515,7 +1490,6 @@ async function loadAllData() {
       }));
     } catch(e) {}
 
-    // Обновляем индекс
     const newIndex = calculateEconomyIndex();
     economyIndexSlider.value = newIndex;
 
@@ -1527,7 +1501,6 @@ async function loadAllData() {
     updateUI();
   } catch(e) {
     console.error('Ошибка загрузки:', e);
-    // Пробуем кеш
     try {
       const cached = localStorage.getItem('astrofinex_factors');
       if (cached) {
@@ -1616,8 +1589,8 @@ document.getElementById('formulaToggle').addEventListener('click', () => {
   details.classList.toggle('open');
   arrow.classList.toggle('open');
   document.getElementById('formulaToggle').innerHTML = details.classList.contains('open') 
-    ? '📐 Скрыть формулу <span class="arrow open">▾</span>' 
-    : '📐 Показать формулу <span class="arrow">▾</span>';
+    ? '📐 Формула <span class="arrow open">▾</span>' 
+    : '📐 Формула <span class="arrow">▾</span>';
 });
 
 document.querySelectorAll('.scene-btn').forEach(btn => {
@@ -1684,7 +1657,6 @@ window.addEventListener('resize', () => {
 });
 
 // ===== СТАРТ =====
-// Загружаем кеш
 try {
   const cached = localStorage.getItem('astrofinex_factors');
   if (cached) {
@@ -1706,7 +1678,6 @@ currentGoldPrice = 4080;
 document.getElementById('manualPriceInput').value = 4080;
 updateUI();
 
-// Загружаем свежие данные
 setTimeout(loadAllData, 300);
 setTimeout(fetchGold, 500);
 setTimeout(() => { forceDraw(); renderVerifyTable(); }, 600);
