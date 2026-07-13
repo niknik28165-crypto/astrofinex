@@ -104,6 +104,21 @@
       padding: 4px 2% 0;
       gap: 4px 12px;
     }
+    .graph-legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .graph-legend .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .graph-legend .legend-dot.red { background: #e35f5f; }
+    .graph-legend .legend-dot.yellow { background: #ffaa44; }
+    .graph-legend .legend-dot.green { background: #6fcf97; }
 
     .controls {
       background: #0c1120;
@@ -114,7 +129,7 @@
     }
     .controls-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 8px 16px;
     }
     .control-item { min-width: 0; width: 100%; }
@@ -127,7 +142,20 @@
       margin-bottom: 2px;
       gap: 4px;
     }
-    .control-item label span:last-child { color: #f5d77b; font-weight: 700; }
+    .control-item label .label-text {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .control-item label .label-text .icon {
+      font-size: 0.9em;
+      line-height: 1;
+    }
+    .control-item label .label-value {
+      color: #f5d77b;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
     .control-item .sub {
       font-size: clamp(0.35rem, 0.6vw, 0.5rem);
       color: #d6e2ff;
@@ -138,6 +166,7 @@
     }
     .control-item .sub .highlight { color: #f5d77b; }
     .control-item .sub .danger { color: #ff6b6b; }
+    .control-item .sub .info { color: #6fcf97; }
     input[type="range"] {
       width: 100%;
       accent-color: #e38c4a;
@@ -155,6 +184,25 @@
       font-size: clamp(0.45rem, 0.7vw, 0.6rem);
       font-weight: 700;
     }
+
+    .frs-info {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      color: #8a9bb8;
+      margin-top: 2px;
+      padding: 2px 0;
+    }
+    .frs-info .frs-current {
+      color: #f5d77b;
+      font-weight: 600;
+    }
+    .frs-info .frs-change {
+      color: #6fcf97;
+      font-weight: 600;
+    }
+    .frs-info .frs-change.down { color: #ff6b6b; }
 
     .economy-composition {
       background: #0a101c;
@@ -635,61 +683,6 @@
     }
     .footer-note .red { color: #ff6b6b; font-weight: 600; }
 
-    .tooltip-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      cursor: help;
-    }
-    .tooltip-wrap .info-icon {
-      color: #6a7a9a;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
-      margin-left: 3px;
-      border: 1px solid #3d506e;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.45rem;
-    }
-    .tooltip-wrap .tooltip-text {
-      visibility: hidden;
-      width: 200px;
-      background: #1a2235;
-      color: #d6e2ff;
-      text-align: left;
-      border-radius: 8px;
-      padding: 6px 10px;
-      border: 1px solid #3d506e;
-      position: absolute;
-      z-index: 100;
-      bottom: calc(100% + 6px);
-      left: 50%;
-      transform: translateX(-50%);
-      font-weight: 400;
-      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
-      line-height: 1.4;
-      opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-    }
-    .tooltip-wrap .tooltip-text::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: #3d506e;
-    }
-    .tooltip-wrap:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
     .feedback-btn {
       position: fixed;
       bottom: 30px;
@@ -731,13 +724,11 @@
       .header h1 { white-space: normal; }
       .scene-btn { padding: 3px 10px; }
       .forecast-strip .points { gap: 2px 6px; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .tooltip-wrap .tooltip-text { width: 150px; left: 0; transform: none; }
-      .tooltip-wrap .tooltip-text::after { left: 20px; transform: none; }
       .verify-table th, .verify-table td { padding: 4px 5px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .about-project { padding: 14px 16px; }
       .formula-details .row { flex-wrap: wrap; }
+      .frs-info { gap: 6px; }
     }
     @media (max-width: 480px) {
       .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
@@ -770,7 +761,7 @@
 
 <div class="container">
 
-  <!-- ===== ПРЕДУПРЕЖДЕНИЕ (полная версия, не строгое) ===== -->
+  <!-- ===== ПРЕДУПРЕЖДЕНИЕ ===== -->
   <div class="top-warning">
     ⚠️ <strong>ПРЕДУПРЕЖДЕНИЕ</strong> · 
     <span class="highlight-red">НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</span> (ст. 4.1 39-ФЗ) · 
@@ -793,9 +784,9 @@
   <div class="graph-wrap">
     <canvas id="forecastCanvas" width="1000" height="350"></canvas>
     <div class="graph-legend">
-      <span>🔴 история</span>
-      <span>🟡 сегодня</span>
-      <span>🟢 симуляция</span>
+      <span class="legend-item"><span class="legend-dot red"></span> история</span>
+      <span class="legend-item"><span class="legend-dot yellow"></span> сегодня</span>
+      <span class="legend-item"><span class="legend-dot green"></span> симуляция</span>
     </div>
   </div>
 
@@ -803,8 +794,8 @@
     <div class="controls-row">
       <div class="control-item">
         <label>
-          <span>📊 Индекс экономики</span>
-          <span id="economyIndexDisplay">1.00x</span>
+          <span class="label-text"><span class="icon">📊</span> Индекс экономики</span>
+          <span class="label-value" id="economyIndexDisplay">1.00x</span>
         </label>
         <input type="range" id="economyIndexSlider" min="0.60" max="2.20" step="0.01" value="1.00">
         <span class="sub" id="economyIndexHint">базовый тренд <span class="highlight">0%</span> к декабрю</span>
@@ -826,7 +817,6 @@
           </div>
         </div>
 
-        <!-- ===== ФОРМУЛА (переименовано, убрано "Скрыть") ===== -->
         <button class="formula-toggle" id="formulaToggle">
           📐 Формула <span class="arrow" id="formulaArrow">▾</span>
         </button>
@@ -839,14 +829,17 @@
           <div class="row"><span class="label">🛢️ Нефть Brent (20%)</span><span class="value gold" id="fOil">--</span></div>
           <div class="row"><span class="label">💵 USD/RUB (15%)</span><span class="value gold" id="fUsd">--</span></div>
           <div class="row"><span class="label">🌊 Военная эскалация</span><span class="value red" id="fEsc">0%</span></div>
-          <div class="row"><span class="label">🏛️ Ставка ФРС</span><span class="value green" id="fFrs">0%</span></div>
+          <div class="row"><span class="label">💰 Ставка ФРС</span><span class="value green" id="fFrs">0%</span></div>
           <div class="row"><span class="label">🌙 Астрология</span><span class="value purple" id="fAstro">+0.00%</span></div>
           <div class="divider">🎯 ИТОГОВЫЙ МНОЖИТЕЛЬ: <span id="fResult">1.000</span></div>
         </div>
       </div>
 
       <div class="control-item">
-        <label><span>🌊 Военная эскалация</span><span id="escalationDisplay">0%</span></label>
+        <label>
+          <span class="label-text"><span class="icon">🌊</span> Военная эскалация</span>
+          <span class="label-value" id="escalationDisplay">0%</span>
+        </label>
         <input type="range" id="escalationSlider" min="0" max="100" step="5" value="0">
         <div class="esc-scale">
           <span class="level level-0">0% мир</span>
@@ -860,13 +853,23 @@
       </div>
 
       <div class="control-item">
-        <label><span>🏛️ Ставка ФРС</span><span id="frsDisplay">3.75%</span></label>
+        <label>
+          <span class="label-text"><span class="icon">💰</span> Ставка ФРС</span>
+          <span class="label-value" id="frsDisplay">3.75%</span>
+        </label>
         <input type="range" id="frsSlider" min="0" max="8" step="0.25" value="3.75">
-        <span class="sub">высокая ⬇️ давит</span>
+        <div class="frs-info">
+          <span>Текущая: <span class="frs-current" id="frsCurrentDisplay">3.75%</span></span>
+          <span>Коррекция: <span class="frs-change" id="frsCorrectionDisplay">0%</span></span>
+          <span style="color:#6a7a9a;">высокая ⬇️ давит</span>
+        </div>
       </div>
 
       <div class="control-item">
-        <label><span>🌙 Астрология</span><span id="astroDisplay">0%</span></label>
+        <label>
+          <span class="label-text"><span class="icon">🌙</span> Астрология</span>
+          <span class="label-value" id="astroDisplay">0%</span>
+        </label>
         <input type="range" id="astroFactor" min="0" max="100" step="5" value="0">
         <span class="sub">активирует факторы <span class="highlight" id="astroBonusDisplay">+0.00%</span></span>
       </div>
@@ -948,13 +951,11 @@
     <h2>🧪 О проекте</h2>
     <p class="highlight">AstroFinex — интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026 года.</p>
     <p><strong>🧪 Научно-исследовательский характер:</strong> Проект создан как <span class="highlight">экспериментальная платформа</span> для визуализации влияния различных факторов на гипотетическую цену золота.</p>
-    <!-- ===== УБРАН БЛОК "Формула (упрощённая, без GCC)" ===== -->
     <div class="steps">
       <div class="step-item"><span class="num">1</span><span class="step-title">Выберите стратегию</span><span class="step-desc">Падение, Умеренная, Нейтральная, Базовый, Рост</span></div>
       <div class="step-item"><span class="num">2</span><span class="step-title">Настройте параметры</span><span class="step-desc">Индекс экономики, Эскалация, Ставка ФРС, Астрология</span></div>
       <div class="step-item"><span class="num">3</span><span class="step-title">Оцените результат</span><span class="step-desc">Мгновенный расчёт на графике и в таблице</span></div>
     </div>
-    <!-- ===== ДИСКЛЕЙМЕР (полная версия) ===== -->
     <div class="disclaimer">
       <div class="disclaimer-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ:</div>
       <ul>
@@ -971,14 +972,12 @@
     </div>
   </div>
 
-  <!-- ===== ФУТЕР (только копирайт) ===== -->
   <div class="footer">
     <div class="footer-note">© 2026 AstroFinex · Все права защищены · 18+</div>
   </div>
 
 </div>
 
-<!-- ===== КНОПКА ОБРАТНОЙ СВЯЗИ ===== -->
 <a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn" id="feedbackBtn">
   <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg>
   💬 Обратная связь
@@ -986,12 +985,14 @@
 
 <script>
 // ============================================================
-//  AstroFinex v3.2 — Исправленная версия
-//  Изменения:
-//  1. Предупреждение — полная версия, не строгое
-//  2. Кнопка "Формула" вместо "Скрыть формулу"
-//  3. Убран блок "Формула (упрощённая, без GCC)" из "О проекте"
-//  4. Футер — только копирайт
+//  AstroFinex v3.3 — Исправленная версия
+//  Исправления:
+//  1. Улучшено отображение значков справа от заголовков
+//  2. Добавлена информация о текущей ставке ФРС и её коррекции
+//  3. Исправлена структура label в control-item
+//  4. Добавлено отображение реальной ставки ФРС
+//  5. Исправлена легенда графика — цветные кружки вместо текста
+//  6. Заменен значок Ставки ФРС на 💰 для лучшей совместимости
 // ============================================================
 
 function getTodayDate() {
@@ -1189,12 +1190,21 @@ function updateUI() {
   const frs = parseFloat(frsSlider.value);
   const f = calcForecast(price, base, astro);
 
+  // Основные показатели
   document.getElementById('escPenalty').textContent = Math.round(getEscalationPenalty() * 100) + '%';
   document.getElementById('priceValueDisplay').textContent = '$' + price;
   document.getElementById('economyIndexDisplay').textContent = base.toFixed(2) + 'x';
   document.getElementById('escalationDisplay').textContent = factorsData.escalation.value + '%';
   document.getElementById('astroDisplay').textContent = astro + '%';
   document.getElementById('frsDisplay').textContent = frs.toFixed(2) + '%';
+  document.getElementById('frsCurrentDisplay').textContent = frs.toFixed(2) + '%';
+  
+  // Коррекция ставки ФРС
+  const frsCorr = getFRSCorrection(frs);
+  const frsCorrDisplay = document.getElementById('frsCorrectionDisplay');
+  frsCorrDisplay.textContent = (frsCorr >= 0 ? '+' : '') + Math.round(frsCorr * 100) + '%';
+  frsCorrDisplay.className = 'frs-change' + (frsCorr < 0 ? ' down' : '');
+  
   document.getElementById('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
 
   const bonus = f.astroBonus || 0;
@@ -1209,6 +1219,7 @@ function updateUI() {
   else if (base > 1.02) hint.innerHTML = 'базовый тренд <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> к декабрю';
   else hint.innerHTML = '→ флэт к декабрю';
 
+  // Формула
   const sp = calcFactorContribution('sp', factorsData.sp.value) * WEIGHTS.sp;
   const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
   const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
@@ -1224,6 +1235,7 @@ function updateUI() {
   document.getElementById('fAstro').textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
   document.getElementById('fResult').textContent = f.totalMult.toFixed(3);
 
+  // Прогнозные точки
   const pts = document.getElementById('forecastPoints');
   const data = [
     { label: 'Июл', val: f.july },
@@ -1235,6 +1247,7 @@ function updateUI() {
   ];
   pts.innerHTML = data.map(d => `<span class="point"><span class="date">${d.label}</span> <span class="price">$${d.val}</span></span>`).join('');
 
+  // Астрология
   const astroItems = getAstroItems(astro);
   const container = document.getElementById('astroListContainer');
   const badge = document.getElementById('astroActiveLabelBig');
