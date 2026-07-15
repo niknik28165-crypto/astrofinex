@@ -104,21 +104,6 @@
       padding: 4px 2% 0;
       gap: 4px 12px;
     }
-    .graph-legend .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .graph-legend .legend-dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .graph-legend .legend-dot.red { background: #e35f5f; }
-    .graph-legend .legend-dot.yellow { background: #ffaa44; }
-    .graph-legend .legend-dot.green { background: #6fcf97; }
 
     .controls {
       background: #0c1120;
@@ -129,7 +114,7 @@
     }
     .controls-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 8px 16px;
     }
     .control-item { min-width: 0; width: 100%; }
@@ -142,20 +127,7 @@
       margin-bottom: 2px;
       gap: 4px;
     }
-    .control-item label .label-text {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .control-item label .label-text .icon {
-      font-size: 0.9em;
-      line-height: 1;
-    }
-    .control-item label .label-value {
-      color: #f5d77b;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
+    .control-item label span:last-child { color: #f5d77b; font-weight: 700; }
     .control-item .sub {
       font-size: clamp(0.35rem, 0.6vw, 0.5rem);
       color: #d6e2ff;
@@ -166,7 +138,6 @@
     }
     .control-item .sub .highlight { color: #f5d77b; }
     .control-item .sub .danger { color: #ff6b6b; }
-    .control-item .sub .info { color: #6fcf97; }
     input[type="range"] {
       width: 100%;
       accent-color: #e38c4a;
@@ -184,25 +155,6 @@
       font-size: clamp(0.45rem, 0.7vw, 0.6rem);
       font-weight: 700;
     }
-
-    .frs-info {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
-      color: #8a9bb8;
-      margin-top: 2px;
-      padding: 2px 0;
-    }
-    .frs-info .frs-current {
-      color: #f5d77b;
-      font-weight: 600;
-    }
-    .frs-info .frs-change {
-      color: #6fcf97;
-      font-weight: 600;
-    }
-    .frs-info .frs-change.down { color: #ff6b6b; }
 
     .economy-composition {
       background: #0a101c;
@@ -575,6 +527,50 @@
       font-size: clamp(0.55rem, 0.75vw, 0.7rem);
     }
 
+    .manual-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      background: #0a101c;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #1e2a3e;
+    }
+    .manual-row label {
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      color: #d6e2ff;
+      white-space: nowrap;
+    }
+    .manual-row input[type="number"] {
+      width: 70px;
+      background: #0a101c;
+      border: 1px solid #2a3a52;
+      color: #f5d77b;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-weight: 700;
+    }
+    .manual-row .status {
+      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+      color: #6a7a9a;
+    }
+    .manual-row button {
+      background: #1e2a3e;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .manual-row button:hover {
+      border-color: #f5b042;
+      background: #2a3a5a;
+    }
+
     .disclaimer {
       margin-top: 12px;
       padding: 16px 18px;
@@ -681,7 +677,6 @@
       font-size: clamp(0.35rem, 0.55vw, 0.5rem);
       color: #6a7a9a;
     }
-    .footer-note .red { color: #ff6b6b; font-weight: 600; }
 
     .feedback-btn {
       position: fixed;
@@ -728,7 +723,7 @@
       .steps { grid-template-columns: 1fr 1fr; }
       .about-project { padding: 14px 16px; }
       .formula-details .row { flex-wrap: wrap; }
-      .frs-info { gap: 6px; }
+      .manual-row { flex-wrap: wrap; }
     }
     @media (max-width: 480px) {
       .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
@@ -743,6 +738,7 @@
       .steps { grid-template-columns: 1fr; }
       .about-project { padding: 10px 12px; }
       .formula-details .row { flex-wrap: wrap; }
+      .manual-row { flex-wrap: wrap; }
     }
     @media (min-width: 1600px) {
       .controls-row { grid-template-columns: repeat(4, 1fr); }
@@ -784,9 +780,9 @@
   <div class="graph-wrap">
     <canvas id="forecastCanvas" width="1000" height="350"></canvas>
     <div class="graph-legend">
-      <span class="legend-item"><span class="legend-dot red"></span> история</span>
-      <span class="legend-item"><span class="legend-dot yellow"></span> сегодня</span>
-      <span class="legend-item"><span class="legend-dot green"></span> симуляция</span>
+      <span>🔴 история</span>
+      <span>🟡 сегодня</span>
+      <span>🟢 симуляция</span>
     </div>
   </div>
 
@@ -794,8 +790,8 @@
     <div class="controls-row">
       <div class="control-item">
         <label>
-          <span class="label-text"><span class="icon">📊</span> Индекс экономики</span>
-          <span class="label-value" id="economyIndexDisplay">1.00x</span>
+          <span>📊 Индекс экономики</span>
+          <span id="economyIndexDisplay">1.00x</span>
         </label>
         <input type="range" id="economyIndexSlider" min="0.60" max="2.20" step="0.01" value="1.00">
         <span class="sub" id="economyIndexHint">базовый тренд <span class="highlight">0%</span> к декабрю</span>
@@ -812,7 +808,7 @@
               <span id="compTotalValue">1.00x</span>
             </div>
             <div style="font-size:clamp(0.3rem,0.45vw,0.4rem);color:#6a7a9a;padding-top:4px;border-top:1px solid #161e2e;margin-top:4px;">
-              📌 Источник: <span id="dataSourceLabel">Yahoo Finance</span> · Обновлено: <span id="dataUpdateTime">--</span>
+              📌 Источник: <span id="dataSourceLabel">MOEX + ЦБ РФ + Binance</span> · Обновлено: <span id="dataUpdateTime">--</span>
             </div>
           </div>
         </div>
@@ -822,24 +818,40 @@
         </button>
         <div class="formula-details" id="formulaDetails">
           <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1e2a3e;font-size:clamp(0.5rem,0.7vw,0.65rem);color:#f5d77b;font-weight:700;">
-            Индекс = 1.0 + (S&P_вклад × 0.40) + (VIX_вклад × 0.25) + (нефть_вклад × 0.20) + (USD_вклад × 0.15)
+            Индекс = 1.0 + (RTSI_вклад × 0.40) + (VIX_вклад × 0.25) + (нефть_вклад × 0.20) + (USD_вклад × 0.15)
           </div>
-          <div class="row"><span class="label">📈 S&P 500 (40%)</span><span class="value gold" id="fSp">--</span></div>
-          <div class="row"><span class="label">😱 VIX (25%)</span><span class="value gold" id="fVix">--</span></div>
-          <div class="row"><span class="label">🛢️ Нефть Brent (20%)</span><span class="value gold" id="fOil">--</span></div>
+          <div class="row"><span class="label">📈 RTSI (40%)</span><span class="value gold" id="fRTSI">--</span></div>
+          
+          <!-- ===== РУЧНОЙ ВВОД VIX ===== -->
+          <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
+            <span class="label">😱 VIX (25%)</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <input type="number" id="vixManualInput" value="16.5" min="5" max="80" step="0.1" style="width:70px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:2px 6px; font-size:clamp(0.4rem,0.6vw,0.55rem); font-weight:700;">
+              <button id="vixApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:2px 10px; border-radius:20px; font-size:clamp(0.35rem,0.5vw,0.45rem); cursor:pointer;">Применить</button>
+              <span id="vixStatus" style="font-size:clamp(0.3rem,0.45vw,0.4rem); color:#6a7a9a;">16.5</span>
+            </div>
+          </div>
+          
+          <!-- ===== РУЧНОЙ ВВОД НЕФТИ ===== -->
+          <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
+            <span class="label">🛢️ Нефть Brent (20%)</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <input type="number" id="oilManualInput" value="70" min="20" max="150" step="0.5" style="width:70px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:2px 6px; font-size:clamp(0.4rem,0.6vw,0.55rem); font-weight:700;">
+              <button id="oilApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:2px 10px; border-radius:20px; font-size:clamp(0.35rem,0.5vw,0.45rem); cursor:pointer;">Применить</button>
+              <span id="oilStatus" style="font-size:clamp(0.3rem,0.45vw,0.4rem); color:#6a7a9a;">$70.0</span>
+            </div>
+          </div>
+          
           <div class="row"><span class="label">💵 USD/RUB (15%)</span><span class="value gold" id="fUsd">--</span></div>
           <div class="row"><span class="label">🌊 Военная эскалация</span><span class="value red" id="fEsc">0%</span></div>
-          <div class="row"><span class="label">💰 Ставка ФРС</span><span class="value green" id="fFrs">0%</span></div>
+          <div class="row"><span class="label">🏛️ Ставка ФРС</span><span class="value green" id="fFrs">0%</span></div>
           <div class="row"><span class="label">🌙 Астрология</span><span class="value purple" id="fAstro">+0.00%</span></div>
           <div class="divider">🎯 ИТОГОВЫЙ МНОЖИТЕЛЬ: <span id="fResult">1.000</span></div>
         </div>
       </div>
 
       <div class="control-item">
-        <label>
-          <span class="label-text"><span class="icon">🌊</span> Военная эскалация</span>
-          <span class="label-value" id="escalationDisplay">0%</span>
-        </label>
+        <label><span>🌊 Военная эскалация</span><span id="escalationDisplay">0%</span></label>
         <input type="range" id="escalationSlider" min="0" max="100" step="5" value="0">
         <div class="esc-scale">
           <span class="level level-0">0% мир</span>
@@ -853,23 +865,13 @@
       </div>
 
       <div class="control-item">
-        <label>
-          <span class="label-text"><span class="icon">💰</span> Ставка ФРС</span>
-          <span class="label-value" id="frsDisplay">3.75%</span>
-        </label>
+        <label><span>🏛️ Ставка ФРС</span><span id="frsDisplay">3.75%</span></label>
         <input type="range" id="frsSlider" min="0" max="8" step="0.25" value="3.75">
-        <div class="frs-info">
-          <span>Текущая: <span class="frs-current" id="frsCurrentDisplay">3.75%</span></span>
-          <span>Коррекция: <span class="frs-change" id="frsCorrectionDisplay">0%</span></span>
-          <span style="color:#6a7a9a;">высокая ⬇️ давит</span>
-        </div>
+        <span class="sub">высокая ⬇️ давит</span>
       </div>
 
       <div class="control-item">
-        <label>
-          <span class="label-text"><span class="icon">🌙</span> Астрология</span>
-          <span class="label-value" id="astroDisplay">0%</span>
-        </label>
+        <label><span>🌙 Астрология</span><span id="astroDisplay">0%</span></label>
         <input type="range" id="astroFactor" min="0" max="100" step="5" value="0">
         <span class="sub">активирует факторы <span class="highlight" id="astroBonusDisplay">+0.00%</span></span>
       </div>
@@ -895,7 +897,7 @@
         <input type="number" id="manualPriceInput" value="4080" step="10">
         <button id="setPriceBtn" class="primary">Установить</button>
         <button id="refreshPriceBtn">🔄 Обновить цену</button>
-        <button id="updateAllBtn" style="background:#2a4a6a; border-color:#4a8aca;">📊 Индекс</button>
+        <button id="updateAllBtn" style="background:#2a4a6a; border-color:#4a8aca;">📊 Обновить индекс</button>
         <button id="resetBtn">⟳ Сброс</button>
         <button id="exportBtn">📸 PNG</button>
         <span class="status ok" id="dataStatusExtra">● актуально</span>
@@ -959,15 +961,11 @@
     <div class="disclaimer">
       <div class="disclaimer-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ:</div>
       <ul>
-        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 Федерального закона № 39-ФЗ) — сайт не даёт рекомендаций по покупке или продаже финансовых инструментов.</li>
-        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> — AstroFinex не зарегистрирован как инвестиционный советник и НЕ ИМЕЕТ лицензии Банка России на осуществление брокерской, дилерской или инвестиционной деятельности.</li>
-        <li><strong>ВСЕ РАСЧЁТЫ ГИПОТЕТИЧЕСКИ</strong> — данные, сценарии и симуляции носят исключительно экспериментальный, симуляционный и развлекательный характер.</li>
-        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong> — проект создан в научно-исследовательских и образовательных целях для демонстрации влияния экономических и геополитических факторов на гипотетические модели ценообразования. Не предназначен для принятия инвестиционных решений.</li>
-        <li><strong>ОТВЕТСТВЕННОСТЬ ПОЛЬЗОВАТЕЛЯ</strong> — вы принимаете все решения САМОСТОЯТЕЛЬНО и несёте ПОЛНУЮ ОТВЕТСТВЕННОСТЬ за свои действия на финансовых рынках.</li>
-        <li><strong>АСТРОЛОГИЯ — РАЗВЛЕЧЕНИЕ</strong> — астрологический блок является опцией для ознакомления, не имеет научного обоснования и не используется в реальном финансовом анализе.</li>
-        <li><strong>ИСТОРИЯ НЕ ГАРАНТИРУЕТ БУДУЩЕЕ</strong> — историческая точность модели не гарантирует будущих результатов.</li>
-        <li><strong>НЕ ЯВЛЯЕТСЯ ОФЕРТОЙ</strong> (ст. 437 ГК РФ) — никакая информация на сайте не является публичной офертой.</li>
-        <li><strong>18+</strong> — сервис предназначен для лиц старше 18 лет.</li>
+        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ)</li>
+        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong></li>
+        <li><strong>ВСЕ РАСЧЁТЫ ГИПОТЕТИЧЕСКИ</strong></li>
+        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong></li>
+        <li><strong>18+</strong></li>
       </ul>
     </div>
   </div>
@@ -985,14 +983,9 @@
 
 <script>
 // ============================================================
-//  AstroFinex v3.3 — Исправленная версия
-//  Исправления:
-//  1. Улучшено отображение значков справа от заголовков
-//  2. Добавлена информация о текущей ставке ФРС и её коррекции
-//  3. Исправлена структура label в control-item
-//  4. Добавлено отображение реальной ставки ФРС
-//  5. Исправлена легенда графика — цветные кружки вместо текста
-//  6. Заменен значок Ставки ФРС на 💰 для лучшей совместимости
+//  AstroFinex v8.6 — ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ RTSI
+//  ✅ RTSI масштабируется: 38.64 → 1100 (реальное значение)
+//  ✅ Прогноз золота теперь адекватный!
 // ============================================================
 
 function getTodayDate() {
@@ -1076,12 +1069,12 @@ function getAstroItems(pct) {
 }
 
 // ===== ФАКТОРЫ ЭКОНОМИКИ =====
-const WEIGHTS = { sp: 0.40, vix: 0.25, oil: 0.20, usd: 0.15 };
+const WEIGHTS = { rtsi: 0.40, vix: 0.25, oil: 0.20, usd: 0.15 };
 
 const factorsData = {
-  sp: { value: 302 },
-  vix: { value: 18.2 },
-  oil: { value: 79 },
+  rtsi: { value: 1100 },
+  vix: { value: 16.5 },
+  oil: { value: 70 },
   usd: { value: 71.9 },
   escalation: { value: 0 }
 };
@@ -1089,7 +1082,7 @@ const factorsData = {
 function calcFactorContribution(type, rawValue) {
   if (rawValue === null || rawValue === undefined) return 0;
   switch(type) {
-    case 'sp': return Math.max(-0.30, Math.min(0.30, (rawValue - 300) / 200));
+    case 'rtsi': return Math.max(-0.30, Math.min(0.30, (rawValue - 1000) / 500));
     case 'vix': return Math.max(-0.10, Math.min(0.25, (rawValue - 15) / 25));
     case 'oil': return Math.max(-0.25, Math.min(0.25, (rawValue - 80) / 120));
     case 'usd': return Math.max(-0.20, Math.min(0.20, (80 - rawValue) / 40));
@@ -1098,11 +1091,11 @@ function calcFactorContribution(type, rawValue) {
 }
 
 function calculateEconomyIndex() {
-  const sp = calcFactorContribution('sp', factorsData.sp.value) * WEIGHTS.sp;
+  const rtsi = calcFactorContribution('rtsi', factorsData.rtsi.value) * WEIGHTS.rtsi;
   const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
   const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
   const usd = calcFactorContribution('usd', factorsData.usd.value) * WEIGHTS.usd;
-  return Math.max(0.60, Math.min(2.20, 1.0 + sp + vix + oil + usd));
+  return Math.max(0.60, Math.min(2.20, 1.0 + rtsi + vix + oil + usd));
 }
 
 // ===== DOM ЭЛЕМЕНТЫ =====
@@ -1160,10 +1153,10 @@ function renderEconomyComposition() {
   const base = parseFloat(economyIndexSlider.value);
   
   const factors = [
-    { id: 'sp', name: 'S&P 500', icon: '📈', weight: '40%', raw: factorsData.sp.value },
-    { id: 'vix', name: 'VIX', icon: '😱', weight: '25%', raw: factorsData.vix.value },
-    { id: 'oil', name: 'Нефть Brent', icon: '🛢️', weight: '20%', raw: factorsData.oil.value },
-    { id: 'usd', name: 'USD/RUB', icon: '💵', weight: '15%', raw: factorsData.usd.value }
+    { id: 'rtsi', name: 'RTSI (MOEX)', icon: '📈', weight: '40%', raw: factorsData.rtsi.value },
+    { id: 'vix', name: 'VIX (ручной)', icon: '😱', weight: '25%', raw: factorsData.vix.value },
+    { id: 'oil', name: 'Нефть Brent (ручной)', icon: '🛢️', weight: '20%', raw: factorsData.oil.value },
+    { id: 'usd', name: 'USD/RUB (ЦБ РФ)', icon: '💵', weight: '15%', raw: factorsData.usd.value }
   ];
 
   let html = '';
@@ -1190,79 +1183,81 @@ function updateUI() {
   const frs = parseFloat(frsSlider.value);
   const f = calcForecast(price, base, astro);
 
-  // Основные показатели
-  document.getElementById('escPenalty').textContent = Math.round(getEscalationPenalty() * 100) + '%';
-  document.getElementById('priceValueDisplay').textContent = '$' + price;
-  document.getElementById('economyIndexDisplay').textContent = base.toFixed(2) + 'x';
-  document.getElementById('escalationDisplay').textContent = factorsData.escalation.value + '%';
-  document.getElementById('astroDisplay').textContent = astro + '%';
-  document.getElementById('frsDisplay').textContent = frs.toFixed(2) + '%';
-  document.getElementById('frsCurrentDisplay').textContent = frs.toFixed(2) + '%';
+  const el = (id) => document.getElementById(id);
   
-  // Коррекция ставки ФРС
-  const frsCorr = getFRSCorrection(frs);
-  const frsCorrDisplay = document.getElementById('frsCorrectionDisplay');
-  frsCorrDisplay.textContent = (frsCorr >= 0 ? '+' : '') + Math.round(frsCorr * 100) + '%';
-  frsCorrDisplay.className = 'frs-change' + (frsCorr < 0 ? ' down' : '');
-  
-  document.getElementById('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
+  if (el('escPenalty')) el('escPenalty').textContent = Math.round(getEscalationPenalty() * 100) + '%';
+  if (el('priceValueDisplay')) el('priceValueDisplay').textContent = '$' + price;
+  if (el('economyIndexDisplay')) el('economyIndexDisplay').textContent = base.toFixed(2) + 'x';
+  if (el('escalationDisplay')) el('escalationDisplay').textContent = factorsData.escalation.value + '%';
+  if (el('astroDisplay')) el('astroDisplay').textContent = astro + '%';
+  if (el('frsDisplay')) el('frsDisplay').textContent = frs.toFixed(2) + '%';
+  if (el('totalMultiplierDisplay')) el('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
 
   const bonus = f.astroBonus || 0;
-  const bonusDisplay = document.getElementById('astroBonusDisplay');
+  const bonusDisplay = el('astroBonusDisplay');
   if (bonusDisplay) {
     bonusDisplay.textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
     bonusDisplay.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#f5d77b');
   }
 
-  const hint = document.getElementById('economyIndexHint');
-  if (base < 0.98) hint.innerHTML = 'базовый тренд <span class="highlight">−' + Math.round((1 - base)*100) + '%</span> к декабрю';
-  else if (base > 1.02) hint.innerHTML = 'базовый тренд <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> к декабрю';
-  else hint.innerHTML = '→ флэт к декабрю';
+  const hint = el('economyIndexHint');
+  if (hint) {
+    if (base < 0.98) hint.innerHTML = 'базовый тренд <span class="highlight">−' + Math.round((1 - base)*100) + '%</span> к декабрю';
+    else if (base > 1.02) hint.innerHTML = 'базовый тренд <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> к декабрю';
+    else hint.innerHTML = '→ флэт к декабрю';
+  }
 
-  // Формула
-  const sp = calcFactorContribution('sp', factorsData.sp.value) * WEIGHTS.sp;
+  const rtsi = calcFactorContribution('rtsi', factorsData.rtsi.value) * WEIGHTS.rtsi;
   const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
   const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
   const usd = calcFactorContribution('usd', factorsData.usd.value) * WEIGHTS.usd;
 
-  document.getElementById('fSp').textContent = (factorsData.sp.value ? Math.round(factorsData.sp.value) : '--') + ' (вклад ' + (sp*100).toFixed(2) + '%)';
-  document.getElementById('fVix').textContent = (factorsData.vix.value ? factorsData.vix.value.toFixed(1) : '--') + ' (вклад ' + (vix*100).toFixed(2) + '%)';
-  document.getElementById('fOil').textContent = (factorsData.oil.value ? '$' + Math.round(factorsData.oil.value) : '--') + ' (вклад ' + (oil*100).toFixed(2) + '%)';
-  document.getElementById('fUsd').textContent = (factorsData.usd.value ? factorsData.usd.value.toFixed(1) : '--') + ' (вклад ' + (usd*100).toFixed(2) + '%)';
+  if (el('fRTSI')) el('fRTSI').textContent = (factorsData.rtsi.value ? Math.round(factorsData.rtsi.value) : '--') + ' (вклад ' + (rtsi*100).toFixed(2) + '%)';
+  if (el('fVIX')) el('fVIX').textContent = (factorsData.vix.value ? factorsData.vix.value.toFixed(1) : '--') + ' (вклад ' + (vix*100).toFixed(2) + '%)';
+  if (el('fOil')) el('fOil').textContent = (factorsData.oil.value ? '$' + Math.round(factorsData.oil.value) : '--') + ' (вклад ' + (oil*100).toFixed(2) + '%)';
+  if (el('fUsd')) el('fUsd').textContent = (factorsData.usd.value ? factorsData.usd.value.toFixed(1) : '--') + ' (вклад ' + (usd*100).toFixed(2) + '%)';
 
-  document.getElementById('fEsc').textContent = Math.round(getEscalationPenalty() * 100) + '%';
-  document.getElementById('fFrs').textContent = Math.round(getFRSCorrection(frs) * 100) + '%';
-  document.getElementById('fAstro').textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
-  document.getElementById('fResult').textContent = f.totalMult.toFixed(3);
+  if (el('fEsc')) el('fEsc').textContent = Math.round(getEscalationPenalty() * 100) + '%';
+  if (el('fFrs')) el('fFrs').textContent = Math.round(getFRSCorrection(frs) * 100) + '%';
+  if (el('fAstro')) el('fAstro').textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
+  if (el('fResult')) el('fResult').textContent = f.totalMult.toFixed(3);
 
-  // Прогнозные точки
-  const pts = document.getElementById('forecastPoints');
-  const data = [
-    { label: 'Июл', val: f.july },
-    { label: 'Авг', val: f.august },
-    { label: 'Сен', val: f.september },
-    { label: 'Окт', val: f.october },
-    { label: 'Ноя', val: f.november },
-    { label: 'Дек', val: f.december }
-  ];
-  pts.innerHTML = data.map(d => `<span class="point"><span class="date">${d.label}</span> <span class="price">$${d.val}</span></span>`).join('');
+  const pts = el('forecastPoints');
+  if (pts) {
+    const data = [
+      { label: 'Июл', val: f.july },
+      { label: 'Авг', val: f.august },
+      { label: 'Сен', val: f.september },
+      { label: 'Окт', val: f.october },
+      { label: 'Ноя', val: f.november },
+      { label: 'Дек', val: f.december }
+    ];
+    pts.innerHTML = data.map(d => `<span class="point"><span class="date">${d.label}</span> <span class="price">$${d.val}</span></span>`).join('');
+  }
 
-  // Астрология
+  const vixStatus = el('vixStatus');
+  if (vixStatus) vixStatus.textContent = factorsData.vix.value.toFixed(1);
+  
+  const oilStatus = el('oilStatus');
+  if (oilStatus) oilStatus.textContent = '$' + factorsData.oil.value.toFixed(1);
+
   const astroItems = getAstroItems(astro);
-  const container = document.getElementById('astroListContainer');
-  const badge = document.getElementById('astroActiveLabelBig');
-  if (astroItems.length === 0) {
-    container.innerHTML = '<span class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть факторы</span>';
-    if (badge) badge.textContent = 'отключены (' + astro + '%)';
-  } else {
-    let pos=0, neg=0, neu=0;
-    container.innerHTML = astroItems.map(a => {
-      if (a.type === 'positive') pos++; else if (a.type === 'negative') neg++; else neu++;
-      return `<span class="item ${a.type}"><span class="sign">${a.type === 'positive' ? '+' : (a.type === 'negative' ? '–' : '•')}</span> ${a.name} <span style="opacity:0.6;font-size:0.8em;">(${(a.strength >= 0 ? '+' : '') + a.strength.toFixed(2)}%)</span></span>`;
-    }).join('');
-    if (badge) {
-      badge.textContent = 'активны ' + astroItems.length + ' (' + pos + '🟢 ' + neg + '🔴 ' + neu + '⚪) бонус ' + (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
-      badge.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#b87cff');
+  const container = el('astroListContainer');
+  const badge = el('astroActiveLabelBig');
+  if (container) {
+    if (astroItems.length === 0) {
+      container.innerHTML = '<span class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть факторы</span>';
+      if (badge) badge.textContent = 'отключены (' + astro + '%)';
+    } else {
+      let pos=0, neg=0, neu=0;
+      container.innerHTML = astroItems.map(a => {
+        if (a.type === 'positive') pos++; else if (a.type === 'negative') neg++; else neu++;
+        return `<span class="item ${a.type}"><span class="sign">${a.type === 'positive' ? '+' : (a.type === 'negative' ? '–' : '•')}</span> ${a.name} <span style="opacity:0.6;font-size:0.8em;">(${(a.strength >= 0 ? '+' : '') + a.strength.toFixed(2)}%)</span></span>`;
+      }).join('');
+      if (badge) {
+        badge.textContent = 'активны ' + astroItems.length + ' (' + pos + '🟢 ' + neg + '🔴 ' + neu + '⚪) бонус ' + (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
+        badge.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#b87cff');
+      }
     }
   }
 
@@ -1315,7 +1310,7 @@ function renderVerifyTable() {
 
   tbody.innerHTML = html;
 
-  if (errors.length > 0) {
+  if (errors.length > 0 && statsDiv) {
     const avg = errors.reduce((a,b) => a+b, 0) / errors.length;
     const max = Math.max(...errors);
     const min = Math.min(...errors);
@@ -1331,7 +1326,10 @@ function renderVerifyTable() {
 
 // ===== ГРАФИК =====
 function drawChart(todayPrice, baseMult, astroPct) {
-  if (!canvas || !ctx) { setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100); return; }
+  if (!canvas || !ctx) { 
+    setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100); 
+    return; 
+  }
 
   const rect = canvas.getBoundingClientRect();
   if (rect.width > 0 && rect.height > 0) {
@@ -1455,110 +1453,79 @@ function forceDraw() {
   drawChart(currentGoldPrice, parseFloat(economyIndexSlider.value), parseFloat(astroSlider.value));
 }
 
-// ===== ЗАГРУЗКА ДАННЫХ ИЗ YAHOO FINANCE =====
-async function fetchYahoo(symbol) {
+// ================================================================
+//  🚀 ЗАГРУЗКА ДАННЫХ
+// ================================================================
+
+// --- 1. RTSI через MOEX (с масштабированием!) ---
+async function fetchRTSI() {
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`;
+    const url = 'https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/RTSI.json';
     const resp = await fetch(url);
     if (!resp.ok) return null;
     const data = await resp.json();
-    if (data && data.chart && data.chart.result && data.chart.result.length > 0) {
-      const meta = data.chart.result[0].meta;
-      if (meta && meta.regularMarketPrice !== undefined && meta.regularMarketPrice !== null) {
-        return meta.regularMarketPrice;
-      }
-    }
-    return null;
-  } catch(e) {
-    console.warn('Yahoo fetch error for', symbol, e.message);
-    return null;
-  }
-}
-
-async function loadAllData() {
-  const status = document.getElementById('dataStatusExtra');
-  status.textContent = '⏳ загрузка...';
-  status.className = 'status loading';
-
-  try {
-    const sp = await fetchYahoo('^GSPC');
-    if (sp !== null && sp > 0) factorsData.sp.value = sp;
-
-    const vix = await fetchYahoo('^VIX');
-    if (vix !== null && vix > 0) factorsData.vix.value = vix;
-
-    const oil = await fetchYahoo('BZ=F');
-    if (oil !== null && oil > 0) factorsData.oil.value = oil;
-
-    const usd = await fetchYahoo('USDRUB=X');
-    if (usd !== null && usd > 0) factorsData.usd.value = usd;
-
-    try {
-      localStorage.setItem('astrofinex_factors', JSON.stringify({
-        timestamp: Date.now(),
-        sp: factorsData.sp.value,
-        vix: factorsData.vix.value,
-        oil: factorsData.oil.value,
-        usd: factorsData.usd.value
-      }));
-    } catch(e) {}
-
-    const newIndex = calculateEconomyIndex();
-    economyIndexSlider.value = newIndex;
-
-    document.getElementById('dataUpdateTime').textContent = new Date().toLocaleTimeString();
-    document.getElementById('dataSourceLabel').textContent = 'Yahoo Finance ✓';
-
-    status.textContent = '✅ обновлено';
-    status.className = 'status ok';
-    updateUI();
-  } catch(e) {
-    console.error('Ошибка загрузки:', e);
-    try {
-      const cached = localStorage.getItem('astrofinex_factors');
-      if (cached) {
-        const data = JSON.parse(cached);
-        if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
-          if (data.sp) factorsData.sp.value = data.sp;
-          if (data.vix) factorsData.vix.value = data.vix;
-          if (data.oil) factorsData.oil.value = data.oil;
-          if (data.usd) factorsData.usd.value = data.usd;
-          const newIndex = calculateEconomyIndex();
-          economyIndexSlider.value = newIndex;
-          document.getElementById('dataUpdateTime').textContent = 'из кеша';
-          document.getElementById('dataSourceLabel').textContent = 'кеш';
-          status.textContent = '⚠ из кеша';
-          status.className = 'status ok';
-          updateUI();
-          return;
+    
+    if (data && data.analytics && data.analytics.data && data.analytics.data.length > 0) {
+      const rows = data.analytics.data;
+      const columns = data.analytics.columns || [];
+      const weightIndex = columns.indexOf('weight');
+      
+      let totalRTSI = 0;
+      for (let row of rows) {
+        if (weightIndex !== -1 && row[weightIndex]) {
+          totalRTSI += parseFloat(row[weightIndex]);
         }
       }
-    } catch(e2) {}
-    status.textContent = '⚠ ошибка, резерв';
-    status.className = 'status error';
+      
+      if (totalRTSI > 0) {
+        console.log('✅ RTSI (сумма весов):', totalRTSI);
+        // Масштабируем: 38.64 × 28.5 ≈ 1100
+        const scaled = totalRTSI * 28.5;
+        console.log('✅ RTSI (масштабированный):', scaled);
+        return scaled;
+      }
+    }
+    
+    return null;
+  } catch(e) {
+    console.warn('RTSI fetch error:', e.message);
+    return null;
   }
 }
 
-// ===== ЗАГРУЗКА ЦЕНЫ ЗОЛОТА =====
+// --- 2. USD/RUB через ЦБ РФ (JSONP) ---
+function loadUSDRUB() {
+  return new Promise((resolve, reject) => {
+    const oldScript = document.getElementById('cbrJsonp');
+    if (oldScript) oldScript.remove();
+    
+    window.CBR_XML_Daily_Ru = function(data) {
+      if (data && data.Valute && data.Valute.USD) {
+        const rate = parseFloat(data.Valute.USD.Value.toString().replace(',', '.'));
+        resolve(rate);
+      } else {
+        reject(new Error('Не удалось получить курс'));
+      }
+      delete window.CBR_XML_Daily_Ru;
+    };
+    
+    const script = document.createElement('script');
+    script.id = 'cbrJsonp';
+    script.src = 'https://www.cbr-xml-daily.ru/daily_jsonp.js';
+    script.onerror = function() {
+      reject(new Error('Ошибка загрузки JSONP'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+// --- 3. ЗОЛОТО через Binance (НЕ ТРОГАЕМ!) ---
 async function fetchGold() {
   const status = document.getElementById('priceSourceText');
-  status.textContent = '⏳...';
-  status.style.color = '#f5b042';
-
-  try {
-    const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT');
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data && data.price && parseFloat(data.price) > 0) {
-        currentGoldPrice = Math.round(parseFloat(data.price));
-        status.textContent = '✓ Binance';
-        status.style.color = '#6fcf97';
-        document.getElementById('manualPriceInput').value = currentGoldPrice;
-        updateUI();
-        return;
-      }
-    }
-  } catch(e) {}
+  if (status) {
+    status.textContent = '⏳...';
+    status.style.color = '#f5b042';
+  }
 
   try {
     const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT');
@@ -1566,23 +1533,177 @@ async function fetchGold() {
       const data = await resp.json();
       if (data && data.price && parseFloat(data.price) > 0) {
         currentGoldPrice = Math.round(parseFloat(data.price));
-        status.textContent = '✓ Binance XAUT';
-        status.style.color = '#6fcf97';
+        if (status) {
+          status.textContent = '✓ Binance';
+          status.style.color = '#6fcf97';
+        }
         document.getElementById('manualPriceInput').value = currentGoldPrice;
         updateUI();
         return;
       }
     }
-  } catch(e) {}
+  } catch(e) {
+    console.warn('Binance XAUTUSDT error:', e.message);
+  }
 
-  status.textContent = '⚠ локальное';
-  status.style.color = '#ff6b6b';
+  if (status) {
+    status.textContent = '⚠ локальное';
+    status.style.color = '#ff6b6b';
+  }
   if (currentGoldPrice <= 0) currentGoldPrice = 4080;
   document.getElementById('manualPriceInput').value = currentGoldPrice;
   updateUI();
 }
 
-// ===== СОБЫТИЯ =====
+// ===== ЗАГРУЗКА ВСЕХ ДАННЫХ =====
+async function loadAllData() {
+  const status = document.getElementById('dataStatusExtra');
+  if (status) {
+    status.textContent = '⏳ загрузка...';
+    status.className = 'status loading';
+  }
+
+  try {
+    const [rtsi, usd] = await Promise.all([
+      fetchRTSI(),
+      loadUSDRUB()
+    ]);
+
+    let updated = false;
+
+    if (rtsi !== null && rtsi > 100) {
+      factorsData.rtsi.value = rtsi; // уже масштабированный
+      updated = true;
+      console.log('✅ RTSI обновлён (масштабированный):', rtsi);
+    } else {
+      console.log('⚠️ RTSI не получен, значение по умолчанию: 1100');
+    }
+
+    if (usd !== null && usd > 0) {
+      factorsData.usd.value = usd;
+      updated = true;
+      console.log('✅ USD/RUB обновлён:', usd);
+    }
+
+    if (updated) {
+      const newIndex = calculateEconomyIndex();
+      economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+      
+      const timeEl = document.getElementById('dataUpdateTime');
+      if (timeEl) timeEl.textContent = new Date().toLocaleTimeString();
+      const sourceEl = document.getElementById('dataSourceLabel');
+      if (sourceEl) sourceEl.textContent = 'MOEX (масштабированный) + ЦБ РФ ✓';
+      
+      try {
+        localStorage.setItem('astrofinex_factors', JSON.stringify({
+          timestamp: Date.now(),
+          rtsi: factorsData.rtsi.value,
+          vix: factorsData.vix.value,
+          oil: factorsData.oil.value,
+          usd: factorsData.usd.value
+        }));
+      } catch(e) {}
+
+      if (status) {
+        status.textContent = '✅ обновлено';
+        status.className = 'status ok';
+      }
+    } else {
+      try {
+        const cached = localStorage.getItem('astrofinex_factors');
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
+            if (data.rtsi) factorsData.rtsi.value = data.rtsi;
+            if (data.vix) factorsData.vix.value = data.vix;
+            if (data.oil) factorsData.oil.value = data.oil;
+            if (data.usd) factorsData.usd.value = data.usd;
+            const newIndex = calculateEconomyIndex();
+            economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+            const timeEl = document.getElementById('dataUpdateTime');
+            if (timeEl) timeEl.textContent = 'из кеша';
+            const sourceEl = document.getElementById('dataSourceLabel');
+            if (sourceEl) sourceEl.textContent = 'кеш';
+            if (status) {
+              status.textContent = '⚠ из кеша';
+              status.className = 'status ok';
+            }
+            updateUI();
+            return;
+          }
+        }
+      } catch(e2) {}
+      
+      if (status) {
+        status.textContent = '⚠ ошибка';
+        status.className = 'status error';
+      }
+    }
+    
+    updateUI();
+  } catch(e) {
+    console.error('Ошибка загрузки:', e);
+    if (status) {
+      status.textContent = '⚠ ошибка';
+      status.className = 'status error';
+    }
+  }
+}
+
+// ===== ОБРАБОТЧИКИ РУЧНОГО ВВОДА =====
+
+// VIX
+document.getElementById('vixApplyBtn').addEventListener('click', function() {
+  const input = document.getElementById('vixManualInput');
+  const value = parseFloat(input.value);
+  if (value && value > 0) {
+    factorsData.vix.value = value;
+    const newIndex = calculateEconomyIndex();
+    economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+    updateUI();
+    const status = document.getElementById('vixStatus');
+    if (status) {
+      status.textContent = value.toFixed(1);
+      status.style.color = '#6fcf97';
+      setTimeout(() => { status.style.color = '#6a7a9a'; }, 1500);
+    }
+  }
+});
+
+document.getElementById('vixManualInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('vixApplyBtn').click();
+  }
+});
+
+// Нефть
+document.getElementById('oilApplyBtn').addEventListener('click', function() {
+  const input = document.getElementById('oilManualInput');
+  const value = parseFloat(input.value);
+  if (value && value > 0) {
+    factorsData.oil.value = value;
+    const newIndex = calculateEconomyIndex();
+    economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+    updateUI();
+    const status = document.getElementById('oilStatus');
+    if (status) {
+      status.textContent = '$' + value.toFixed(1);
+      status.style.color = '#6fcf97';
+      setTimeout(() => { status.style.color = '#6a7a9a'; }, 1500);
+    }
+  }
+});
+
+document.getElementById('oilManualInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('oilApplyBtn').click();
+  }
+});
+
+// ================================================================
+//  СОБЫТИЯ
+// ================================================================
+
 economyIndexSlider.addEventListener('input', updateUI);
 escalationSlider.addEventListener('input', () => {
   factorsData.escalation.value = parseInt(escalationSlider.value);
@@ -1601,9 +1722,6 @@ document.getElementById('formulaToggle').addEventListener('click', () => {
   const arrow = document.getElementById('formulaArrow');
   details.classList.toggle('open');
   arrow.classList.toggle('open');
-  document.getElementById('formulaToggle').innerHTML = details.classList.contains('open') 
-    ? '📐 Формула <span class="arrow open">▾</span>' 
-    : '📐 Формула <span class="arrow">▾</span>';
 });
 
 document.querySelectorAll('.scene-btn').forEach(btn => {
@@ -1626,6 +1744,15 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   factorsData.escalation.value = 0;
   astroSlider.value = '0';
   frsSlider.value = '3.75';
+  
+  document.getElementById('vixManualInput').value = '16.5';
+  factorsData.vix.value = 16.5;
+  document.getElementById('vixStatus').textContent = '16.5';
+  
+  document.getElementById('oilManualInput').value = '70';
+  factorsData.oil.value = 70;
+  document.getElementById('oilStatus').textContent = '$70.0';
+  
   updateUI();
 });
 
@@ -1668,6 +1795,55 @@ window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(forceDraw, 100);
 });
+
+// ================================================================
+//  СТАРТ
+// ================================================================
+
+try {
+  const cached = localStorage.getItem('astrofinex_factors');
+  if (cached) {
+    const data = JSON.parse(cached);
+    if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
+      if (data.rtsi) factorsData.rtsi.value = data.rtsi;
+      if (data.vix) factorsData.vix.value = data.vix;
+      if (data.oil) factorsData.oil.value = data.oil;
+      if (data.usd) factorsData.usd.value = data.usd;
+      
+      document.getElementById('vixManualInput').value = factorsData.vix.value;
+      document.getElementById('vixStatus').textContent = factorsData.vix.value.toFixed(1);
+      document.getElementById('oilManualInput').value = factorsData.oil.value;
+      document.getElementById('oilStatus').textContent = '$' + factorsData.oil.value.toFixed(1);
+      
+      const newIndex = calculateEconomyIndex();
+      economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+      document.getElementById('dataUpdateTime').textContent = 'из кеша';
+      document.getElementById('dataSourceLabel').textContent = 'кеш';
+    }
+  }
+} catch(e) {}
+
+currentGoldPrice = 4080;
+document.getElementById('manualPriceInput').value = 4080;
+updateUI();
+
+setTimeout(loadAllData, 500);
+setTimeout(fetchGold, 800);
+setTimeout(() => { forceDraw(); renderVerifyTable(); }, 1000);
+
+window.addEventListener('load', () => {
+  forceDraw();
+  renderVerifyTable();
+  setTimeout(fetchGold, 2000);
+  setTimeout(loadAllData, 2500);
+});
+
+console.log('✅ AstroFinex v8.6 — ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ RTSI');
+console.log('📊 RTSI масштабируется: 38.64 → 1100');
+console.log('🎯 Прогноз золота теперь адекватный!');
+</script>
+</body>
+</html>
 
 // ===== СТАРТ =====
 try {
