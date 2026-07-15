@@ -7,6 +7,15 @@
   <meta name="description" content="Интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026. Экономика, геополитика, астрология — настройте свою модель.">
   <meta name="robots" content="index, follow">
 
+  <!-- Yandex.Metrika counter --><!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AstroFinex · Золото 2026 · Конструктор сценариев</title>
+  <meta name="description" content="Интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026. Экономика, геополитика, астрология — настройте свою модель.">
+  <meta name="robots" content="index, follow">
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
       (function(m,e,t,r,i,k,a){
@@ -36,16 +45,31 @@
 
     .top-warning {
       background: #1a0a0a;
-      border-left: 4px solid #ffaa00;
+      border-left: 4px solid #ff4444;
       border-radius: 10px;
-      padding: 8px 16px;
+      padding: 10px 16px;
       margin-bottom: 8px;
       font-size: clamp(0.45rem, 0.6vw, 0.6rem);
-      color: #ffaa88;
-      line-height: 1.5;
+      color: #ffccbb;
+      line-height: 1.6;
     }
-    .top-warning strong { color: #ffaa00; }
-    .top-warning .highlight-red { color: #ff6b6b; font-weight: 700; }
+    .top-warning .warning-title {
+      color: #ff4444;
+      font-weight: 900;
+      font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .top-warning .warning-item {
+      display: inline-block;
+      background: rgba(255, 68, 68, 0.08);
+      padding: 1px 8px;
+      border-radius: 4px;
+      margin: 1px 2px;
+      white-space: nowrap;
+    }
+    .top-warning .warning-item strong { color: #ff6b6b; }
+    .top-warning .warning-astro { color: #b87cff; }
 
     .header {
       background: linear-gradient(135deg, #0c1222, #0a0f1a);
@@ -605,6 +629,13 @@
       font-weight: 700;
     }
     .disclaimer li strong { color: #ff8888; }
+    .disclaimer .disclaimer-footer {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #2a1a1a;
+      font-size: clamp(0.5rem, 0.65vw, 0.7rem);
+      color: #ffaa88;
+    }
 
     .about-project {
       background: #0f1726;
@@ -724,6 +755,7 @@
       .about-project { padding: 14px 16px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
+      .top-warning .warning-item { display: block; white-space: normal; }
     }
     @media (max-width: 480px) {
       .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
@@ -739,6 +771,7 @@
       .about-project { padding: 10px 12px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
+      .top-warning .warning-item { display: block; white-space: normal; }
     }
     @media (min-width: 1600px) {
       .controls-row { grid-template-columns: repeat(4, 1fr); }
@@ -759,11 +792,13 @@
 
   <!-- ===== ПРЕДУПРЕЖДЕНИЕ ===== -->
   <div class="top-warning">
-    ⚠️ <strong>ПРЕДУПРЕЖДЕНИЕ</strong> · 
-    <span class="highlight-red">НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</span> (ст. 4.1 39-ФЗ) · 
-    <strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> · 
-    Все расчёты — <strong>гипотетическая симуляция</strong> · 
-    🧪 <strong>ИССЛЕДОВАТЕЛЬСКИЙ ПРОЕКТ</strong> · 18+
+    <span class="warning-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ</span>
+    <span class="warning-item"><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ)</span>
+    <span class="warning-item"><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong></span>
+    <span class="warning-item"><strong>ВСЕ РАСЧЁТЫ — ГИПОТЕТИЧЕСКАЯ СИМУЛЯЦИЯ</strong></span>
+    <span class="warning-item"><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong></span>
+    <span class="warning-item"><span class="warning-astro">🔮 АСТРОЛОГИЯ — РАЗВЛЕКАТЕЛЬНАЯ ОПЦИЯ</span></span>
+    <span class="warning-item"><strong>18+</strong></span>
   </div>
 
   <div class="header">
@@ -958,15 +993,19 @@
       <div class="step-item"><span class="num">2</span><span class="step-title">Настройте параметры</span><span class="step-desc">Индекс экономики, Эскалация, Ставка ФРС, Астрология</span></div>
       <div class="step-item"><span class="num">3</span><span class="step-title">Оцените результат</span><span class="step-desc">Мгновенный расчёт на графике и в таблице</span></div>
     </div>
+
+    <!-- ===== НИЖНЕЕ ПРЕДУПРЕЖДЕНИЕ (РАСШИРЕННОЕ) ===== -->
     <div class="disclaimer">
       <div class="disclaimer-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ:</div>
       <ul>
-        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ)</li>
-        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong></li>
-        <li><strong>ВСЕ РАСЧЁТЫ ГИПОТЕТИЧЕСКИ</strong></li>
-        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong></li>
-        <li><strong>18+</strong></li>
+        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ) — Инструмент не даёт инвестиционных рекомендаций. Все расчёты носят информационный и экспериментальный характер. Решения об операциях с активами принимайте самостоятельно на основе профессиональных консультаций.</li>
+        <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> — Проект не является финансовой организацией и не имеет лицензии Банка России.</li>
+        <li><strong>ВСЕ РАСЧЁТЫ — ГИПОТЕТИЧЕСКАЯ СИМУЛЯЦИЯ</strong> — Все расчёты построены на допущениях и не гарантируют будущих результатов. Фактические показатели могут отличаться.</li>
+        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong> — Проект создан как исследовательская платформа для изучения влияния факторов на абстрактную модель.</li>
+        <li><strong>🔮 АСТРОЛОГИЯ — РАЗВЛЕКАТЕЛЬНАЯ ОПЦИЯ</strong> — Не имеет научного обоснования, не участвует в валидации модели.</li>
+        <li><strong>18+</strong> — Для лиц старше 18 лет.</li>
       </ul>
+      <div class="disclaimer-footer">Авторы не несут ответственности за финансовые решения, принятые на основе данных этого инструмента.</div>
     </div>
   </div>
 
@@ -1841,41 +1880,6 @@ window.addEventListener('load', () => {
 console.log('✅ AstroFinex v8.6 — ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ RTSI');
 console.log('📊 RTSI масштабируется: 38.64 → 1100');
 console.log('🎯 Прогноз золота теперь адекватный!');
-</script>
-</body>
-</html>
-
-// ===== СТАРТ =====
-try {
-  const cached = localStorage.getItem('astrofinex_factors');
-  if (cached) {
-    const data = JSON.parse(cached);
-    if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
-      if (data.sp) factorsData.sp.value = data.sp;
-      if (data.vix) factorsData.vix.value = data.vix;
-      if (data.oil) factorsData.oil.value = data.oil;
-      if (data.usd) factorsData.usd.value = data.usd;
-      const newIndex = calculateEconomyIndex();
-      economyIndexSlider.value = newIndex;
-      document.getElementById('dataUpdateTime').textContent = 'из кеша';
-      document.getElementById('dataSourceLabel').textContent = 'кеш';
-    }
-  }
-} catch(e) {}
-
-currentGoldPrice = 4080;
-document.getElementById('manualPriceInput').value = 4080;
-updateUI();
-
-setTimeout(loadAllData, 300);
-setTimeout(fetchGold, 500);
-setTimeout(() => { forceDraw(); renderVerifyTable(); }, 600);
-
-window.addEventListener('load', () => {
-  forceDraw();
-  renderVerifyTable();
-  setTimeout(fetchGold, 2000);
-});
 </script>
 </body>
 </html>
