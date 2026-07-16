@@ -7,15 +7,6 @@
   <meta name="description" content="Интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026. Экономика, геополитика, астрология — настройте свою модель.">
   <meta name="robots" content="index, follow">
 
-  <!-- Yandex.Metrika counter --><!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>AstroFinex · Золото 2026 · Конструктор сценариев</title>
-  <meta name="description" content="Интерактивный конструктор сценариев цены золота (XAU/USD) до декабря 2026. Экономика, геополитика, астрология — настройте свою модель.">
-  <meta name="robots" content="index, follow">
-
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
       (function(m,e,t,r,i,k,a){
@@ -43,38 +34,10 @@
     body { padding: 6px 2%; }
     .container { width: 100%; max-width: 1400px; margin: 0 auto; }
 
-    .top-warning {
-      background: #1a0a0a;
-      border-left: 4px solid #ff4444;
-      border-radius: 10px;
-      padding: 10px 16px;
-      margin-bottom: 8px;
-      font-size: clamp(0.45rem, 0.6vw, 0.6rem);
-      color: #ffccbb;
-      line-height: 1.6;
-    }
-    .top-warning .warning-title {
-      color: #ff4444;
-      font-weight: 900;
-      font-size: clamp(0.55rem, 0.7vw, 0.7rem);
-      display: block;
-      margin-bottom: 4px;
-    }
-    .top-warning .warning-item {
-      display: inline-block;
-      background: rgba(255, 68, 68, 0.08);
-      padding: 1px 8px;
-      border-radius: 4px;
-      margin: 1px 2px;
-      white-space: nowrap;
-    }
-    .top-warning .warning-item strong { color: #ff6b6b; }
-    .top-warning .warning-astro { color: #b87cff; }
-
     .header {
       background: linear-gradient(135deg, #0c1222, #0a0f1a);
       border-radius: 16px;
-      padding: 8px 3% 10px;
+      padding: 10px 3% 12px;
       margin-bottom: 8px;
       border: 1px solid rgba(245, 176, 66, 0.3);
     }
@@ -83,25 +46,25 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 6px 12px;
+      gap: 8px 14px;
     }
     .header h1 {
-      font-size: clamp(0.9rem, 2.2vw, 1.6rem);
+      font-size: clamp(1.4rem, 2.8vw, 2.0rem);
       background: linear-gradient(135deg, #f5b042, #e35f5f, #b87cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 700;
     }
     .header-price {
-      font-size: clamp(0.55rem, 1vw, 0.8rem);
+      font-size: clamp(0.8rem, 1.2vw, 1.0rem);
       background: #1e2a3e;
-      padding: 4px 14px;
+      padding: 6px 18px;
       border-radius: 40px;
       border: 1px solid #f5b04260;
       white-space: nowrap;
     }
     .header-price span { color: #f5d77b; font-weight: 700; }
-    .header-date { font-size: clamp(0.5rem, 0.9vw, 0.7rem); color: #d6e2ff; }
+    .header-date { font-size: clamp(0.7rem, 1.1vw, 0.9rem); color: #d6e2ff; }
 
     .graph-wrap {
       background: #0f1726;
@@ -123,29 +86,29 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      font-size: clamp(0.4rem, 0.7vw, 0.6rem);
+      font-size: clamp(0.65rem, 0.9vw, 0.8rem);
       color: #d6e2ff;
       padding: 4px 2% 0;
-      gap: 4px 12px;
+      gap: 6px 14px;
     }
 
     .controls {
       background: #0c1120;
       border-radius: 16px;
-      padding: 8px 3% 6px;
+      padding: 12px 3% 10px;
       border: 1px solid #2e3a4e;
       margin-bottom: 8px;
     }
     .controls-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 8px 16px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px 20px;
     }
     .control-item { min-width: 0; width: 100%; }
     .control-item label {
       display: flex;
       justify-content: space-between;
-      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      font-size: clamp(0.7rem, 0.9vw, 0.8rem);
       font-weight: 600;
       color: #d6e2ff;
       margin-bottom: 2px;
@@ -153,10 +116,10 @@
     }
     .control-item label span:last-child { color: #f5d77b; font-weight: 700; }
     .control-item .sub {
-      font-size: clamp(0.35rem, 0.6vw, 0.5rem);
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
       color: #d6e2ff;
       display: block;
-      margin-top: 1px;
+      margin-top: 2px;
       line-height: 1.3;
       opacity: 0.85;
     }
@@ -167,7 +130,7 @@
       accent-color: #e38c4a;
       cursor: pointer;
       background: transparent;
-      height: 4px;
+      height: 5px;
     }
     input[type="number"] {
       background: #0a101c;
@@ -176,14 +139,14 @@
       border-radius: 6px;
       padding: 2px 8px;
       width: 100px;
-      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      font-size: clamp(0.65rem, 0.8vw, 0.75rem);
       font-weight: 700;
     }
 
     .economy-composition {
       background: #0a101c;
       border-radius: 8px;
-      padding: 0 10px 6px;
+      padding: 0 12px 6px;
       margin-top: 4px;
       border: 1px solid #1e2a3e;
       overflow: hidden;
@@ -197,13 +160,13 @@
       user-select: none;
     }
     .economy-composition .comp-header .comp-title {
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.8vw, 0.7rem);
       color: #8a9bb8;
       font-weight: 500;
     }
     .economy-composition .comp-header .comp-arrow {
       color: #6a7a9a;
-      font-size: 0.6rem;
+      font-size: 0.9rem;
       transition: transform 0.2s;
     }
     .economy-composition .comp-header .comp-arrow.open { transform: rotate(180deg); }
@@ -213,19 +176,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: clamp(0.35rem, 0.55vw, 0.5rem);
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
       color: #d6e2ff;
-      padding: 1px 0;
+      padding: 3px 0;
       border-bottom: 1px solid #161e2e;
-      gap: 4px;
+      gap: 6px;
     }
     .economy-composition .comp-row:last-child { border-bottom: none; }
     .economy-composition .comp-row .factor-name {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
-    .economy-composition .comp-row .factor-name .icon { font-size: 0.5rem; }
+    .economy-composition .comp-row .factor-name .icon { font-size: 0.8rem; }
     .economy-composition .comp-row .factor-value { 
       color: #d6e2ff; 
       font-weight: 500;
@@ -233,7 +196,7 @@
     }
     .economy-composition .comp-row .factor-contrib {
       font-weight: 700;
-      min-width: 45px;
+      min-width: 55px;
       text-align: right;
     }
     .economy-composition .comp-row .factor-contrib.positive { color: #6fcf97; }
@@ -245,48 +208,69 @@
       border-top: 1px solid #1e2a3e;
       display: flex;
       justify-content: space-between;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.8vw, 0.7rem);
       color: #f5d77b;
       font-weight: 700;
     }
     .economy-composition .comp-row .factor-weight {
       color: #6a7a9a;
-      font-size: clamp(0.3rem, 0.4vw, 0.4rem);
-      min-width: 30px;
+      font-size: clamp(0.45rem, 0.55vw, 0.5rem);
+      min-width: 35px;
       text-align: center;
     }
 
+    /* ===== НОВАЯ ШКАЛА ЭСКАЛАЦИИ ===== */
     .esc-scale {
       display: flex;
       justify-content: space-between;
-      font-size: clamp(0.3rem, 0.5vw, 0.45rem);
-      margin-top: 1px;
+      margin-top: 4px;
       padding: 0 2px;
-      flex-wrap: wrap;
-      gap: 1px;
+      position: relative;
+      width: 100%;
     }
-    .esc-scale .level { padding: 0 3px; border-radius: 3px; white-space: nowrap; }
-    .esc-scale .level-0 { color: #6fcf97; }
-    .esc-scale .level-1 { color: #f5b042; }
-    .esc-scale .level-2 { color: #f5a623; }
-    .esc-scale .level-3 { color: #e67e22; }
-    .esc-scale .level-4 { color: #ff6b6b; }
-    .esc-scale .level-5 { color: #ff4444; }
+    .esc-scale .level-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      text-align: center;
+      min-width: 0;
+    }
+    .esc-scale .level-wrap .pct {
+      font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+      font-weight: 700;
+      color: #d6e2ff;
+      line-height: 1.2;
+    }
+    .esc-scale .level-wrap .label {
+      font-size: clamp(0.4rem, 0.5vw, 0.5rem);
+      color: #8a9bb8;
+      line-height: 1.2;
+      margin-top: 1px;
+      word-break: break-word;
+      max-width: 100%;
+    }
+    .esc-scale .level-wrap .level-0 .pct { color: #6fcf97; }
+    .esc-scale .level-wrap .level-1 .pct { color: #8ac94a; }
+    .esc-scale .level-wrap .level-2 .pct { color: #f5b042; }
+    .esc-scale .level-wrap .level-3 .pct { color: #f5a623; }
+    .esc-scale .level-wrap .level-4 .pct { color: #e67e22; }
+    .esc-scale .level-wrap .level-5 .pct { color: #ff6b6b; }
 
     .scene-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin: 6px 0 4px;
+      gap: 8px;
+      margin: 8px 0 4px;
       justify-content: center;
     }
     .scene-btn {
       background: #1e2a3a;
       border: 1px solid #3d506e;
       color: #d6e2ff;
-      padding: 4px 14px;
+      padding: 6px 20px;
       border-radius: 40px;
-      font-size: clamp(0.45rem, 0.65vw, 0.6rem);
+      font-size: clamp(0.65rem, 0.8vw, 0.75rem);
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
@@ -300,8 +284,8 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 4px 10px;
-      font-size: clamp(0.4rem, 0.7vw, 0.6rem);
+      gap: 6px 12px;
+      font-size: clamp(0.6rem, 0.85vw, 0.75rem);
       color: #d6e2ff;
       padding: 4px 0;
       margin-top: 4px;
@@ -309,25 +293,25 @@
     .forecast-strip .points {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 12px;
+      gap: 6px 16px;
     }
     .forecast-strip .point .price { font-weight: 700; color: #f5d77b; }
-    .forecast-strip .total { font-weight: 700; color: #6fcf97; font-size: clamp(0.5rem, 0.8vw, 0.7rem); }
+    .forecast-strip .total { font-weight: 700; color: #6fcf97; font-size: clamp(0.7rem, 1.0vw, 0.9rem); }
 
     .controls-extra {
-      margin-top: 6px;
-      padding-top: 6px;
+      margin-top: 8px;
+      padding-top: 8px;
       border-top: 1px solid #26334a;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px 18px;
+      gap: 10px 20px;
     }
     .extra-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      gap: 8px;
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
       color: #d6e2ff;
       flex-wrap: wrap;
     }
@@ -335,27 +319,27 @@
       background: #1e2a3e;
       border: 1px solid #3d506e;
       color: #d6e2ff;
-      padding: 4px 14px;
+      padding: 4px 18px;
       border-radius: 30px;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
       cursor: pointer;
       transition: all 0.15s;
     }
     .extra-item button:hover { border-color: #f5b042; background: #2a3a5a; }
     .extra-item button.primary { background: #2a4a3e; border-color: #4a8a6a; }
     .extra-item button.primary:hover { background: #3a5a4e; }
-    .extra-item .status { font-size: clamp(0.35rem, 0.5vw, 0.45rem); }
+    .extra-item .status { font-size: clamp(0.5rem, 0.6vw, 0.55rem); }
     .extra-item .status.ok { color: #6fcf97; }
     .extra-item .status.loading { color: #f5b042; }
     .extra-item .status.error { color: #ff6b6b; }
-    .extra-item .status.updating { color: #f5a623; }
 
+    /* ===== АСТРОЛОГИЧЕСКИЙ БЛОК ===== */
     .astro-wrap {
       background: #0f1625;
-      border-radius: 14px;
-      padding: 8px 3%;
+      border-radius: 16px;
+      padding: 14px 3% 12px;
       margin-bottom: 8px;
-      border: 1px solid #6a4a9a;
+      border: 2px solid #6a4a9a;
     }
     .astro-header {
       display: flex;
@@ -364,56 +348,165 @@
       align-items: center;
       cursor: pointer;
       user-select: none;
-      gap: 6px;
+      gap: 10px;
     }
-    .astro-header h3 { font-size: clamp(0.6rem, 0.9vw, 0.8rem); color: #b87cff; }
+    .astro-header h3 { 
+      font-size: clamp(1.1rem, 1.5vw, 1.4rem); 
+      color: #b87cff; 
+      font-weight: 700;
+    }
     .astro-header .badge {
-      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      font-size: clamp(0.75rem, 1.0vw, 0.95rem);
       background: #1e2a3e;
-      padding: 2px 14px;
+      padding: 6px 22px;
       border-radius: 40px;
       color: #b87cff;
       white-space: nowrap;
+      font-weight: 600;
     }
-    .astro-header .arrow { font-size: 0.8rem; color: #8a9bb8; transition: transform 0.2s; }
+    .astro-header .arrow { font-size: 1.4rem; color: #8a9bb8; transition: transform 0.2s; }
     .astro-header .arrow.open { transform: rotate(180deg); }
-    .astro-body { display: none; padding: 6px 0 4px; border-top: 1px solid #26334a; margin-top: 6px; }
+    .astro-body { display: none; padding: 14px 0 8px; border-top: 1px solid #26334a; margin-top: 10px; }
     .astro-body.open { display: block; }
+
+    .astro-explanation {
+      background: #1a1025;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      border-left: 5px solid #b87cff;
+    }
+    .astro-explanation .title {
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      color: #b87cff;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .astro-explanation .text {
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      color: #ffffff;
+      line-height: 1.7;
+    }
+    .astro-explanation .text .pos { color: #6fcf97; font-weight: 600; }
+    .astro-explanation .text .neg { color: #ff6b6b; font-weight: 600; }
+    .astro-explanation .text .highlight { color: #b87cff; font-weight: 600; }
+    .astro-explanation .text .muted { color: #b0b8c8; font-size: 0.9em; }
+
+    .astro-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 768px) {
+      .astro-info-grid { grid-template-columns: 1fr; }
+    }
+    .astro-info-card {
+      background: #1a2235;
+      border-radius: 12px;
+      padding: 14px 18px;
+      border-left: 5px solid #6a4a9a;
+      transition: opacity 0.3s;
+    }
+    .astro-info-card.positive { border-left-color: #6fcf97; }
+    .astro-info-card.negative { border-left-color: #ff6b6b; }
+    .astro-info-card.neutral { border-left-color: #f5b042; }
+    .astro-info-card .card-title {
+      font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+    .astro-info-card .card-title .badge-type {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      padding: 3px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+    .astro-info-card .card-title .badge-type.pos { background: #1a3a2a; color: #6fcf97; }
+    .astro-info-card .card-title .badge-type.neg { background: #3a1a1a; color: #ff6b6b; }
+    .astro-info-card .card-title .badge-type.neu { background: #3a2a1a; color: #f5b042; }
+    .astro-info-card .card-title .weight {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      color: #f5d77b;
+      margin-left: auto;
+    }
+    .astro-info-card .card-desc {
+      font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+      color: #e8ecf5;
+      margin: 4px 0;
+      line-height: 1.5;
+    }
+    .astro-info-card .card-period {
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+      color: #b0b8c8;
+      margin-top: 4px;
+    }
+    .astro-info-card .card-impact {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .astro-info-card .card-impact.pos { color: #6fcf97; }
+    .astro-info-card .card-impact.neg { color: #ff6b6b; }
+    .astro-info-card .card-impact.neutral { color: #f5b042; }
+    .astro-info-card .card-impact.inactive { color: #b0b8c8; }
+
+    .astro-active-label {
+      font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+      color: #d0d8e8;
+      margin: 8px 0 5px;
+      font-weight: 500;
+    }
     .astro-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 10px;
-      font-size: clamp(0.5rem, 0.8vw, 0.7rem);
-      color: #d6e2ff;
+      gap: 8px 14px;
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      color: #ffffff;
     }
     .astro-list .item {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
       background: #1a2235;
-      padding: 3px 12px 3px 6px;
+      padding: 5px 18px 5px 10px;
       border-radius: 30px;
     }
-    .astro-list .item .sign { font-weight: 700; font-size: 0.75rem; }
+    .astro-list .item .sign { font-weight: 700; font-size: 1.0rem; }
     .astro-list .item.positive .sign { color: #6fcf97; }
     .astro-list .item.negative .sign { color: #ff6b6b; }
     .astro-list .item.neutral .sign { color: #f5b042; }
-    .astro-empty { font-size: clamp(0.5rem, 0.7vw, 0.6rem); color: #d6e2ff; opacity: 0.7; }
+    .astro-list .item .period {
+      opacity: 0.5;
+      font-size: 0.8em;
+    }
+    .astro-empty { 
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem); 
+      color: #d0d8e8; 
+      opacity: 0.7; 
+    }
+
     .astro-note {
       background: #1a1025;
       border-radius: 12px;
-      padding: 8px 14px;
-      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
-      color: #c4b8e0;
-      margin-top: 6px;
-      line-height: 1.5;
+      padding: 14px 20px;
+      font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+      color: #e0d8f0;
+      margin-top: 10px;
+      line-height: 1.7;
     }
     .astro-note strong { color: #b87cff; }
+    .astro-note .symbols { color: #c0c8d8; }
 
     .verify-wrap {
       background: #0f1726;
       border-radius: 14px;
-      padding: 8px 3%;
+      padding: 10px 3%;
       margin-bottom: 8px;
       border: 1px solid #2a5a4a;
     }
@@ -422,47 +515,47 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       margin-bottom: 6px;
     }
-    .verify-header h3 { font-size: clamp(0.6rem, 0.9vw, 0.8rem); color: #6fcf97; }
-    .verify-header .verify-badge { font-size: clamp(0.4rem, 0.6vw, 0.55rem); color: #8a9bb8; }
+    .verify-header h3 { font-size: clamp(0.8rem, 1.0vw, 0.95rem); color: #6fcf97; }
+    .verify-header .verify-badge { font-size: clamp(0.6rem, 0.75vw, 0.7rem); color: #8a9bb8; }
     .verify-table-wrap { overflow-x: auto; margin: 4px 0; }
     .verify-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: clamp(0.45rem, 0.65vw, 0.6rem);
+      font-size: clamp(0.6rem, 0.8vw, 0.75rem);
     }
     .verify-table th {
       text-align: left;
       color: #d6e2ff;
       font-weight: 600;
-      padding: 6px 8px;
+      padding: 8px 10px;
       border-bottom: 2px solid #2a3a52;
       background: #0a101c;
     }
-    .verify-table td { padding: 6px 8px; border-bottom: 1px solid #1a2a3a; color: #d6e2ff; }
+    .verify-table td { padding: 8px 10px; border-bottom: 1px solid #1a2a3a; color: #d6e2ff; }
     .verify-table .price-gold { color: #f5d77b; font-weight: 600; }
     .verify-table .price-green { color: #6fcf97; font-weight: 600; }
     .verify-table .error-good { color: #6fcf97; font-weight: 700; }
     .verify-table .error-mid { color: #f5b042; font-weight: 700; }
     .verify-table .error-bad { color: #ff6b6b; font-weight: 700; }
-    .verify-table .horizon { color: #d6e2ff; font-size: clamp(0.35rem, 0.5vw, 0.45rem); opacity: 0.8; }
+    .verify-table .horizon { color: #d6e2ff; font-size: clamp(0.45rem, 0.6vw, 0.55rem); opacity: 0.8; }
     .verify-stats {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px 18px;
+      gap: 10px 20px;
       padding: 8px 0 4px;
       border-top: 1px solid #1e2a3e;
       margin-top: 4px;
     }
-    .verify-stats .stat { font-size: clamp(0.4rem, 0.6vw, 0.55rem); color: #d6e2ff; }
+    .verify-stats .stat { font-size: clamp(0.6rem, 0.75vw, 0.7rem); color: #d6e2ff; }
     .verify-stats .stat .val { font-weight: 700; }
     .verify-stats .stat .val.good { color: #6fcf97; }
     .verify-stats .stat .val.mid { color: #f5b042; }
     .verify-stats .stat .val.bad { color: #ff6b6b; }
     .verify-note {
-      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+      font-size: clamp(0.55rem, 0.65vw, 0.65rem);
       color: #d6e2ff;
       margin-top: 4px;
       padding-top: 4px;
@@ -477,9 +570,9 @@
       background: none;
       border: 1px solid #2a3a52;
       color: #f5d77b;
-      padding: 6px 14px;
+      padding: 6px 18px;
       border-radius: 30px;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
       cursor: pointer;
       transition: all 0.2s;
       font-weight: 600;
@@ -505,9 +598,9 @@
       padding: 14px 20px;
       margin-top: 6px;
       border: 1px solid #1e2a3e;
-      font-size: clamp(0.5rem, 0.7vw, 0.65rem);
+      font-size: clamp(0.65rem, 0.85vw, 0.8rem);
       line-height: 1.8;
-      color: #b8c8e8;
+      color: #c8d8f0;
       min-width: 100%;
     }
     .formula-details.open {
@@ -525,12 +618,12 @@
       border-bottom: none;
     }
     .formula-details .label {
-      color: #8a9bb8;
+      color: #aab8d0;
       white-space: nowrap;
       flex-shrink: 0;
     }
     .formula-details .label .sub {
-      font-size: clamp(0.35rem, 0.45vw, 0.45rem);
+      font-size: clamp(0.45rem, 0.55vw, 0.55rem);
       color: #6a7a9a;
     }
     .formula-details .value {
@@ -548,13 +641,13 @@
       font-weight: 700;
       color: #f5d77b;
       text-align: center;
-      font-size: clamp(0.55rem, 0.75vw, 0.7rem);
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
     }
 
     .manual-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       margin-top: 4px;
       background: #0a101c;
       padding: 4px 10px;
@@ -562,7 +655,7 @@
       border: 1px solid #1e2a3e;
     }
     .manual-row label {
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
       color: #d6e2ff;
       white-space: nowrap;
     }
@@ -573,20 +666,20 @@
       color: #f5d77b;
       border-radius: 4px;
       padding: 2px 6px;
-      font-size: clamp(0.4rem, 0.6vw, 0.55rem);
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
       font-weight: 700;
     }
     .manual-row .status {
-      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+      font-size: clamp(0.5rem, 0.6vw, 0.55rem);
       color: #6a7a9a;
     }
     .manual-row button {
       background: #1e2a3e;
       border: 1px solid #3d506e;
       color: #d6e2ff;
-      padding: 2px 10px;
+      padding: 3px 14px;
       border-radius: 20px;
-      font-size: clamp(0.35rem, 0.5vw, 0.45rem);
+      font-size: clamp(0.55rem, 0.65vw, 0.6rem);
       cursor: pointer;
       transition: all 0.15s;
     }
@@ -605,7 +698,7 @@
     .disclaimer .disclaimer-title {
       color: #ff4444;
       font-weight: 900;
-      font-size: clamp(0.7rem, 0.9vw, 0.95rem);
+      font-size: clamp(0.9rem, 1.1vw, 1.1rem);
       margin-bottom: 6px;
     }
     .disclaimer ul {
@@ -617,7 +710,7 @@
       padding: 4px 0;
       padding-left: 20px;
       position: relative;
-      font-size: clamp(0.55rem, 0.7vw, 0.75rem);
+      font-size: clamp(0.7rem, 0.85vw, 0.9rem);
       color: #ffccbb;
       line-height: 1.6;
     }
@@ -633,7 +726,7 @@
       margin-top: 8px;
       padding-top: 8px;
       border-top: 1px solid #2a1a1a;
-      font-size: clamp(0.5rem, 0.65vw, 0.7rem);
+      font-size: clamp(0.65rem, 0.8vw, 0.85rem);
       color: #ffaa88;
     }
 
@@ -644,12 +737,12 @@
       margin-top: 8px;
       margin-bottom: 8px;
       border: 1px solid #2a3a52;
-      font-size: clamp(0.8rem, 1vw, 0.95rem);
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
       line-height: 1.7;
       color: #d6e2ff;
     }
     .about-project h2 {
-      font-size: clamp(1.1rem, 1.5vw, 1.6rem);
+      font-size: clamp(1.3rem, 1.7vw, 1.8rem);
       color: #f5d77b;
       margin-bottom: 10px;
       font-weight: 700;
@@ -659,14 +752,14 @@
 
     .steps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
       margin: 12px 0 16px;
     }
     .step-item {
       background: #0a101c;
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border: 1px solid #1e2a3e;
       text-align: center;
     }
@@ -676,10 +769,10 @@
       background: linear-gradient(135deg, #f5b042, #e35f5f);
       color: #070a11;
       font-weight: 800;
-      font-size: clamp(0.6rem, 0.8vw, 0.75rem);
-      width: 22px;
-      height: 22px;
-      line-height: 22px;
+      font-size: clamp(0.8rem, 1.0vw, 0.95rem);
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
       border-radius: 50%;
       margin-bottom: 4px;
     }
@@ -687,25 +780,25 @@
       display: block;
       color: #f5d77b;
       font-weight: 600;
-      font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+      font-size: clamp(0.8rem, 0.95vw, 0.95rem);
     }
     .step-item .step-desc {
       display: block;
       color: #8a9bb8;
-      font-size: clamp(0.5rem, 0.65vw, 0.65rem);
+      font-size: clamp(0.65rem, 0.8vw, 0.8rem);
       margin-top: 2px;
     }
 
     .footer {
       background: #0c1120;
       border-radius: 16px;
-      padding: 6px 3%;
+      padding: 8px 3%;
       margin-top: 6px;
       border: 1px solid #2a3a52;
       text-align: center;
     }
     .footer-note {
-      font-size: clamp(0.35rem, 0.55vw, 0.5rem);
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
       color: #6a7a9a;
     }
 
@@ -748,30 +841,29 @@
       .control-item { min-width: 0; }
       .header-top { flex-direction: column; align-items: flex-start; gap: 4px; }
       .header h1 { white-space: normal; }
-      .scene-btn { padding: 3px 10px; }
-      .forecast-strip .points { gap: 2px 6px; }
-      .verify-table th, .verify-table td { padding: 4px 5px; }
+      .scene-btn { padding: 4px 12px; }
+      .forecast-strip .points { gap: 2px 8px; }
+      .verify-table th, .verify-table td { padding: 4px 6px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .about-project { padding: 14px 16px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
-      .top-warning .warning-item { display: block; white-space: normal; }
     }
     @media (max-width: 480px) {
       .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
       .feedback-btn svg { width: 16px; height: 16px; }
       .controls-row { grid-template-columns: 1fr; gap: 4px 0; }
-      .header-price { font-size: 0.5rem; padding: 2px 10px; }
-      .scene-row { gap: 3px; }
-      .scene-btn { font-size: 0.4rem; padding: 2px 8px; }
-      .esc-scale { font-size: 0.3rem; }
+      .header-price { font-size: 0.6rem; padding: 2px 10px; }
+      .scene-row { gap: 4px; }
+      .scene-btn { font-size: 0.5rem; padding: 3px 10px; }
+      .esc-scale .level-wrap .pct { font-size: 0.45rem; }
+      .esc-scale .level-wrap .label { font-size: 0.35rem; }
       .verify-stats { gap: 4px 10px; }
-      .verify-table th, .verify-table td { padding: 3px 4px; font-size: 0.4rem; }
+      .verify-table th, .verify-table td { padding: 3px 4px; font-size: 0.5rem; }
       .steps { grid-template-columns: 1fr; }
       .about-project { padding: 10px 12px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
-      .top-warning .warning-item { display: block; white-space: normal; }
     }
     @media (min-width: 1600px) {
       .controls-row { grid-template-columns: repeat(4, 1fr); }
@@ -780,9 +872,9 @@
     @media (min-width: 1920px) {
       .container { max-width: 1800px; }
       .controls-row { grid-template-columns: repeat(4, 1fr); gap: 12px 24px; }
-      .control-item label { font-size: 0.7rem; }
-      .control-item .sub { font-size: 0.55rem; }
-      .header h1 { font-size: 1.8rem; }
+      .control-item label { font-size: 0.9rem; }
+      .control-item .sub { font-size: 0.7rem; }
+      .header h1 { font-size: 2.2rem; }
     }
   </style>
 </head>
@@ -790,23 +882,12 @@
 
 <div class="container">
 
-  <!-- ===== ПРЕДУПРЕЖДЕНИЕ ===== -->
-  <div class="top-warning">
-    <span class="warning-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ</span>
-    <span class="warning-item"><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ)</span>
-    <span class="warning-item"><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong></span>
-    <span class="warning-item"><strong>ВСЕ РАСЧЁТЫ — ГИПОТЕТИЧЕСКАЯ СИМУЛЯЦИЯ</strong></span>
-    <span class="warning-item"><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong></span>
-    <span class="warning-item"><span class="warning-astro">🔮 АСТРОЛОГИЯ — РАЗВЛЕКАТЕЛЬНАЯ ОПЦИЯ</span></span>
-    <span class="warning-item"><strong>18+</strong></span>
-  </div>
-
   <div class="header">
     <div class="header-top">
       <h1>✨ AstroFinex · Золото 2026 · Конструктор сценариев</h1>
       <div class="header-price">
         XAU/USD <span id="priceValueDisplay">$---</span>
-        <span style="font-weight:400;color:#8a9bb8;font-size:0.5rem;margin-left:3px;" id="priceSourceText">загрузка...</span>
+        <span style="font-weight:400;color:#8a9bb8;font-size:0.65rem;margin-left:4px;" id="priceSourceText">загрузка...</span>
       </div>
       <div class="header-date" id="currentDateBadge">📅 --</div>
     </div>
@@ -818,6 +899,8 @@
       <span>🔴 история</span>
       <span>🟡 сегодня</span>
       <span>🟢 симуляция</span>
+      <span>🟢 позитивные астрологические факторы</span>
+      <span>🔴 негативные астрологические факторы</span>
     </div>
   </div>
 
@@ -842,7 +925,7 @@
               <span>Итоговый индекс:</span>
               <span id="compTotalValue">1.00x</span>
             </div>
-            <div style="font-size:clamp(0.3rem,0.45vw,0.4rem);color:#6a7a9a;padding-top:4px;border-top:1px solid #161e2e;margin-top:4px;">
+            <div style="font-size:clamp(0.45rem,0.55vw,0.5rem);color:#6a7a9a;padding-top:4px;border-top:1px solid #161e2e;margin-top:4px;">
               📌 Источник: <span id="dataSourceLabel">MOEX + ЦБ РФ + Binance</span> · Обновлено: <span id="dataUpdateTime">--</span>
             </div>
           </div>
@@ -852,28 +935,26 @@
           📐 Формула <span class="arrow" id="formulaArrow">▾</span>
         </button>
         <div class="formula-details" id="formulaDetails">
-          <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1e2a3e;font-size:clamp(0.5rem,0.7vw,0.65rem);color:#f5d77b;font-weight:700;">
+          <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1e2a3e;font-size:clamp(0.7rem,0.9vw,0.85rem);color:#f5d77b;font-weight:700;">
             Индекс = 1.0 + (RTSI_вклад × 0.40) + (VIX_вклад × 0.25) + (нефть_вклад × 0.20) + (USD_вклад × 0.15)
           </div>
           <div class="row"><span class="label">📈 RTSI (40%)</span><span class="value gold" id="fRTSI">--</span></div>
           
-          <!-- ===== РУЧНОЙ ВВОД VIX ===== -->
           <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
-            <span class="label">😱 VIX (25%)</span>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <input type="number" id="vixManualInput" value="16.5" min="5" max="80" step="0.1" style="width:70px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:2px 6px; font-size:clamp(0.4rem,0.6vw,0.55rem); font-weight:700;">
-              <button id="vixApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:2px 10px; border-radius:20px; font-size:clamp(0.35rem,0.5vw,0.45rem); cursor:pointer;">Применить</button>
-              <span id="vixStatus" style="font-size:clamp(0.3rem,0.45vw,0.4rem); color:#6a7a9a;">16.5</span>
+            <span class="label">😱 VIX (ручной) (25%)</span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input type="number" id="vixManualInput" value="16.5" min="5" max="80" step="0.1" style="width:80px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:3px 8px; font-size:clamp(0.6rem,0.75vw,0.7rem); font-weight:700;">
+              <button id="vixApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:3px 14px; border-radius:20px; font-size:clamp(0.55rem,0.65vw,0.6rem); cursor:pointer;">Применить</button>
+              <span id="vixStatus" style="font-size:clamp(0.5rem,0.6vw,0.55rem); color:#6a7a9a;">16.5</span>
             </div>
           </div>
           
-          <!-- ===== РУЧНОЙ ВВОД НЕФТИ ===== -->
           <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
-            <span class="label">🛢️ Нефть Brent (20%)</span>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <input type="number" id="oilManualInput" value="70" min="20" max="150" step="0.5" style="width:70px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:2px 6px; font-size:clamp(0.4rem,0.6vw,0.55rem); font-weight:700;">
-              <button id="oilApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:2px 10px; border-radius:20px; font-size:clamp(0.35rem,0.5vw,0.45rem); cursor:pointer;">Применить</button>
-              <span id="oilStatus" style="font-size:clamp(0.3rem,0.45vw,0.4rem); color:#6a7a9a;">$70.0</span>
+            <span class="label">🛢️ Нефть Brent (ручной) (20%)</span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input type="number" id="oilManualInput" value="70" min="20" max="150" step="0.5" style="width:80px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:3px 8px; font-size:clamp(0.6rem,0.75vw,0.7rem); font-weight:700;">
+              <button id="oilApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:3px 14px; border-radius:20px; font-size:clamp(0.55rem,0.65vw,0.6rem); cursor:pointer;">Применить</button>
+              <span id="oilStatus" style="font-size:clamp(0.5rem,0.6vw,0.55rem); color:#6a7a9a;">$70.0</span>
             </div>
           </div>
           
@@ -889,12 +970,12 @@
         <label><span>🌊 Военная эскалация</span><span id="escalationDisplay">0%</span></label>
         <input type="range" id="escalationSlider" min="0" max="100" step="5" value="0">
         <div class="esc-scale">
-          <span class="level level-0">0% мир</span>
-          <span class="level level-1">20% приготовления</span>
-          <span class="level level-2">40% блокада</span>
-          <span class="level level-3">60% удары</span>
-          <span class="level level-4">80% активные БД</span>
-          <span class="level level-5">100% война</span>
+          <div class="level-wrap level-0"><span class="pct">0%</span><span class="label">мир</span></div>
+          <div class="level-wrap level-1"><span class="pct">20%</span><span class="label">приготовления</span></div>
+          <div class="level-wrap level-2"><span class="pct">40%</span><span class="label">блокада</span></div>
+          <div class="level-wrap level-3"><span class="pct">60%</span><span class="label">удары</span></div>
+          <div class="level-wrap level-4"><span class="pct">80%</span><span class="label">активные БД</span></div>
+          <div class="level-wrap level-5"><span class="pct">100%</span><span class="label">война</span></div>
         </div>
         <span class="sub">⚡ штраф: <span class="danger" id="escPenalty">0.0%</span></span>
       </div>
@@ -940,24 +1021,46 @@
     </div>
   </div>
 
+  <!-- ===== АСТРОЛОГИЧЕСКИЙ БЛОК ===== -->
   <div class="astro-wrap">
     <div class="astro-header" id="astroToggle">
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
         <h3>🔮 Астрологические факторы</h3>
         <span class="badge" id="astroActiveLabelBig">отключены (0%)</span>
       </div>
       <span class="arrow" id="astroArrow">▾</span>
     </div>
     <div class="astro-body" id="astroBody">
-      <div id="astroListContainer" class="astro-list">
-        <div class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть факторы</div>
+      
+      <div class="astro-explanation">
+        <div class="title">📖 Как это работает</div>
+        <div class="text">
+          🔮 Астрологические факторы — гипотетическое влияние планетных конфигураций на настроения инвесторов.<br>
+          <span class="pos">🟢 Позитивные</span> факторы усиливают оптимизм и приток капитала в золото.<br>
+          <span class="neg">🔴 Негативные</span> факторы создают неопределённость, что может давить на цену.<br>
+          🟡 <span style="color:#f5b042;">Нейтральные</span> факторы — для информации, без влияния на модель.<br>
+          📅 Каждый фактор действует <span class="highlight">в строго определённый период</span> — влияние волнообразное.<br>
+          ⚙️ Сила влияния зависит от <span class="highlight">интенсивности астрологии</span> (ползунок выше).<br>
+          <span class="muted">⚠️ Астрология — развлекательная опция, не имеет научного обоснования.</span>
+        </div>
       </div>
+
+      <div class="astro-info-grid" id="astroInfoGrid"></div>
+
+      <div class="astro-active-label">📌 Активные факторы:</div>
+      <div id="astroListContainer" class="astro-list">
+        <div class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть активные факторы</div>
+      </div>
+
       <div class="astro-note">
-        <strong>Как читать астрологический блок:</strong> Каждый фактор активируется при достижении определённой интенсивности.
-        <br>🟢 <strong>Позитивные</strong> — усиливают рост. 🔴 <strong>Негативные</strong> — снижают рост.
-        <br>Итоговый бонус = сумма весов активных факторов × (интенсивность / 100).
-        <br>⚠️ <strong>Астрология НЕ участвует в проверке модели</strong>.
-        <br><span style="color:#ff6b6b;">Астрология — развлекательная опция, не имеет научного обоснования.</span>
+        <strong>📖 Расшифровка символов:</strong>
+        <span class="symbols">
+          ☌ — соединение &nbsp;|&nbsp; △ — трин (120°) &nbsp;|&nbsp; ✻ — секстиль (60°) &nbsp;|&nbsp; ☐ — квадрат (90°) &nbsp;|&nbsp; ☍ — оппозиция (180°)
+        </span>
+        <br>⏳ <strong>Длительность:</strong> короткие аспекты (1-3 дня) создают резкие движения, длительные (недели) — трендовые изменения.
+        <br>📊 <strong>Итоговый бонус</strong> = сумма весов активных факторов × (интенсивность / 100).
+        <br>⭐ <strong>Королевские звёзды:</strong> Регулус (удача) и Антарес (война) — древние маркеры судьбоносных событий.
+        <br>🌍 <strong>Фоновые факторы:</strong> ♄ Сатурн в Рыбах создаёт системное напряжение в течение всего года.
       </div>
     </div>
   </div>
@@ -994,15 +1097,14 @@
       <div class="step-item"><span class="num">3</span><span class="step-title">Оцените результат</span><span class="step-desc">Мгновенный расчёт на графике и в таблице</span></div>
     </div>
 
-    <!-- ===== НИЖНЕЕ ПРЕДУПРЕЖДЕНИЕ (РАСШИРЕННОЕ) ===== -->
     <div class="disclaimer">
       <div class="disclaimer-title">⚠️ СТРОГОЕ ПРЕДУПРЕЖДЕНИЕ:</div>
       <ul>
-        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ) — Инструмент не даёт инвестиционных рекомендаций. Все расчёты носят информационный и экспериментальный характер. Решения об операциях с активами принимайте самостоятельно на основе профессиональных консультаций.</li>
+        <li><strong>НЕ ЯВЛЯЕТСЯ ИНВЕСТИЦИОННОЙ РЕКОМЕНДАЦИЕЙ</strong> (ст. 4.1 39-ФЗ) — Инструмент не даёт инвестиционных рекомендаций. Все расчёты носят информационный и экспериментальный характер.</li>
         <li><strong>НЕТ ЛИЦЕНЗИИ ЦБ РФ</strong> — Проект не является финансовой организацией и не имеет лицензии Банка России.</li>
-        <li><strong>ВСЕ РАСЧЁТЫ — ГИПОТЕТИЧЕСКАЯ СИМУЛЯЦИЯ</strong> — Все расчёты построены на допущениях и не гарантируют будущих результатов. Фактические показатели могут отличаться.</li>
-        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong> — Проект создан как исследовательская платформа для изучения влияния факторов на абстрактную модель.</li>
-        <li><strong>🔮 АСТРОЛОГИЯ — РАЗВЛЕКАТЕЛЬНАЯ ОПЦИЯ</strong> — Не имеет научного обоснования, не участвует в валидации модели.</li>
+        <li><strong>ВСЕ РАСЧЁТЫ — ГИПОТЕТИЧЕСКАЯ СИМУЛЯЦИЯ</strong> — Все расчёты построены на допущениях и не гарантируют будущих результатов.</li>
+        <li><strong>ИССЛЕДОВАТЕЛЬСКИЙ ХАРАКТЕР</strong> — Проект создан как исследовательская платформа.</li>
+        <li><strong>🔮 АСТРОЛОГИЯ — РАЗВЛЕКАТЕЛЬНАЯ ОПЦИЯ</strong> — Не имеет научного обоснования.</li>
         <li><strong>18+</strong> — Для лиц старше 18 лет.</li>
       </ul>
       <div class="disclaimer-footer">Авторы не несут ответственности за финансовые решения, принятые на основе данных этого инструмента.</div>
@@ -1022,9 +1124,11 @@
 
 <script>
 // ============================================================
-//  AstroFinex v8.6 — ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ RTSI
-//  ✅ RTSI масштабируется: 38.64 → 1100 (реальное значение)
-//  ✅ Прогноз золота теперь адекватный!
+//  AstroFinex v10.0 — РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ
+//  ✅ 5 позитивных, 6 негативных, 2 нейтральных
+//  ✅ Королевские звёзды: Регулус и Антарес
+//  ✅ Фоновый фактор: Сатурн в Рыбах
+//  ✅ Обоснование каждого фактора
 // ============================================================
 
 function getTodayDate() {
@@ -1073,37 +1177,215 @@ function getPriceForDate(dateStr) {
   return null;
 }
 
-// ===== АСТРОЛОГИЯ =====
+// ================================================================
+//  НОВЫЙ РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ
+// ================================================================
+
 const astroFactors = [
-  { id: 'new_moon', name: '🌑 Новолуние', type: 'neutral', weight: 0, threshold: 5 },
-  { id: 'regulus', name: '⭐ Регулус', type: 'positive', weight: 2.5, threshold: 10 },
-  { id: 'jupiter_saturn', name: '♃ Юпитер трин Сатурн', type: 'positive', weight: 2.0, threshold: 15 },
-  { id: 'venus_jupiter', name: '♀ Венера секстиль Юпитер', type: 'positive', weight: 1.5, threshold: 20 },
-  { id: 'antares', name: '🔥 Антарес', type: 'negative', weight: -2.0, threshold: 20 },
-  { id: 'mars_uranus', name: '♂ Марс квадрат Уран', type: 'negative', weight: -2.0, threshold: 25 },
-  { id: 'mercury_retro', name: '☿ Меркурий ретро', type: 'negative', weight: -1.5, threshold: 25 },
-  { id: 'solar_eclipse', name: '🌞 Солнечное затмение', type: 'positive', weight: 1.5, threshold: 40 },
-  { id: 'saturn_opposition', name: '♄ Сатурн оппозиция', type: 'negative', weight: -1.5, threshold: 40 }
+  // ===== ПОЗИТИВНЫЕ (5) =====
+  { 
+    id: 'sun_exaltation', 
+    name: '☀️ Солнце в Овне (экзальтация)', 
+    type: 'positive', 
+    weight: 1.5, 
+    threshold: 10,
+    start: '2026-03-20',
+    end: '2026-04-20',
+    description: 'Солнце в знаке своей экзальтации — максимальная сила, уверенность, лидерство',
+    effect: 'Рост доверия к рынкам'
+  },
+  { 
+    id: 'jupiter_trine_saturn', 
+    name: '♃ Юпитер △ Сатурн', 
+    type: 'positive', 
+    weight: 2.0, 
+    threshold: 15,
+    start: '2026-08-15',
+    end: '2026-08-25',
+    description: 'Гармония экспансии и стабильности — укрепление институтов, доверие к системе',
+    effect: 'Институциональный рост'
+  },
+  { 
+    id: 'sun_jupiter_conjunct', 
+    name: '☀️ Солнце ☌ ♃ Юпитер', 
+    type: 'positive', 
+    weight: 2.5, 
+    threshold: 20,
+    start: '2026-09-10',
+    end: '2026-09-15',
+    description: '"Королевское" соединение — оптимизм, рост фондовых рынков, приток капитала',
+    effect: 'Приток капитала в активы'
+  },
+  { 
+    id: 'venus_sextile_jupiter', 
+    name: '♀ Венера ✻ ♃ Юпитер', 
+    type: 'positive', 
+    weight: 1.5, 
+    threshold: 20,
+    start: '2026-10-01',
+    end: '2026-10-10',
+    description: 'Аспект изобилия и оптимизма — капитал ищет "тихие гавани" (золото)',
+    effect: 'Бегство в качество'
+  },
+  { 
+    id: 'regulus_conjunct_sun', 
+    name: '⭐ Регулус ☌ ☀️ Солнце', 
+    type: 'positive', 
+    weight: 2.5, 
+    threshold: 10,
+    start: '2026-07-25',
+    end: '2026-07-28',
+    description: 'Королевская звезда удачи — триумф, успех лидеров, ясность',
+    effect: 'Усиление оптимизма'
+  },
+
+  // ===== НЕГАТИВНЫЕ (6) =====
+  { 
+    id: 'mars_square_uranus', 
+    name: '♂ Марс ☐ ♅ Уран', 
+    type: 'negative', 
+    weight: -2.0, 
+    threshold: 25,
+    start: '2026-09-05',
+    end: '2026-09-08',
+    description: 'Внезапные агрессивные события — атаки, техногенные катастрофы, паника',
+    effect: 'Внезапная волатильность'
+  },
+  { 
+    id: 'mercury_retrograde', 
+    name: '☿ Меркурий ретро', 
+    type: 'negative', 
+    weight: -1.5, 
+    threshold: 25,
+    start: '2026-09-10',
+    end: '2026-09-30',
+    description: 'Период ошибок, задержек и недопонимания — рынки теряют направление',
+    effect: 'Хаос и неопределённость'
+  },
+  { 
+    id: 'saturn_opposition_uranus', 
+    name: '♄ Сатурн ☍ ♅ Уран', 
+    type: 'negative', 
+    weight: -1.5, 
+    threshold: 40,
+    start: '2026-10-25',
+    end: '2026-10-28',
+    description: 'Конфликт старого и нового — кризис институтов, системный сбой',
+    effect: 'Кризис доверия к системе'
+  },
+  { 
+    id: 'pluto_square_sun', 
+    name: '♇ Плутон ☐ ☀️ Солнце', 
+    type: 'negative', 
+    weight: -2.0, 
+    threshold: 30,
+    start: '2026-08-15',
+    end: '2026-08-20',
+    description: 'Трансформация власти, кризис доверия к лидерам → бегство в золото с коррекцией',
+    effect: 'Кризис лидерства'
+  },
+  { 
+    id: 'antares', 
+    name: '🔥 Антарес (Марс)', 
+    type: 'negative', 
+    weight: -2.0, 
+    threshold: 20,
+    start: '2026-08-29',
+    end: '2026-08-31',
+    description: 'Королевская звезда войны — эскалация конфликтов, агрессия',
+    effect: 'Военная эскалация'
+  },
+  { 
+    id: 'saturn_in_pisces', 
+    name: '♄ Сатурн в Рыбах (фон)', 
+    type: 'negative', 
+    weight: -0.5, 
+    threshold: 5,
+    start: '2026-01-01',
+    end: '2026-12-31',
+    description: 'Фоновое системное напряжение, иллюзии, кризис доверия к институтам',
+    effect: 'Фоновое давление'
+  },
+
+  // ===== НЕЙТРАЛЬНЫЕ (2) — только для информации =====
+  { 
+    id: 'new_moon', 
+    name: '🌑 Новолуние', 
+    type: 'neutral', 
+    weight: 0, 
+    threshold: 0,
+    start: '2026-01-01',
+    end: '2026-12-31',
+    description: 'Эмоциональные колебания, но без системного влияния на рынки',
+    effect: 'Эмоциональный фон'
+  },
+  { 
+    id: 'full_moon', 
+    name: '🌕 Полнолуние', 
+    type: 'neutral', 
+    weight: 0, 
+    threshold: 0,
+    start: '2026-01-01',
+    end: '2026-12-31',
+    description: 'Пик эмоциональной волатильности, но без рыночных последствий',
+    effect: 'Эмоциональный пик'
+  }
 ];
 
-function getActiveAstroFactors(pct) {
-  return astroFactors.filter(f => pct >= f.threshold);
+// ================================================================
+//  ФУНКЦИИ АСТРОЛОГИИ
+// ================================================================
+
+function isFactorActive(factor, dateStr) {
+  if (!factor.start || !factor.end) return false;
+  const checkDate = new Date(dateStr);
+  const startDate = new Date(factor.start);
+  const endDate = new Date(factor.end);
+  return checkDate >= startDate && checkDate <= endDate;
 }
 
-function calcAstroBonus(pct) {
+function getActiveAstroFactors(pct, dateStr) {
+  if (pct < 1) return [];
+  return astroFactors.filter(f => {
+    if (f.type === 'neutral') return false;
+    const active = pct >= f.threshold && isFactorActive(f, dateStr);
+    return active;
+  });
+}
+
+function calcAstroBonus(pct, dateStr) {
   if (pct === 0) return 0;
-  const active = getActiveAstroFactors(pct);
+  const active = getActiveAstroFactors(pct, dateStr);
+  if (active.length === 0) return 0;
   let total = active.reduce((sum, f) => sum + f.weight, 0);
   let bonus = total * (pct / 100);
   return Math.max(-5, Math.min(5, bonus));
 }
 
-function getAstroItems(pct) {
+function getAstroItems(pct, dateStr) {
   if (pct < 1) return [];
-  return getActiveAstroFactors(pct).map(f => ({
+  return getActiveAstroFactors(pct, dateStr).map(f => ({
     name: f.name,
     type: f.type,
-    strength: Math.round(f.weight * (pct / 100) * 100) / 100
+    weight: f.weight,
+    strength: Math.round(f.weight * (pct / 100) * 100) / 100,
+    period: f.start + ' — ' + f.end,
+    description: f.description,
+    effect: f.effect
+  }));
+}
+
+function getAstroEvents(pct) {
+  if (pct < 1) return [];
+  return astroFactors.filter(f => f.type !== 'neutral' && pct >= f.threshold).map(f => ({
+    name: f.name,
+    type: f.type,
+    weight: f.weight,
+    start: f.start,
+    end: f.end,
+    strength: Math.round(f.weight * (pct / 100) * 100) / 100,
+    description: f.description,
+    effect: f.effect
   }));
 }
 
@@ -1163,25 +1445,59 @@ function getFRSCorrection(rate) {
   return +0.15;
 }
 
-function getTotalMult(base) {
+function getTotalMult(base, astroBonus) {
   const frs = parseFloat(frsSlider.value);
-  const total = base * (1 + getEscalationPenalty()) * (1 + getFRSCorrection(frs));
+  const total = base * (1 + getEscalationPenalty()) * (1 + getFRSCorrection(frs)) * (1 + astroBonus / 100);
   return Math.max(0.40, Math.min(2.50, total));
 }
 
-function calcForecast(price, baseMult, astroPct) {
-  const astroBonus = calcAstroBonus(astroPct);
-  const total = getTotalMult(baseMult) * (1 + astroBonus / 100);
-  const delta = total - 1;
+function getForecastDates() {
   return {
-    july: Math.round(price * (1 + delta * 0.50)),
-    august: Math.round(price * (1 + delta * 0.70)),
-    september: Math.round(price * (1 + delta * 0.85)),
-    october: Math.round(price * (1 + delta * 0.95)),
-    november: Math.round(price * (1 + delta * 1.00)),
-    december: Math.round(price * (1 + delta * 1.05)),
-    totalMult: total,
-    astroBonus: astroBonus
+    july: '2026-07-15',
+    august: '2026-08-15',
+    september: '2026-09-15',
+    october: '2026-10-15',
+    november: '2026-11-15',
+    december: '2026-12-15'
+  };
+}
+
+function calcForecast(price, baseMult, astroPct) {
+  const dates = getForecastDates();
+  const months = ['july', 'august', 'september', 'october', 'november', 'december'];
+  const monthLabels = ['Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  const dateValues = [dates.july, dates.august, dates.september, dates.october, dates.november, dates.december];
+  
+  const results = {};
+  let totalAstro = 0;
+  
+  for (let i = 0; i < months.length; i++) {
+    const dateStr = dateValues[i];
+    const astroBonus = calcAstroBonus(astroPct, dateStr);
+    totalAstro += astroBonus;
+    const total = getTotalMult(baseMult, astroBonus);
+    const delta = total - 1;
+    const progress = [0.50, 0.70, 0.85, 0.95, 1.00, 1.05][i];
+    results[months[i]] = {
+      price: Math.round(price * (1 + delta * progress)),
+      totalMult: total,
+      astroBonus: astroBonus,
+      label: monthLabels[i]
+    };
+  }
+  
+  const decTotal = getTotalMult(baseMult, calcAstroBonus(astroPct, dates.december));
+  
+  return {
+    july: results.july.price,
+    august: results.august.price,
+    september: results.september.price,
+    october: results.october.price,
+    november: results.november.price,
+    december: results.december.price,
+    totalMult: decTotal,
+    astroBonus: totalAstro / 6,
+    details: results
   };
 }
 
@@ -1213,6 +1529,39 @@ function renderEconomyComposition() {
   }
   list.innerHTML = html;
   total.textContent = base.toFixed(2) + 'x';
+}
+
+function renderAstroCards(pct) {
+  const grid = document.getElementById('astroInfoGrid');
+  if (!grid) return;
+  
+  let html = '';
+  for (const f of astroFactors) {
+    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, '2026-07-15');
+    const cardClass = f.type;
+    const badgeClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neu');
+    const badgeText = f.type === 'positive' ? '🟢 Позитивный' : (f.type === 'negative' ? '🔴 Негативный' : '🟡 Нейтральный');
+    const impactClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neutral');
+    const impactText = f.type === 'positive' ? '+' : (f.type === 'negative' ? '' : '');
+    const activeStatus = f.type === 'neutral' ? 'ℹ️ Информационный' :
+      (isActive ? '✅ Активен — влияние ' + impactText + (f.weight * pct / 100).toFixed(2) + '%' : '⏳ Неактивен (требуется ' + f.threshold + '%)');
+    
+    html += `
+      <div class="astro-info-card ${cardClass}" style="${(f.type === 'neutral' || isActive) ? '' : 'opacity:0.6;'}">
+        <div class="card-title">
+          ${f.name}
+          <span class="badge-type ${badgeClass}">${badgeText}</span>
+          <span class="weight">${f.type !== 'neutral' ? 'вес ' + impactText + f.weight + '%' : ''}</span>
+        </div>
+        <div class="card-desc">${f.description}</div>
+        <div class="card-period">📅 ${f.start} — ${f.end}</div>
+        <div class="card-impact ${f.type === 'neutral' ? 'neutral' : (isActive ? impactClass : 'inactive')}">
+          ${activeStatus}
+        </div>
+      </div>
+    `;
+  }
+  grid.innerHTML = html;
 }
 
 function updateUI() {
@@ -1252,8 +1601,6 @@ function updateUI() {
   const usd = calcFactorContribution('usd', factorsData.usd.value) * WEIGHTS.usd;
 
   if (el('fRTSI')) el('fRTSI').textContent = (factorsData.rtsi.value ? Math.round(factorsData.rtsi.value) : '--') + ' (вклад ' + (rtsi*100).toFixed(2) + '%)';
-  if (el('fVIX')) el('fVIX').textContent = (factorsData.vix.value ? factorsData.vix.value.toFixed(1) : '--') + ' (вклад ' + (vix*100).toFixed(2) + '%)';
-  if (el('fOil')) el('fOil').textContent = (factorsData.oil.value ? '$' + Math.round(factorsData.oil.value) : '--') + ' (вклад ' + (oil*100).toFixed(2) + '%)';
   if (el('fUsd')) el('fUsd').textContent = (factorsData.usd.value ? factorsData.usd.value.toFixed(1) : '--') + ' (вклад ' + (usd*100).toFixed(2) + '%)';
 
   if (el('fEsc')) el('fEsc').textContent = Math.round(getEscalationPenalty() * 100) + '%';
@@ -1280,22 +1627,28 @@ function updateUI() {
   const oilStatus = el('oilStatus');
   if (oilStatus) oilStatus.textContent = '$' + factorsData.oil.value.toFixed(1);
 
-  const astroItems = getAstroItems(astro);
+  renderAstroCards(astro);
+  
+  const dates = getForecastDates();
+  const currentDate = dates.july;
+  const astroItems = getAstroItems(astro, currentDate);
   const container = el('astroListContainer');
   const badge = el('astroActiveLabelBig');
+  
   if (container) {
     if (astroItems.length === 0) {
-      container.innerHTML = '<span class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть факторы</span>';
+      container.innerHTML = '<span class="astro-empty">🔮 Увеличьте интенсивность, чтобы увидеть активные факторы</span>';
       if (badge) badge.textContent = 'отключены (' + astro + '%)';
     } else {
-      let pos=0, neg=0, neu=0;
+      let pos=0, neg=0;
       container.innerHTML = astroItems.map(a => {
-        if (a.type === 'positive') pos++; else if (a.type === 'negative') neg++; else neu++;
-        return `<span class="item ${a.type}"><span class="sign">${a.type === 'positive' ? '+' : (a.type === 'negative' ? '–' : '•')}</span> ${a.name} <span style="opacity:0.6;font-size:0.8em;">(${(a.strength >= 0 ? '+' : '') + a.strength.toFixed(2)}%)</span></span>`;
+        if (a.type === 'positive') pos++; else neg++;
+        return `<span class="item ${a.type}"><span class="sign">${a.type === 'positive' ? '+' : '–'}</span> ${a.name} <span style="opacity:0.6;font-size:0.9em;">(${(a.strength >= 0 ? '+' : '') + a.strength.toFixed(2)}%)</span> <span class="period">${a.period}</span></span>`;
       }).join('');
       if (badge) {
-        badge.textContent = 'активны ' + astroItems.length + ' (' + pos + '🟢 ' + neg + '🔴 ' + neu + '⚪) бонус ' + (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
-        badge.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#b87cff');
+        const totalWeight = astroItems.reduce((sum, a) => sum + a.strength, 0);
+        badge.textContent = 'активны ' + astroItems.length + ' (🟢' + pos + ' 🔴' + neg + ') бонус ' + (totalWeight >= 0 ? '+' : '') + totalWeight.toFixed(2) + '%';
+        badge.style.color = totalWeight > 0.1 ? '#6fcf97' : (totalWeight < -0.1 ? '#ff6b6b' : '#b87cff');
       }
     }
   }
@@ -1323,7 +1676,7 @@ function renderVerifyTable() {
 
     totalValid++;
     const days = getDaysBetween(row.start, row.target);
-    const total = getTotalMult(base);
+    const total = getTotalMult(base, 0);
     const delta = total - 1;
     const forecastPrice = Math.round(startPrice * (1 + delta * days / 180));
     
@@ -1403,6 +1756,10 @@ function drawChart(todayPrice, baseMult, astroPct) {
     points.push({ label: forecastLabels[i], price: forecastPrices[i], isForecast: true });
   }
 
+  const astroEvents = getAstroEvents(astroPct);
+  const dates = getForecastDates();
+  const dateValues = [dates.july, dates.august, dates.september, dates.october, dates.november, dates.december];
+
   const prices = points.map(p => p.price);
   const maxP = Math.max(...prices);
   const minP = Math.min(...prices);
@@ -1414,7 +1771,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
 
   ctx.strokeStyle = '#1e2a3e';
   ctx.lineWidth = 0.5;
-  ctx.font = 'bold 10px Inter, sans-serif';
+  ctx.font = 'bold 12px Inter, sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
   for (let i = 0; i <= 5; i++) {
@@ -1476,15 +1833,56 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.shadowBlur = 0;
 
     ctx.fillStyle = '#d0d8ee';
-    ctx.font = 'bold 8px Inter, sans-serif';
+    ctx.font = 'bold 9px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
     ctx.fillText(points[i].label, x, y - 6);
 
     ctx.fillStyle = '#f5d77b';
-    ctx.font = 'bold 9px Inter, sans-serif';
+    ctx.font = 'bold 10px Inter, sans-serif';
     ctx.textBaseline = 'top';
     ctx.fillText('$' + points[i].price, x, y + 4);
+  }
+
+  if (astroEvents.length > 0 && forecastStartIdx !== -1) {
+    for (const event of astroEvents) {
+      const eventDate = new Date(event.start);
+      const monthIdx = dateValues.findIndex(d => {
+        const dDate = new Date(d);
+        return dDate.getMonth() === eventDate.getMonth() && dDate.getFullYear() === eventDate.getFullYear();
+      });
+      
+      if (monthIdx !== -1) {
+        const idx = forecastStartIdx + monthIdx;
+        if (idx < points.length) {
+          const x = getX(idx);
+          const y = getY(points[idx].price);
+          
+          const color = event.type === 'positive' ? '#6fcf97' : '#ff6b6b';
+          const size = Math.min(12, 6 + Math.abs(event.weight) * 2);
+          
+          ctx.shadowColor = 'rgba(0,0,0,0.9)';
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(x, y - 18, size / 2, 0, 2 * Math.PI);
+          ctx.fillStyle = color + '60';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          
+          ctx.beginPath();
+          ctx.arc(x, y - 18, size / 2, 0, 2 * Math.PI);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          
+          ctx.fillStyle = color;
+          ctx.font = 'bold 9px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(event.type === 'positive' ? '🟢' : '🔴', x, y - 22);
+        }
+      }
+    }
   }
 }
 
@@ -1493,10 +1891,9 @@ function forceDraw() {
 }
 
 // ================================================================
-//  🚀 ЗАГРУЗКА ДАННЫХ
+//  ЗАГРУЗКА ДАННЫХ
 // ================================================================
 
-// --- 1. RTSI через MOEX (с масштабированием!) ---
 async function fetchRTSI() {
   try {
     const url = 'https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/RTSI.json';
@@ -1518,7 +1915,6 @@ async function fetchRTSI() {
       
       if (totalRTSI > 0) {
         console.log('✅ RTSI (сумма весов):', totalRTSI);
-        // Масштабируем: 38.64 × 28.5 ≈ 1100
         const scaled = totalRTSI * 28.5;
         console.log('✅ RTSI (масштабированный):', scaled);
         return scaled;
@@ -1532,7 +1928,6 @@ async function fetchRTSI() {
   }
 }
 
-// --- 2. USD/RUB через ЦБ РФ (JSONP) ---
 function loadUSDRUB() {
   return new Promise((resolve, reject) => {
     const oldScript = document.getElementById('cbrJsonp');
@@ -1558,7 +1953,6 @@ function loadUSDRUB() {
   });
 }
 
-// --- 3. ЗОЛОТО через Binance (НЕ ТРОГАЕМ!) ---
 async function fetchGold() {
   const status = document.getElementById('priceSourceText');
   if (status) {
@@ -1594,7 +1988,6 @@ async function fetchGold() {
   updateUI();
 }
 
-// ===== ЗАГРУЗКА ВСЕХ ДАННЫХ =====
 async function loadAllData() {
   const status = document.getElementById('dataStatusExtra');
   if (status) {
@@ -1611,7 +2004,7 @@ async function loadAllData() {
     let updated = false;
 
     if (rtsi !== null && rtsi > 100) {
-      factorsData.rtsi.value = rtsi; // уже масштабированный
+      factorsData.rtsi.value = rtsi;
       updated = true;
       console.log('✅ RTSI обновлён (масштабированный):', rtsi);
     } else {
@@ -1689,9 +2082,8 @@ async function loadAllData() {
   }
 }
 
-// ===== ОБРАБОТЧИКИ РУЧНОГО ВВОДА =====
+// ===== ОБРАБОТЧИКИ =====
 
-// VIX
 document.getElementById('vixApplyBtn').addEventListener('click', function() {
   const input = document.getElementById('vixManualInput');
   const value = parseFloat(input.value);
@@ -1715,7 +2107,6 @@ document.getElementById('vixManualInput').addEventListener('keypress', function(
   }
 });
 
-// Нефть
 document.getElementById('oilApplyBtn').addEventListener('click', function() {
   const input = document.getElementById('oilManualInput');
   const value = parseFloat(input.value);
@@ -1877,9 +2268,10 @@ window.addEventListener('load', () => {
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v8.6 — ИСПРАВЛЕННОЕ МАСШТАБИРОВАНИЕ RTSI');
-console.log('📊 RTSI масштабируется: 38.64 → 1100');
-console.log('🎯 Прогноз золота теперь адекватный!');
+console.log('✅ AstroFinex v10.0 — РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ');
+console.log('📊 5 позитивных, 6 негативных, 2 нейтральных фактора');
+console.log('⭐ Королевские звёзды: Регулус и Антарес');
+console.log('🌍 Фоновый фактор: Сатурн в Рыбах');
 </script>
 </body>
 </html>
