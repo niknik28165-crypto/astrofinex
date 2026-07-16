@@ -219,7 +219,6 @@
       text-align: center;
     }
 
-    /* ===== НОВАЯ ШКАЛА ЭСКАЛАЦИИ ===== */
     .esc-scale {
       display: flex;
       justify-content: space-between;
@@ -1124,11 +1123,8 @@
 
 <script>
 // ============================================================
-//  AstroFinex v10.0 — РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ
-//  ✅ 5 позитивных, 6 негативных, 2 нейтральных
-//  ✅ Королевские звёзды: Регулус и Антарес
-//  ✅ Фоновый фактор: Сатурн в Рыбах
-//  ✅ Обоснование каждого фактора
+//  AstroFinex v10.0 — ВАЛИДАЦИЯ С 15 ИЮЛЯ (вчера)
+//  Сегодня: 16 июля 2026
 // ============================================================
 
 function getTodayDate() {
@@ -1138,18 +1134,18 @@ function getTodayDate() {
 }
 document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
 
-// ===== ИСТОРИЧЕСКИЕ ДАННЫЕ =====
+// ===== ИСТОРИЧЕСКИЕ ДАННЫЕ (с 15 июля) =====
 const historicalData = [
-  { date: "28 мая 2026", price: 4696 },
   { date: "2 июня 2026", price: 4530 },
-  { date: "5 июня 2026", price: 4310 },
-  { date: "30 июня 2026", price: 4010 }
+  { date: "15 июня 2026", price: 4280 },
+  { date: "30 июня 2026", price: 4010 },
+  { date: "15 июля 2026", price: 4060 }
 ];
 
 const TABLE_ROWS = [
-  { start: "28 мая 2026", target: "2 июня 2026" },
-  { start: "2 июня 2026", target: "5 июня 2026" },
-  { start: "5 июня 2026", target: "30 июня 2026" }
+  { start: "2 июня 2026", target: "15 июня 2026" },
+  { start: "15 июня 2026", target: "30 июня 2026" },
+  { start: "30 июня 2026", target: "15 июля 2026" }
 ];
 
 function parseDateRu(s) {
@@ -1178,11 +1174,10 @@ function getPriceForDate(dateStr) {
 }
 
 // ================================================================
-//  НОВЫЙ РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ
+//  АСТРОЛОГИЧЕСКИЕ ФАКТОРЫ
 // ================================================================
 
 const astroFactors = [
-  // ===== ПОЗИТИВНЫЕ (5) =====
   { 
     id: 'sun_exaltation', 
     name: '☀️ Солнце в Овне (экзальтация)', 
@@ -1238,8 +1233,6 @@ const astroFactors = [
     description: 'Королевская звезда удачи — триумф, успех лидеров, ясность',
     effect: 'Усиление оптимизма'
   },
-
-  // ===== НЕГАТИВНЫЕ (6) =====
   { 
     id: 'mars_square_uranus', 
     name: '♂ Марс ☐ ♅ Уран', 
@@ -1306,8 +1299,6 @@ const astroFactors = [
     description: 'Фоновое системное напряжение, иллюзии, кризис доверия к институтам',
     effect: 'Фоновое давление'
   },
-
-  // ===== НЕЙТРАЛЬНЫЕ (2) — только для информации =====
   { 
     id: 'new_moon', 
     name: '🌑 Новолуние', 
@@ -1658,7 +1649,7 @@ function updateUI() {
   drawChart(price, base, astro);
 }
 
-// ===== ТАБЛИЦА ПРОВЕРКИ =====
+// ===== ТАБЛИЦА ПРОВЕРКИ (с 15 июля) =====
 function renderVerifyTable() {
   const tbody = document.getElementById('verifyTableBody');
   const statsDiv = document.getElementById('verifyStats');
@@ -2268,8 +2259,9 @@ window.addEventListener('load', () => {
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v10.0 — РАСШИРЕННЫЙ СОСТАВ АСТРОЛОГИЧЕСКИХ ФАКТОРОВ');
-console.log('📊 5 позитивных, 6 негативных, 2 нейтральных фактора');
+console.log('✅ AstroFinex v10.0 — ВАЛИДАЦИЯ С 15 ИЮЛЯ');
+console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля');
+console.log('📅 Сегодня: 16 июля 2026');
 console.log('⭐ Королевские звёзды: Регулус и Антарес');
 console.log('🌍 Фоновый фактор: Сатурн в Рыбах');
 </script>
