@@ -1123,8 +1123,8 @@
 
 <script>
 // ============================================================
-//  AstroFinex v10.0 — ВАЛИДАЦИЯ С 15 ИЮЛЯ (вчера)
-//  Сегодня: 16 июля 2026
+//  AstroFinex v12.0 — ИСТОРИЧЕСКАЯ 31 ИЮЛЯ + СЕГОДНЯ 1 АВГУСТА
+//  Сегодня: 1 августа 2026
 // ============================================================
 
 function getTodayDate() {
@@ -1134,18 +1134,20 @@ function getTodayDate() {
 }
 document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
 
-// ===== ИСТОРИЧЕСКИЕ ДАННЫЕ (с 15 июля) =====
+// ===== ИСТОРИЧЕСКИЕ ДАННЫЕ =====
 const historicalData = [
   { date: "2 июня 2026", price: 4530 },
   { date: "15 июня 2026", price: 4280 },
   { date: "30 июня 2026", price: 4010 },
-  { date: "15 июля 2026", price: 4060 }
+  { date: "15 июля 2026", price: 4060 },
+  { date: "31 июля 2026", price: 4052 }
 ];
 
 const TABLE_ROWS = [
   { start: "2 июня 2026", target: "15 июня 2026" },
   { start: "15 июня 2026", target: "30 июня 2026" },
-  { start: "30 июня 2026", target: "15 июля 2026" }
+  { start: "30 июня 2026", target: "15 июля 2026" },
+  { start: "15 июля 2026", target: "31 июля 2026" }
 ];
 
 function parseDateRu(s) {
@@ -1444,7 +1446,6 @@ function getTotalMult(base, astroBonus) {
 
 function getForecastDates() {
   return {
-    july: '2026-07-15',
     august: '2026-08-15',
     september: '2026-09-15',
     october: '2026-10-15',
@@ -1455,9 +1456,9 @@ function getForecastDates() {
 
 function calcForecast(price, baseMult, astroPct) {
   const dates = getForecastDates();
-  const months = ['july', 'august', 'september', 'october', 'november', 'december'];
-  const monthLabels = ['Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
-  const dateValues = [dates.july, dates.august, dates.september, dates.october, dates.november, dates.december];
+  const months = ['august', 'september', 'october', 'november', 'december'];
+  const monthLabels = ['Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
   
   const results = {};
   let totalAstro = 0;
@@ -1468,7 +1469,7 @@ function calcForecast(price, baseMult, astroPct) {
     totalAstro += astroBonus;
     const total = getTotalMult(baseMult, astroBonus);
     const delta = total - 1;
-    const progress = [0.50, 0.70, 0.85, 0.95, 1.00, 1.05][i];
+    const progress = [0.0, 0.25, 0.5, 0.75, 1.0][i];
     results[months[i]] = {
       price: Math.round(price * (1 + delta * progress)),
       totalMult: total,
@@ -1480,14 +1481,13 @@ function calcForecast(price, baseMult, astroPct) {
   const decTotal = getTotalMult(baseMult, calcAstroBonus(astroPct, dates.december));
   
   return {
-    july: results.july.price,
     august: results.august.price,
     september: results.september.price,
     october: results.october.price,
     november: results.november.price,
     december: results.december.price,
     totalMult: decTotal,
-    astroBonus: totalAstro / 6,
+    astroBonus: totalAstro / 5,
     details: results
   };
 }
@@ -1528,7 +1528,7 @@ function renderAstroCards(pct) {
   
   let html = '';
   for (const f of astroFactors) {
-    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, '2026-07-15');
+    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, '2026-08-01');
     const cardClass = f.type;
     const badgeClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neu');
     const badgeText = f.type === 'positive' ? '🟢 Позитивный' : (f.type === 'negative' ? '🔴 Негативный' : '🟡 Нейтральный');
@@ -1602,7 +1602,6 @@ function updateUI() {
   const pts = el('forecastPoints');
   if (pts) {
     const data = [
-      { label: 'Июл', val: f.july },
       { label: 'Авг', val: f.august },
       { label: 'Сен', val: f.september },
       { label: 'Окт', val: f.october },
@@ -1620,8 +1619,7 @@ function updateUI() {
 
   renderAstroCards(astro);
   
-  const dates = getForecastDates();
-  const currentDate = dates.july;
+  const currentDate = '2026-08-01';
   const astroItems = getAstroItems(astro, currentDate);
   const container = el('astroListContainer');
   const badge = el('astroActiveLabelBig');
@@ -1649,7 +1647,7 @@ function updateUI() {
   drawChart(price, base, astro);
 }
 
-// ===== ТАБЛИЦА ПРОВЕРКИ (с 15 июля) =====
+// ===== ТАБЛИЦА ПРОВЕРКИ =====
 function renderVerifyTable() {
   const tbody = document.getElementById('verifyTableBody');
   const statsDiv = document.getElementById('verifyStats');
@@ -1732,24 +1730,26 @@ function drawChart(todayPrice, baseMult, astroPct) {
 
   const f = calcForecast(todayPrice, baseMult, astroPct);
   const points = [];
-  const now = new Date();
-  const history = historicalData.filter(d => parseDateRu(d.date) && parseDateRu(d.date) < now);
   
-  for (const h of history) {
+  // История (все даты до сегодня)
+  for (const h of historicalData) {
     const parts = h.date.split(' ');
     points.push({ label: parts[0] + ' ' + parts[1], price: h.price, isHistory: true });
   }
+  
+  // Сегодня
   points.push({ label: 'сегодня', price: todayPrice, isToday: true });
   
-  const forecastLabels = ['Июл','Авг','Сен','Окт','Ноя','Дек'];
-  const forecastPrices = [f.july, f.august, f.september, f.october, f.november, f.december];
+  // Прогноз
+  const forecastLabels = ['Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  const forecastPrices = [f.august, f.september, f.october, f.november, f.december];
   for (let i = 0; i < forecastLabels.length; i++) {
     points.push({ label: forecastLabels[i], price: forecastPrices[i], isForecast: true });
   }
 
   const astroEvents = getAstroEvents(astroPct);
   const dates = getForecastDates();
-  const dateValues = [dates.july, dates.august, dates.september, dates.october, dates.november, dates.december];
+  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
 
   const prices = points.map(p => p.price);
   const maxP = Math.max(...prices);
@@ -1781,12 +1781,13 @@ function drawChart(todayPrice, baseMult, astroPct) {
   const forecastStartIdx = points.findIndex(p => p.isForecast);
   const todayIdx = points.findIndex(p => p.isToday);
 
-  if (history.length > 0) {
+  // История (красная линия)
+  if (historyPoints.length > 0) {
     ctx.beginPath();
     ctx.strokeStyle = '#e35f5f';
     ctx.lineWidth = 2;
-    for (let i = 0; i < history.length; i++) {
-      const x = getX(i), y = getY(points[i].price);
+    for (let i = 0; i < historyPoints.length; i++) {
+      const x = getX(i), y = getY(historyPoints[i].price);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     if (todayIdx !== -1) {
@@ -1796,6 +1797,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
+  // Прогноз (зелёная линия)
   if (todayIdx !== -1 && forecastStartIdx < points.length) {
     ctx.beginPath();
     const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
@@ -1809,6 +1811,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
+  // Точки на графике
   for (let i = 0; i < points.length; i++) {
     const x = getX(i), y = getY(points[i].price);
     let color = '#6fcf97';
@@ -1835,6 +1838,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.fillText('$' + points[i].price, x, y + 4);
   }
 
+  // Астрологические события
   if (astroEvents.length > 0 && forecastStartIdx !== -1) {
     for (const event of astroEvents) {
       const eventDate = new Date(event.start);
@@ -1876,6 +1880,9 @@ function drawChart(todayPrice, baseMult, astroPct) {
     }
   }
 }
+
+// Вспомогательная переменная для historyPoints
+let historyPoints = [];
 
 function forceDraw() {
   drawChart(currentGoldPrice, parseFloat(economyIndexSlider.value), parseFloat(astroSlider.value));
@@ -2246,6 +2253,10 @@ try {
 
 currentGoldPrice = 4080;
 document.getElementById('manualPriceInput').value = 4080;
+
+// Инициализация historyPoints
+historyPoints = historicalData.map(h => ({ price: h.price }));
+
 updateUI();
 
 setTimeout(loadAllData, 500);
@@ -2259,9 +2270,9 @@ window.addEventListener('load', () => {
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v10.0 — ВАЛИДАЦИЯ С 15 ИЮЛЯ');
-console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля');
-console.log('📅 Сегодня: 16 июля 2026');
+console.log('✅ AstroFinex v12.0 — ИСТОРИЧЕСКАЯ 31 ИЮЛЯ + СЕГОДНЯ 1 АВГУСТА');
+console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля → 31 июля → 1 августа (сегодня)');
+console.log('📅 Сегодня: 1 августа 2026');
 console.log('⭐ Королевские звёзды: Регулус и Антарес');
 console.log('🌍 Фоновый фактор: Сатурн в Рыбах');
 </script>
