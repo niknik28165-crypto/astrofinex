@@ -1123,7 +1123,7 @@
 
 <script>
 // ============================================================
-//  AstroFinex v12.0 — ИСТОРИЧЕСКАЯ 31 ИЮЛЯ + СЕГОДНЯ 1 АВГУСТА
+//  AstroFinex v12.1 — ИСПРАВЛЕНА ВИЗУАЛИЗАЦИЯ АВГУСТА
 //  Сегодня: 1 августа 2026
 // ============================================================
 
@@ -1469,7 +1469,8 @@ function calcForecast(price, baseMult, astroPct) {
     totalAstro += astroBonus;
     const total = getTotalMult(baseMult, astroBonus);
     const delta = total - 1;
-    const progress = [0.0, 0.25, 0.5, 0.75, 1.0][i];
+    // ИСПРАВЛЕНО: прогресс для августа теперь 0.1 вместо 0, чтобы показать изменение
+    const progress = [0.1, 0.3, 0.55, 0.8, 1.0][i];
     results[months[i]] = {
       price: Math.round(price * (1 + delta * progress)),
       totalMult: total,
@@ -1782,17 +1783,16 @@ function drawChart(todayPrice, baseMult, astroPct) {
   const todayIdx = points.findIndex(p => p.isToday);
 
   // История (красная линия)
-  if (historyPoints.length > 0) {
+  const historyPoints = points.filter((p, idx) => idx <= todayIdx);
+  if (historyPoints.length > 1) {
     ctx.beginPath();
     ctx.strokeStyle = '#e35f5f';
     ctx.lineWidth = 2;
     for (let i = 0; i < historyPoints.length; i++) {
-      const x = getX(i), y = getY(historyPoints[i].price);
+      const idx = points.indexOf(historyPoints[i]);
+      const x = getX(idx);
+      const y = getY(historyPoints[i].price);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    }
-    if (todayIdx !== -1) {
-      const x = getX(todayIdx), y = getY(points[todayIdx].price);
-      ctx.lineTo(x, y);
     }
     ctx.stroke();
   }
@@ -1880,9 +1880,6 @@ function drawChart(todayPrice, baseMult, astroPct) {
     }
   }
 }
-
-// Вспомогательная переменная для historyPoints
-let historyPoints = [];
 
 function forceDraw() {
   drawChart(currentGoldPrice, parseFloat(economyIndexSlider.value), parseFloat(astroSlider.value));
@@ -2254,9 +2251,6 @@ try {
 currentGoldPrice = 4080;
 document.getElementById('manualPriceInput').value = 4080;
 
-// Инициализация historyPoints
-historyPoints = historicalData.map(h => ({ price: h.price }));
-
 updateUI();
 
 setTimeout(loadAllData, 500);
@@ -2270,7 +2264,7 @@ window.addEventListener('load', () => {
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v12.0 — ИСТОРИЧЕСКАЯ 31 ИЮЛЯ + СЕГОДНЯ 1 АВГУСТА');
+console.log('✅ AstroFinex v12.1 — ИСПРАВЛЕНА ВИЗУАЛИЗАЦИЯ АВГУСТА');
 console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля → 31 июля → 1 августа (сегодня)');
 console.log('📅 Сегодня: 1 августа 2026');
 console.log('⭐ Королевские звёзды: Регулус и Антарес');
