@@ -1123,7 +1123,7 @@
 
 <script>
 // ============================================================
-//  AstroFinex v12.1 — ИСПРАВЛЕНА ВИЗУАЛИЗАЦИЯ АВГУСТА
+//  AstroFinex v12.2 — ДОБАВЛЕНА ВАЛИДАЦИЯ 31 июля → 1 августа
 //  Сегодня: 1 августа 2026
 // ============================================================
 
@@ -1140,14 +1140,16 @@ const historicalData = [
   { date: "15 июня 2026", price: 4280 },
   { date: "30 июня 2026", price: 4010 },
   { date: "15 июля 2026", price: 4060 },
-  { date: "31 июля 2026", price: 4052 }
+  { date: "31 июля 2026", price: 4052 },
+  { date: "1 августа 2026", price: 4080 } // Добавлена сегодняшняя дата
 ];
 
 const TABLE_ROWS = [
   { start: "2 июня 2026", target: "15 июня 2026" },
   { start: "15 июня 2026", target: "30 июня 2026" },
   { start: "30 июня 2026", target: "15 июля 2026" },
-  { start: "15 июля 2026", target: "31 июля 2026" }
+  { start: "15 июля 2026", target: "31 июля 2026" },
+  { start: "31 июля 2026", target: "1 августа 2026" } // Новая строка валидации
 ];
 
 function parseDateRu(s) {
@@ -1469,7 +1471,6 @@ function calcForecast(price, baseMult, astroPct) {
     totalAstro += astroBonus;
     const total = getTotalMult(baseMult, astroBonus);
     const delta = total - 1;
-    // ИСПРАВЛЕНО: прогресс для августа теперь 0.1 вместо 0, чтобы показать изменение
     const progress = [0.1, 0.3, 0.55, 0.8, 1.0][i];
     results[months[i]] = {
       price: Math.round(price * (1 + delta * progress)),
@@ -2264,7 +2265,7 @@ window.addEventListener('load', () => {
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v12.1 — ИСПРАВЛЕНА ВИЗУАЛИЗАЦИЯ АВГУСТА');
+console.log('✅ AstroFinex v12.2 — ДОБАВЛЕНА ВАЛИДАЦИЯ 31 июля → 1 августа');
 console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля → 31 июля → 1 августа (сегодня)');
 console.log('📅 Сегодня: 1 августа 2026');
 console.log('⭐ Королевские звёзды: Регулус и Антарес');
