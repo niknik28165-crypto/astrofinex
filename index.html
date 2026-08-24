@@ -48,12 +48,45 @@
       align-items: center;
       gap: 8px 14px;
     }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
     .header h1 {
       font-size: clamp(1.4rem, 2.8vw, 2.0rem);
       background: linear-gradient(135deg, #f5b042, #e35f5f, #b87cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 700;
+    }
+    .lang-links {
+      display: flex;
+      gap: 6px;
+      background: #1a2235;
+      border-radius: 30px;
+      padding: 4px 6px;
+      border: 1px solid #2a3a52;
+    }
+    .lang-link {
+      display: inline-block;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      font-weight: 700;
+      text-decoration: none;
+      color: #8a9bb8;
+      transition: all 0.2s;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    .lang-link.active {
+      background: #f5b042;
+      color: #070a11;
+    }
+    .lang-link:hover:not(.active) {
+      color: #d6e2ff;
+      background: #2a3a5a;
     }
     .header-price {
       font-size: clamp(0.8rem, 1.2vw, 1.0rem);
@@ -332,7 +365,6 @@
     .extra-item .status.loading { color: #f5b042; }
     .extra-item .status.error { color: #ff6b6b; }
 
-    /* ===== АСТРОЛОГИЧЕСКИЙ БЛОК ===== */
     .astro-wrap {
       background: #0f1625;
       border-radius: 16px;
@@ -847,6 +879,7 @@
       .about-project { padding: 14px 16px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
+      .header-left { width: 100%; justify-content: space-between; }
     }
     @media (max-width: 480px) {
       .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
@@ -863,6 +896,7 @@
       .about-project { padding: 10px 12px; }
       .formula-details .row { flex-wrap: wrap; }
       .manual-row { flex-wrap: wrap; }
+      .lang-link { padding: 3px 10px; font-size: 0.6rem; }
     }
     @media (min-width: 1600px) {
       .controls-row { grid-template-columns: repeat(4, 1fr); }
@@ -883,7 +917,13 @@
 
   <div class="header">
     <div class="header-top">
-      <h1>✨ AstroFinex · Золото 2026 · Конструктор сценариев</h1>
+      <div class="header-left">
+        <h1>✨ AstroFinex · Золото 2026 · Конструктор сценариев</h1>
+        <div class="lang-links">
+          <a href="index.html" class="lang-link active">RU</a>
+          <a href="index_en.html" class="lang-link">EN</a>
+        </div>
+      </div>
       <div class="header-price">
         XAU/USD <span id="priceValueDisplay">$---</span>
         <span style="font-weight:400;color:#8a9bb8;font-size:0.65rem;margin-left:4px;" id="priceSourceText">загрузка...</span>
@@ -1123,7 +1163,7 @@
 
 <script>
 // ============================================================
-//  AstroFinex v12.2 — ДОБАВЛЕНА ВАЛИДАЦИЯ 31 июля → 1 августа
+//  AstroFinex v12.5 — РУССКАЯ ВЕРСИЯ
 //  Сегодня: 1 августа 2026
 // ============================================================
 
@@ -1141,7 +1181,7 @@ const historicalData = [
   { date: "30 июня 2026", price: 4010 },
   { date: "15 июля 2026", price: 4060 },
   { date: "31 июля 2026", price: 4052 },
-  { date: "1 августа 2026", price: 4080 } // Добавлена сегодняшняя дата
+  { date: "1 августа 2026", price: 4080 }
 ];
 
 const TABLE_ROWS = [
@@ -1149,7 +1189,7 @@ const TABLE_ROWS = [
   { start: "15 июня 2026", target: "30 июня 2026" },
   { start: "30 июня 2026", target: "15 июля 2026" },
   { start: "15 июля 2026", target: "31 июля 2026" },
-  { start: "31 июля 2026", target: "1 августа 2026" } // Новая строка валидации
+  { start: "31 июля 2026", target: "1 августа 2026" }
 ];
 
 function parseDateRu(s) {
@@ -1177,159 +1217,22 @@ function getPriceForDate(dateStr) {
   return null;
 }
 
-// ================================================================
-//  АСТРОЛОГИЧЕСКИЕ ФАКТОРЫ
-// ================================================================
-
+// ===== АСТРОЛОГИЧЕСКИЕ ФАКТОРЫ =====
 const astroFactors = [
-  { 
-    id: 'sun_exaltation', 
-    name: '☀️ Солнце в Овне (экзальтация)', 
-    type: 'positive', 
-    weight: 1.5, 
-    threshold: 10,
-    start: '2026-03-20',
-    end: '2026-04-20',
-    description: 'Солнце в знаке своей экзальтации — максимальная сила, уверенность, лидерство',
-    effect: 'Рост доверия к рынкам'
-  },
-  { 
-    id: 'jupiter_trine_saturn', 
-    name: '♃ Юпитер △ Сатурн', 
-    type: 'positive', 
-    weight: 2.0, 
-    threshold: 15,
-    start: '2026-08-15',
-    end: '2026-08-25',
-    description: 'Гармония экспансии и стабильности — укрепление институтов, доверие к системе',
-    effect: 'Институциональный рост'
-  },
-  { 
-    id: 'sun_jupiter_conjunct', 
-    name: '☀️ Солнце ☌ ♃ Юпитер', 
-    type: 'positive', 
-    weight: 2.5, 
-    threshold: 20,
-    start: '2026-09-10',
-    end: '2026-09-15',
-    description: '"Королевское" соединение — оптимизм, рост фондовых рынков, приток капитала',
-    effect: 'Приток капитала в активы'
-  },
-  { 
-    id: 'venus_sextile_jupiter', 
-    name: '♀ Венера ✻ ♃ Юпитер', 
-    type: 'positive', 
-    weight: 1.5, 
-    threshold: 20,
-    start: '2026-10-01',
-    end: '2026-10-10',
-    description: 'Аспект изобилия и оптимизма — капитал ищет "тихие гавани" (золото)',
-    effect: 'Бегство в качество'
-  },
-  { 
-    id: 'regulus_conjunct_sun', 
-    name: '⭐ Регулус ☌ ☀️ Солнце', 
-    type: 'positive', 
-    weight: 2.5, 
-    threshold: 10,
-    start: '2026-07-25',
-    end: '2026-07-28',
-    description: 'Королевская звезда удачи — триумф, успех лидеров, ясность',
-    effect: 'Усиление оптимизма'
-  },
-  { 
-    id: 'mars_square_uranus', 
-    name: '♂ Марс ☐ ♅ Уран', 
-    type: 'negative', 
-    weight: -2.0, 
-    threshold: 25,
-    start: '2026-09-05',
-    end: '2026-09-08',
-    description: 'Внезапные агрессивные события — атаки, техногенные катастрофы, паника',
-    effect: 'Внезапная волатильность'
-  },
-  { 
-    id: 'mercury_retrograde', 
-    name: '☿ Меркурий ретро', 
-    type: 'negative', 
-    weight: -1.5, 
-    threshold: 25,
-    start: '2026-09-10',
-    end: '2026-09-30',
-    description: 'Период ошибок, задержек и недопонимания — рынки теряют направление',
-    effect: 'Хаос и неопределённость'
-  },
-  { 
-    id: 'saturn_opposition_uranus', 
-    name: '♄ Сатурн ☍ ♅ Уран', 
-    type: 'negative', 
-    weight: -1.5, 
-    threshold: 40,
-    start: '2026-10-25',
-    end: '2026-10-28',
-    description: 'Конфликт старого и нового — кризис институтов, системный сбой',
-    effect: 'Кризис доверия к системе'
-  },
-  { 
-    id: 'pluto_square_sun', 
-    name: '♇ Плутон ☐ ☀️ Солнце', 
-    type: 'negative', 
-    weight: -2.0, 
-    threshold: 30,
-    start: '2026-08-15',
-    end: '2026-08-20',
-    description: 'Трансформация власти, кризис доверия к лидерам → бегство в золото с коррекцией',
-    effect: 'Кризис лидерства'
-  },
-  { 
-    id: 'antares', 
-    name: '🔥 Антарес (Марс)', 
-    type: 'negative', 
-    weight: -2.0, 
-    threshold: 20,
-    start: '2026-08-29',
-    end: '2026-08-31',
-    description: 'Королевская звезда войны — эскалация конфликтов, агрессия',
-    effect: 'Военная эскалация'
-  },
-  { 
-    id: 'saturn_in_pisces', 
-    name: '♄ Сатурн в Рыбах (фон)', 
-    type: 'negative', 
-    weight: -0.5, 
-    threshold: 5,
-    start: '2026-01-01',
-    end: '2026-12-31',
-    description: 'Фоновое системное напряжение, иллюзии, кризис доверия к институтам',
-    effect: 'Фоновое давление'
-  },
-  { 
-    id: 'new_moon', 
-    name: '🌑 Новолуние', 
-    type: 'neutral', 
-    weight: 0, 
-    threshold: 0,
-    start: '2026-01-01',
-    end: '2026-12-31',
-    description: 'Эмоциональные колебания, но без системного влияния на рынки',
-    effect: 'Эмоциональный фон'
-  },
-  { 
-    id: 'full_moon', 
-    name: '🌕 Полнолуние', 
-    type: 'neutral', 
-    weight: 0, 
-    threshold: 0,
-    start: '2026-01-01',
-    end: '2026-12-31',
-    description: 'Пик эмоциональной волатильности, но без рыночных последствий',
-    effect: 'Эмоциональный пик'
-  }
+  { id: 'sun_exaltation', name: '☀️ Солнце в Овне (экзальтация)', type: 'positive', weight: 1.5, threshold: 10, start: '2026-03-20', end: '2026-04-20', description: 'Солнце в знаке своей экзальтации — максимальная сила, уверенность, лидерство', effect: 'Рост доверия к рынкам' },
+  { id: 'jupiter_trine_saturn', name: '♃ Юпитер △ Сатурн', type: 'positive', weight: 2.0, threshold: 15, start: '2026-08-15', end: '2026-08-25', description: 'Гармония экспансии и стабильности — укрепление институтов, доверие к системе', effect: 'Институциональный рост' },
+  { id: 'sun_jupiter_conjunct', name: '☀️ Солнце ☌ ♃ Юпитер', type: 'positive', weight: 2.5, threshold: 20, start: '2026-09-10', end: '2026-09-15', description: '"Королевское" соединение — оптимизм, рост фондовых рынков, приток капитала', effect: 'Приток капитала в активы' },
+  { id: 'venus_sextile_jupiter', name: '♀ Венера ✻ ♃ Юпитер', type: 'positive', weight: 1.5, threshold: 20, start: '2026-10-01', end: '2026-10-10', description: 'Аспект изобилия и оптимизма — капитал ищет "тихие гавани" (золото)', effect: 'Бегство в качество' },
+  { id: 'regulus_conjunct_sun', name: '⭐ Регулус ☌ ☀️ Солнце', type: 'positive', weight: 2.5, threshold: 10, start: '2026-07-25', end: '2026-07-28', description: 'Королевская звезда удачи — триумф, успех лидеров, ясность', effect: 'Усиление оптимизма' },
+  { id: 'mars_square_uranus', name: '♂ Марс ☐ ♅ Уран', type: 'negative', weight: -2.0, threshold: 25, start: '2026-09-05', end: '2026-09-08', description: 'Внезапные агрессивные события — атаки, техногенные катастрофы, паника', effect: 'Внезапная волатильность' },
+  { id: 'mercury_retrograde', name: '☿ Меркурий ретро', type: 'negative', weight: -1.5, threshold: 25, start: '2026-09-10', end: '2026-09-30', description: 'Период ошибок, задержек и недопонимания — рынки теряют направление', effect: 'Хаос и неопределённость' },
+  { id: 'saturn_opposition_uranus', name: '♄ Сатурн ☍ ♅ Уран', type: 'negative', weight: -1.5, threshold: 40, start: '2026-10-25', end: '2026-10-28', description: 'Конфликт старого и нового — кризис институтов, системный сбой', effect: 'Кризис доверия к системе' },
+  { id: 'pluto_square_sun', name: '♇ Плутон ☐ ☀️ Солнце', type: 'negative', weight: -2.0, threshold: 30, start: '2026-08-15', end: '2026-08-20', description: 'Трансформация власти, кризис доверия к лидерам → бегство в золото с коррекцией', effect: 'Кризис лидерства' },
+  { id: 'antares', name: '🔥 Антарес (Марс)', type: 'negative', weight: -2.0, threshold: 20, start: '2026-08-29', end: '2026-08-31', description: 'Королевская звезда войны — эскалация конфликтов, агрессия', effect: 'Военная эскалация' },
+  { id: 'saturn_in_pisces', name: '♄ Сатурн в Рыбах (фон)', type: 'negative', weight: -0.5, threshold: 5, start: '2026-01-01', end: '2026-12-31', description: 'Фоновое системное напряжение, иллюзии, кризис доверия к институтам', effect: 'Фоновое давление' },
+  { id: 'new_moon', name: '🌑 Новолуние', type: 'neutral', weight: 0, threshold: 0, start: '2026-01-01', end: '2026-12-31', description: 'Эмоциональные колебания, но без системного влияния на рынки', effect: 'Эмоциональный фон' },
+  { id: 'full_moon', name: '🌕 Полнолуние', type: 'neutral', weight: 0, threshold: 0, start: '2026-01-01', end: '2026-12-31', description: 'Пик эмоциональной волатильности, но без рыночных последствий', effect: 'Эмоциональный пик' }
 ];
-
-// ================================================================
-//  ФУНКЦИИ АСТРОЛОГИИ
-// ================================================================
 
 function isFactorActive(factor, dateStr) {
   if (!factor.start || !factor.end) return false;
@@ -1384,7 +1287,7 @@ function getAstroEvents(pct) {
   }));
 }
 
-// ===== ФАКТОРЫ ЭКОНОМИКИ =====
+// ===== ЭКОНОМИЧЕСКИЕ ФАКТОРЫ =====
 const WEIGHTS = { rtsi: 0.40, vix: 0.25, oil: 0.20, usd: 0.15 };
 
 const factorsData = {
@@ -1715,34 +1618,35 @@ function drawChart(todayPrice, baseMult, astroPct) {
   }
 
   const rect = canvas.getBoundingClientRect();
-  if (rect.width > 0 && rect.height > 0) {
-    const dpr = window.devicePixelRatio || 1;
-    const displayWidth = rect.width;
-    const displayHeight = rect.height || (rect.width * 350 / 1000);
-    if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
-      canvas.width = Math.round(displayWidth * dpr);
-      canvas.height = Math.round(displayHeight * dpr);
-      ctx.scale(dpr, dpr);
-    }
+  if (rect.width === 0) {
+    setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 50);
+    return;
   }
 
-  const W = canvas.width / (window.devicePixelRatio || 1);
-  const H = canvas.height / (window.devicePixelRatio || 1);
+  const dpr = window.devicePixelRatio || 1;
+  const displayWidth = rect.width;
+  const displayHeight = rect.height || (rect.width * 350 / 1000);
+  
+  if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
+    canvas.width = Math.round(displayWidth * dpr);
+    canvas.height = Math.round(displayHeight * dpr);
+    ctx.scale(dpr, dpr);
+  }
+
+  const W = canvas.width / dpr;
+  const H = canvas.height / dpr;
   if (W < 10 || H < 10) return;
 
   const f = calcForecast(todayPrice, baseMult, astroPct);
   const points = [];
   
-  // История (все даты до сегодня)
   for (const h of historicalData) {
     const parts = h.date.split(' ');
     points.push({ label: parts[0] + ' ' + parts[1], price: h.price, isHistory: true });
   }
   
-  // Сегодня
   points.push({ label: 'сегодня', price: todayPrice, isToday: true });
   
-  // Прогноз
   const forecastLabels = ['Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
   const forecastPrices = [f.august, f.september, f.october, f.november, f.december];
   for (let i = 0; i < forecastLabels.length; i++) {
@@ -1783,7 +1687,6 @@ function drawChart(todayPrice, baseMult, astroPct) {
   const forecastStartIdx = points.findIndex(p => p.isForecast);
   const todayIdx = points.findIndex(p => p.isToday);
 
-  // История (красная линия)
   const historyPoints = points.filter((p, idx) => idx <= todayIdx);
   if (historyPoints.length > 1) {
     ctx.beginPath();
@@ -1798,7 +1701,6 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
-  // Прогноз (зелёная линия)
   if (todayIdx !== -1 && forecastStartIdx < points.length) {
     ctx.beginPath();
     const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
@@ -1812,7 +1714,6 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
-  // Точки на графике
   for (let i = 0; i < points.length; i++) {
     const x = getX(i), y = getY(points[i].price);
     let color = '#6fcf97';
@@ -1839,7 +1740,6 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.fillText('$' + points[i].price, x, y + 4);
   }
 
-  // Астрологические события
   if (astroEvents.length > 0 && forecastStartIdx !== -1) {
     for (const event of astroEvents) {
       const eventDate = new Date(event.start);
@@ -1886,10 +1786,7 @@ function forceDraw() {
   drawChart(currentGoldPrice, parseFloat(economyIndexSlider.value), parseFloat(astroSlider.value));
 }
 
-// ================================================================
-//  ЗАГРУЗКА ДАННЫХ
-// ================================================================
-
+// ===== ЗАГРУЗКА ДАННЫХ =====
 async function fetchRTSI() {
   try {
     const url = 'https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/RTSI.json';
@@ -1916,7 +1813,6 @@ async function fetchRTSI() {
         return scaled;
       }
     }
-    
     return null;
   } catch(e) {
     console.warn('RTSI fetch error:', e.message);
@@ -2067,7 +1963,6 @@ async function loadAllData() {
         status.className = 'status error';
       }
     }
-    
     updateUI();
   } catch(e) {
     console.error('Ошибка загрузки:', e);
@@ -2079,7 +1974,6 @@ async function loadAllData() {
 }
 
 // ===== ОБРАБОТЧИКИ =====
-
 document.getElementById('vixApplyBtn').addEventListener('click', function() {
   const input = document.getElementById('vixManualInput');
   const value = parseFloat(input.value);
@@ -2125,10 +2019,6 @@ document.getElementById('oilManualInput').addEventListener('keypress', function(
     document.getElementById('oilApplyBtn').click();
   }
 });
-
-// ================================================================
-//  СОБЫТИЯ
-// ================================================================
 
 economyIndexSlider.addEventListener('input', updateUI);
 escalationSlider.addEventListener('input', () => {
@@ -2222,10 +2112,7 @@ window.addEventListener('resize', () => {
   resizeTimeout = setTimeout(forceDraw, 100);
 });
 
-// ================================================================
-//  СТАРТ
-// ================================================================
-
+// ===== СТАРТ =====
 try {
   const cached = localStorage.getItem('astrofinex_factors');
   if (cached) {
@@ -2259,14 +2146,15 @@ setTimeout(fetchGold, 800);
 setTimeout(() => { forceDraw(); renderVerifyTable(); }, 1000);
 
 window.addEventListener('load', () => {
-  forceDraw();
-  renderVerifyTable();
+  setTimeout(() => {
+    forceDraw();
+    renderVerifyTable();
+  }, 300);
   setTimeout(fetchGold, 2000);
   setTimeout(loadAllData, 2500);
 });
 
-console.log('✅ AstroFinex v12.2 — ДОБАВЛЕНА ВАЛИДАЦИЯ 31 июля → 1 августа');
-console.log('📊 Даты: 2 июня → 15 июня → 30 июня → 15 июля → 31 июля → 1 августа (сегодня)');
+console.log('✅ AstroFinex v12.5 — РУССКАЯ ВЕРСИЯ');
 console.log('📅 Сегодня: 1 августа 2026');
 console.log('⭐ Королевские звёзды: Регулус и Антарес');
 console.log('🌍 Фоновый фактор: Сатурн в Рыбах');
