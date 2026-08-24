@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AstroFinex · Gold 2026 · Scenario Builder</title>
+  <meta name="description" content="Interactive scenario builder for gold price (XAU/USD) until December 2026. Economics, geopolitics, astrology — tune your own model.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109768701', 'ym');
+
+      ym(109768701, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109768701" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <style>
+    /* Тот же CSS, что и в русской версии */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background: #070a11;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      color: #f0f4ff;
+      overflow-x: hidden;
+    }
+    body { padding: 6px 2%; }
+    .container { width: 100%; max-width: 1400px; margin: 0 auto; }
+
+    .header {
+      background: linear-gradient(135deg, #0c1222, #0a0f1a);
+      border-radius: 16px;
+      padding: 10px 3% 12px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(245, 176, 66, 0.3);
+    }
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px 14px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .header h1 {
+      font-size: clamp(1.4rem, 2.8vw, 2.0rem);
+      background: linear-gradient(135deg, #f5b042, #e35f5f, #b87cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+    .lang-links {
+      display: flex;
+      gap: 6px;
+      background: #1a2235;
+      border-radius: 30px;
+      padding: 4px 6px;
+      border: 1px solid #2a3a52;
+    }
+    .lang-link {
+      display: inline-block;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      font-weight: 700;
+      text-decoration: none;
+      color: #8a9bb8;
+      transition: all 0.2s;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    .lang-link.active {
+      background: #f5b042;
+      color: #070a11;
+    }
+    .lang-link:hover:not(.active) {
+      color: #d6e2ff;
+      background: #2a3a5a;
+    }
+    .header-price {
+      font-size: clamp(0.8rem, 1.2vw, 1.0rem);
+      background: #1e2a3e;
+      padding: 6px 18px;
+      border-radius: 40px;
+      border: 1px solid #f5b04260;
+      white-space: nowrap;
+    }
+    .header-price span { color: #f5d77b; font-weight: 700; }
+    .header-date { font-size: clamp(0.7rem, 1.1vw, 0.9rem); color: #d6e2ff; }
+
+    .graph-wrap {
+      background: #0f1726;
+      border-radius: 16px;
+      padding: 4px 1% 2px;
+      border: 1px solid #2a3a52;
+      margin-bottom: 8px;
+    }
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 1000 / 350;
+      max-height: 70vh;
+      background: #0a101c;
+      border-radius: 12px;
+      display: block;
+    }
+    .graph-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+      color: #d6e2ff;
+      padding: 4px 2% 0;
+      gap: 6px 14px;
+    }
+
+    .controls {
+      background: #0c1120;
+      border-radius: 16px;
+      padding: 12px 3% 10px;
+      border: 1px solid #2e3a4e;
+      margin-bottom: 8px;
+    }
+    .controls-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px 20px;
+    }
+    .control-item { min-width: 0; width: 100%; }
+    .control-item label {
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+      font-weight: 600;
+      color: #d6e2ff;
+      margin-bottom: 2px;
+      gap: 4px;
+    }
+    .control-item label span:last-child { color: #f5d77b; font-weight: 700; }
+    .control-item .sub {
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+      color: #d6e2ff;
+      display: block;
+      margin-top: 2px;
+      line-height: 1.3;
+      opacity: 0.85;
+    }
+    .control-item .sub .highlight { color: #f5d77b; }
+    .control-item .sub .danger { color: #ff6b6b; }
+    input[type="range"] {
+      width: 100%;
+      accent-color: #e38c4a;
+      cursor: pointer;
+      background: transparent;
+      height: 5px;
+    }
+    input[type="number"] {
+      background: #0a101c;
+      border: 1px solid #2a3a52;
+      color: #f5d77b;
+      border-radius: 6px;
+      padding: 2px 8px;
+      width: 100px;
+      font-size: clamp(0.65rem, 0.8vw, 0.75rem);
+      font-weight: 700;
+    }
+
+    .economy-composition {
+      background: #0a101c;
+      border-radius: 8px;
+      padding: 0 12px 6px;
+      margin-top: 4px;
+      border: 1px solid #1e2a3e;
+      overflow: hidden;
+    }
+    .economy-composition .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 4px 0 2px;
+      user-select: none;
+    }
+    .economy-composition .comp-header .comp-title {
+      font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+      color: #8a9bb8;
+      font-weight: 500;
+    }
+    .economy-composition .comp-header .comp-arrow {
+      color: #6a7a9a;
+      font-size: 0.9rem;
+      transition: transform 0.2s;
+    }
+    .economy-composition .comp-header .comp-arrow.open { transform: rotate(180deg); }
+    .economy-composition .comp-body { display: none; padding-top: 4px; }
+    .economy-composition .comp-body.open { display: block; }
+    .economy-composition .comp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+      color: #d6e2ff;
+      padding: 3px 0;
+      border-bottom: 1px solid #161e2e;
+      gap: 6px;
+    }
+    .economy-composition .comp-row:last-child { border-bottom: none; }
+    .economy-composition .comp-row .factor-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .economy-composition .comp-row .factor-name .icon { font-size: 0.8rem; }
+    .economy-composition .comp-row .factor-value { 
+      color: #d6e2ff; 
+      font-weight: 500;
+      min-width: 50px;
+    }
+    .economy-composition .comp-row .factor-contrib {
+      font-weight: 700;
+      min-width: 55px;
+      text-align: right;
+    }
+    .economy-composition .comp-row .factor-contrib.positive { color: #6fcf97; }
+    .economy-composition .comp-row .factor-contrib.negative { color: #ff6b6b; }
+    .economy-composition .comp-row .factor-contrib.neutral { color: #f5b042; }
+    .economy-composition .comp-total {
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid #1e2a3e;
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+      color: #f5d77b;
+      font-weight: 700;
+    }
+    .economy-composition .comp-row .factor-weight {
+      color: #6a7a9a;
+      font-size: clamp(0.45rem, 0.55vw, 0.5rem);
+      min-width: 35px;
+      text-align: center;
+    }
+
+    .esc-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding: 0 2px;
+      position: relative;
+      width: 100%;
+    }
+    .esc-scale .level-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      text-align: center;
+      min-width: 0;
+    }
+    .esc-scale .level-wrap .pct {
+      font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+      font-weight: 700;
+      color: #d6e2ff;
+      line-height: 1.2;
+    }
+    .esc-scale .level-wrap .label {
+      font-size: clamp(0.4rem, 0.5vw, 0.5rem);
+      color: #8a9bb8;
+      line-height: 1.2;
+      margin-top: 1px;
+      word-break: break-word;
+      max-width: 100%;
+    }
+    .esc-scale .level-wrap .level-0 .pct { color: #6fcf97; }
+    .esc-scale .level-wrap .level-1 .pct { color: #8ac94a; }
+    .esc-scale .level-wrap .level-2 .pct { color: #f5b042; }
+    .esc-scale .level-wrap .level-3 .pct { color: #f5a623; }
+    .esc-scale .level-wrap .level-4 .pct { color: #e67e22; }
+    .esc-scale .level-wrap .level-5 .pct { color: #ff6b6b; }
+
+    .scene-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 4px;
+      justify-content: center;
+    }
+    .scene-btn {
+      background: #1e2a3a;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 6px 20px;
+      border-radius: 40px;
+      font-size: clamp(0.65rem, 0.8vw, 0.75rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .scene-btn:hover { background: #2a3a5a; border-color: #f5b042; }
+    .scene-btn.active { border-color: #f5b042; background: #2a3a5a; }
+
+    .forecast-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px 12px;
+      font-size: clamp(0.6rem, 0.85vw, 0.75rem);
+      color: #d6e2ff;
+      padding: 4px 0;
+      margin-top: 4px;
+    }
+    .forecast-strip .points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+    }
+    .forecast-strip .point .price { font-weight: 700; color: #f5d77b; }
+    .forecast-strip .total { font-weight: 700; color: #6fcf97; font-size: clamp(0.7rem, 1.0vw, 0.9rem); }
+
+    .controls-extra {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #26334a;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 20px;
+    }
+    .extra-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      color: #d6e2ff;
+      flex-wrap: wrap;
+    }
+    .extra-item button {
+      background: #1e2a3e;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 4px 18px;
+      border-radius: 30px;
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .extra-item button:hover { border-color: #f5b042; background: #2a3a5a; }
+    .extra-item button.primary { background: #2a4a3e; border-color: #4a8a6a; }
+    .extra-item button.primary:hover { background: #3a5a4e; }
+    .extra-item .status { font-size: clamp(0.5rem, 0.6vw, 0.55rem); }
+    .extra-item .status.ok { color: #6fcf97; }
+    .extra-item .status.loading { color: #f5b042; }
+    .extra-item .status.error { color: #ff6b6b; }
+
+    .astro-wrap {
+      background: #0f1625;
+      border-radius: 16px;
+      padding: 14px 3% 12px;
+      margin-bottom: 8px;
+      border: 2px solid #6a4a9a;
+    }
+    .astro-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      gap: 10px;
+    }
+    .astro-header h3 { 
+      font-size: clamp(1.1rem, 1.5vw, 1.4rem); 
+      color: #b87cff; 
+      font-weight: 700;
+    }
+    .astro-header .badge {
+      font-size: clamp(0.75rem, 1.0vw, 0.95rem);
+      background: #1e2a3e;
+      padding: 6px 22px;
+      border-radius: 40px;
+      color: #b87cff;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .astro-header .arrow { font-size: 1.4rem; color: #8a9bb8; transition: transform 0.2s; }
+    .astro-header .arrow.open { transform: rotate(180deg); }
+    .astro-body { display: none; padding: 14px 0 8px; border-top: 1px solid #26334a; margin-top: 10px; }
+    .astro-body.open { display: block; }
+
+    .astro-explanation {
+      background: #1a1025;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      border-left: 5px solid #b87cff;
+    }
+    .astro-explanation .title {
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      color: #b87cff;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .astro-explanation .text {
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      color: #ffffff;
+      line-height: 1.7;
+    }
+    .astro-explanation .text .pos { color: #6fcf97; font-weight: 600; }
+    .astro-explanation .text .neg { color: #ff6b6b; font-weight: 600; }
+    .astro-explanation .text .highlight { color: #b87cff; font-weight: 600; }
+    .astro-explanation .text .muted { color: #b0b8c8; font-size: 0.9em; }
+
+    .astro-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 768px) {
+      .astro-info-grid { grid-template-columns: 1fr; }
+    }
+    .astro-info-card {
+      background: #1a2235;
+      border-radius: 12px;
+      padding: 14px 18px;
+      border-left: 5px solid #6a4a9a;
+      transition: opacity 0.3s;
+    }
+    .astro-info-card.positive { border-left-color: #6fcf97; }
+    .astro-info-card.negative { border-left-color: #ff6b6b; }
+    .astro-info-card.neutral { border-left-color: #f5b042; }
+    .astro-info-card .card-title {
+      font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+    .astro-info-card .card-title .badge-type {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      padding: 3px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+    .astro-info-card .card-title .badge-type.pos { background: #1a3a2a; color: #6fcf97; }
+    .astro-info-card .card-title .badge-type.neg { background: #3a1a1a; color: #ff6b6b; }
+    .astro-info-card .card-title .badge-type.neu { background: #3a2a1a; color: #f5b042; }
+    .astro-info-card .card-title .weight {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      color: #f5d77b;
+      margin-left: auto;
+    }
+    .astro-info-card .card-desc {
+      font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+      color: #e8ecf5;
+      margin: 4px 0;
+      line-height: 1.5;
+    }
+    .astro-info-card .card-period {
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+      color: #b0b8c8;
+      margin-top: 4px;
+    }
+    .astro-info-card .card-impact {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .astro-info-card .card-impact.pos { color: #6fcf97; }
+    .astro-info-card .card-impact.neg { color: #ff6b6b; }
+    .astro-info-card .card-impact.neutral { color: #f5b042; }
+    .astro-info-card .card-impact.inactive { color: #b0b8c8; }
+
+    .astro-active-label {
+      font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+      color: #d0d8e8;
+      margin: 8px 0 5px;
+      font-weight: 500;
+    }
+    .astro-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+      color: #ffffff;
+    }
+    .astro-list .item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a2235;
+      padding: 5px 18px 5px 10px;
+      border-radius: 30px;
+    }
+    .astro-list .item .sign { font-weight: 700; font-size: 1.0rem; }
+    .astro-list .item.positive .sign { color: #6fcf97; }
+    .astro-list .item.negative .sign { color: #ff6b6b; }
+    .astro-list .item.neutral .sign { color: #f5b042; }
+    .astro-list .item .period {
+      opacity: 0.5;
+      font-size: 0.8em;
+    }
+    .astro-empty { 
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem); 
+      color: #d0d8e8; 
+      opacity: 0.7; 
+    }
+
+    .astro-note {
+      background: #1a1025;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+      color: #e0d8f0;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+    .astro-note strong { color: #b87cff; }
+    .astro-note .symbols { color: #c0c8d8; }
+
+    .verify-wrap {
+      background: #0f1726;
+      border-radius: 14px;
+      padding: 10px 3%;
+      margin-bottom: 8px;
+      border: 1px solid #2a5a4a;
+    }
+    .verify-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .verify-header h3 { font-size: clamp(0.8rem, 1.0vw, 0.95rem); color: #6fcf97; }
+    .verify-header .verify-badge { font-size: clamp(0.6rem, 0.75vw, 0.7rem); color: #8a9bb8; }
+    .verify-table-wrap { overflow-x: auto; margin: 4px 0; }
+    .verify-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+    }
+    .verify-table th {
+      text-align: left;
+      color: #d6e2ff;
+      font-weight: 600;
+      padding: 8px 10px;
+      border-bottom: 2px solid #2a3a52;
+      background: #0a101c;
+    }
+    .verify-table td { padding: 8px 10px; border-bottom: 1px solid #1a2a3a; color: #d6e2ff; }
+    .verify-table .price-gold { color: #f5d77b; font-weight: 600; }
+    .verify-table .price-green { color: #6fcf97; font-weight: 600; }
+    .verify-table .error-good { color: #6fcf97; font-weight: 700; }
+    .verify-table .error-mid { color: #f5b042; font-weight: 700; }
+    .verify-table .error-bad { color: #ff6b6b; font-weight: 700; }
+    .verify-table .horizon { color: #d6e2ff; font-size: clamp(0.45rem, 0.6vw, 0.55rem); opacity: 0.8; }
+    .verify-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      padding: 8px 0 4px;
+      border-top: 1px solid #1e2a3e;
+      margin-top: 4px;
+    }
+    .verify-stats .stat { font-size: clamp(0.6rem, 0.75vw, 0.7rem); color: #d6e2ff; }
+    .verify-stats .stat .val { font-weight: 700; }
+    .verify-stats .stat .val.good { color: #6fcf97; }
+    .verify-stats .stat .val.mid { color: #f5b042; }
+    .verify-stats .stat .val.bad { color: #ff6b6b; }
+    .verify-note {
+      font-size: clamp(0.55rem, 0.65vw, 0.65rem);
+      color: #d6e2ff;
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid #161e2e;
+      opacity: 0.8;
+    }
+    .verify-note .dot-green { color: #6fcf97; }
+    .verify-note .dot-yellow { color: #f5b042; }
+    .verify-note .dot-red { color: #ff6b6b; }
+
+    .formula-toggle {
+      background: none;
+      border: 1px solid #2a3a52;
+      color: #f5d77b;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      margin-top: 4px;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    .formula-toggle:hover {
+      background: #1e2a3e;
+      border-color: #f5b042;
+    }
+    .formula-toggle .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .formula-toggle .arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .formula-details {
+      display: none;
+      background: #0a101c;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-top: 6px;
+      border: 1px solid #1e2a3e;
+      font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+      line-height: 1.8;
+      color: #c8d8f0;
+      min-width: 100%;
+    }
+    .formula-details.open {
+      display: block;
+    }
+    .formula-details .row {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #121a2a;
+      gap: 8px;
+    }
+    .formula-details .row:last-child {
+      border-bottom: none;
+    }
+    .formula-details .label {
+      color: #aab8d0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .formula-details .label .sub {
+      font-size: clamp(0.45rem, 0.55vw, 0.55rem);
+      color: #6a7a9a;
+    }
+    .formula-details .value {
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .formula-details .value.green { color: #6fcf97; }
+    .formula-details .value.red { color: #ff6b6b; }
+    .formula-details .value.gold { color: #f5d77b; }
+    .formula-details .value.purple { color: #b87cff; }
+    .formula-details .divider {
+      padding: 6px 0;
+      border-top: 1px solid #1e2a3e;
+      margin-top: 6px;
+      font-weight: 700;
+      color: #f5d77b;
+      text-align: center;
+      font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+    }
+
+    .manual-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      background: #0a101c;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #1e2a3e;
+    }
+    .manual-row label {
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      color: #d6e2ff;
+      white-space: nowrap;
+    }
+    .manual-row input[type="number"] {
+      width: 70px;
+      background: #0a101c;
+      border: 1px solid #2a3a52;
+      color: #f5d77b;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: clamp(0.6rem, 0.75vw, 0.7rem);
+      font-weight: 700;
+    }
+    .manual-row .status {
+      font-size: clamp(0.5rem, 0.6vw, 0.55rem);
+      color: #6a7a9a;
+    }
+    .manual-row button {
+      background: #1e2a3e;
+      border: 1px solid #3d506e;
+      color: #d6e2ff;
+      padding: 3px 14px;
+      border-radius: 20px;
+      font-size: clamp(0.55rem, 0.65vw, 0.6rem);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .manual-row button:hover {
+      border-color: #f5b042;
+      background: #2a3a5a;
+    }
+
+    .disclaimer {
+      margin-top: 12px;
+      padding: 16px 18px;
+      background: #1a0a0a;
+      border-radius: 12px;
+      border-left: 4px solid #ff4444;
+    }
+    .disclaimer .disclaimer-title {
+      color: #ff4444;
+      font-weight: 900;
+      font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+      margin-bottom: 6px;
+    }
+    .disclaimer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .disclaimer li {
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+      font-size: clamp(0.7rem, 0.85vw, 0.9rem);
+      color: #ffccbb;
+      line-height: 1.6;
+    }
+    .disclaimer li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #ff6b6b;
+      font-weight: 700;
+    }
+    .disclaimer li strong { color: #ff8888; }
+    .disclaimer .disclaimer-footer {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #2a1a1a;
+      font-size: clamp(0.65rem, 0.8vw, 0.85rem);
+      color: #ffaa88;
+    }
+
+    .about-project {
+      background: #0f1726;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      border: 1px solid #2a3a52;
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      line-height: 1.7;
+      color: #d6e2ff;
+    }
+    .about-project h2 {
+      font-size: clamp(1.3rem, 1.7vw, 1.8rem);
+      color: #f5d77b;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .about-project .highlight { color: #f5d77b; font-weight: 600; }
+    .about-project p { margin-bottom: 8px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 12px 0 16px;
+    }
+    .step-item {
+      background: #0a101c;
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid #1e2a3e;
+      text-align: center;
+    }
+    .step-item:hover { border-color: #f5b042; }
+    .step-item .num {
+      display: inline-block;
+      background: linear-gradient(135deg, #f5b042, #e35f5f);
+      color: #070a11;
+      font-weight: 800;
+      font-size: clamp(0.8rem, 1.0vw, 0.95rem);
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      border-radius: 50%;
+      margin-bottom: 4px;
+    }
+    .step-item .step-title {
+      display: block;
+      color: #f5d77b;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 0.95vw, 0.95rem);
+    }
+    .step-item .step-desc {
+      display: block;
+      color: #8a9bb8;
+      font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+      margin-top: 2px;
+    }
+
+    .footer {
+      background: #0c1120;
+      border-radius: 16px;
+      padding: 8px 3%;
+      margin-top: 6px;
+      border: 1px solid #2a3a52;
+      text-align: center;
+    }
+    .footer-note {
+      font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+      color: #6a7a9a;
+    }
+
+    .feedback-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      background: linear-gradient(135deg, #f5b042, #e35f5f);
+      color: #070a11;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 50px;
+      font-size: clamp(0.85rem, 1.1vw, 1rem);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(245, 176, 66, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    .feedback-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 30px rgba(245, 176, 66, 0.6);
+    }
+    .feedback-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: #070a11;
+    }
+
+    @media (max-width: 768px) {
+      .feedback-btn { bottom: 20px; right: 20px; padding: 12px 18px; font-size: 0.8rem; }
+      .feedback-btn svg { width: 18px; height: 18px; }
+      body { padding: 4px 1.5%; }
+      .controls-row { grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+      .control-item { min-width: 0; }
+      .header-top { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .header h1 { white-space: normal; }
+      .scene-btn { padding: 4px 12px; }
+      .forecast-strip .points { gap: 2px 8px; }
+      .verify-table th, .verify-table td { padding: 4px 6px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .about-project { padding: 14px 16px; }
+      .formula-details .row { flex-wrap: wrap; }
+      .manual-row { flex-wrap: wrap; }
+      .header-left { width: 100%; justify-content: space-between; }
+    }
+    @media (max-width: 480px) {
+      .feedback-btn { bottom: 15px; right: 15px; padding: 10px 14px; font-size: 0.7rem; gap: 6px; }
+      .feedback-btn svg { width: 16px; height: 16px; }
+      .controls-row { grid-template-columns: 1fr; gap: 4px 0; }
+      .header-price { font-size: 0.6rem; padding: 2px 10px; }
+      .scene-row { gap: 4px; }
+      .scene-btn { font-size: 0.5rem; padding: 3px 10px; }
+      .esc-scale .level-wrap .pct { font-size: 0.45rem; }
+      .esc-scale .level-wrap .label { font-size: 0.35rem; }
+      .verify-stats { gap: 4px 10px; }
+      .verify-table th, .verify-table td { padding: 3px 4px; font-size: 0.5rem; }
+      .steps { grid-template-columns: 1fr; }
+      .about-project { padding: 10px 12px; }
+      .formula-details .row { flex-wrap: wrap; }
+      .manual-row { flex-wrap: wrap; }
+      .lang-link { padding: 3px 10px; font-size: 0.6rem; }
+    }
+    @media (min-width: 1600px) {
+      .controls-row { grid-template-columns: repeat(4, 1fr); }
+      .container { max-width: 1600px; }
+    }
+    @media (min-width: 1920px) {
+      .container { max-width: 1800px; }
+      .controls-row { grid-template-columns: repeat(4, 1fr); gap: 12px 24px; }
+      .control-item label { font-size: 0.9rem; }
+      .control-item .sub { font-size: 0.7rem; }
+      .header h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="header-left">
+        <h1>✨ AstroFinex · Gold 2026 · Scenario Builder</h1>
+        <div class="lang-links">
+          <a href="index.html" class="lang-link">RU</a>
+          <a href="index_en.html" class="lang-link active">EN</a>
+        </div>
+      </div>
+      <div class="header-price">
+        XAU/USD <span id="priceValueDisplay">$---</span>
+        <span style="font-weight:400;color:#8a9bb8;font-size:0.65rem;margin-left:4px;" id="priceSourceText">loading...</span>
+      </div>
+      <div class="header-date" id="currentDateBadge">📅 --</div>
+    </div>
+  </div>
+
+  <div class="graph-wrap">
+    <canvas id="forecastCanvas" width="1000" height="350"></canvas>
+    <div class="graph-legend">
+      <span>🔴 history</span>
+      <span>🟡 today</span>
+      <span>🟢 simulation</span>
+      <span>🟢 positive astrology</span>
+      <span>🔴 negative astrology</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-row">
+      <div class="control-item">
+        <label>
+          <span>📊 Economy index</span>
+          <span id="economyIndexDisplay">1.00x</span>
+        </label>
+        <input type="range" id="economyIndexSlider" min="0.60" max="2.20" step="0.01" value="1.00">
+        <span class="sub" id="economyIndexHint">base trend <span class="highlight">0%</span> to December</span>
+
+        <div class="economy-composition">
+          <div class="comp-header" id="compToggle">
+            <span class="comp-title">📊 Economy index composition</span>
+            <span class="comp-arrow" id="compArrow">▾</span>
+          </div>
+          <div class="comp-body" id="compBody">
+            <div id="compFactorsList"></div>
+            <div class="comp-total">
+              <span>Total index:</span>
+              <span id="compTotalValue">1.00x</span>
+            </div>
+            <div style="font-size:clamp(0.45rem,0.55vw,0.5rem);color:#6a7a9a;padding-top:4px;border-top:1px solid #161e2e;margin-top:4px;">
+              📌 Source: <span id="dataSourceLabel">MOEX + CBR + Binance</span> · Updated: <span id="dataUpdateTime">--</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="formula-toggle" id="formulaToggle">
+          📐 Formula <span class="arrow" id="formulaArrow">▾</span>
+        </button>
+        <div class="formula-details" id="formulaDetails">
+          <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1e2a3e;font-size:clamp(0.7rem,0.9vw,0.85rem);color:#f5d77b;font-weight:700;">
+            Index = 1.0 + (RTSI_contrib × 0.40) + (VIX_contrib × 0.25) + (oil_contrib × 0.20) + (USD_contrib × 0.15)
+          </div>
+          <div class="row"><span class="label">📈 RTSI (40%)</span><span class="value gold" id="fRTSI">--</span></div>
+          
+          <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
+            <span class="label">😱 VIX (manual) (25%)</span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input type="number" id="vixManualInput" value="16.5" min="5" max="80" step="0.1" style="width:80px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:3px 8px; font-size:clamp(0.6rem,0.75vw,0.7rem); font-weight:700;">
+              <button id="vixApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:3px 14px; border-radius:20px; font-size:clamp(0.55rem,0.65vw,0.6rem); cursor:pointer;">Apply</button>
+              <span id="vixStatus" style="font-size:clamp(0.5rem,0.6vw,0.55rem); color:#6a7a9a;">16.5</span>
+            </div>
+          </div>
+          
+          <div class="row" style="border-bottom: 1px solid #1e2a3e; padding-bottom: 6px;">
+            <span class="label">🛢️ Brent Oil (manual) (20%)</span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input type="number" id="oilManualInput" value="70" min="20" max="150" step="0.5" style="width:80px; background:#0a101c; border:1px solid #2a3a52; color:#f5d77b; border-radius:4px; padding:3px 8px; font-size:clamp(0.6rem,0.75vw,0.7rem); font-weight:700;">
+              <button id="oilApplyBtn" style="background:#1e2a3e; border:1px solid #3d506e; color:#d6e2ff; padding:3px 14px; border-radius:20px; font-size:clamp(0.55rem,0.65vw,0.6rem); cursor:pointer;">Apply</button>
+              <span id="oilStatus" style="font-size:clamp(0.5rem,0.6vw,0.55rem); color:#6a7a9a;">$70.0</span>
+            </div>
+          </div>
+          
+          <div class="row"><span class="label">💵 USD/RUB (15%)</span><span class="value gold" id="fUsd">--</span></div>
+          <div class="row"><span class="label">🌊 Military escalation</span><span class="value red" id="fEsc">0%</span></div>
+          <div class="row"><span class="label">🏛️ Fed rate</span><span class="value green" id="fFrs">0%</span></div>
+          <div class="row"><span class="label">🌙 Astrology</span><span class="value purple" id="fAstro">+0.00%</span></div>
+          <div class="divider">🎯 FINAL MULTIPLIER: <span id="fResult">1.000</span></div>
+        </div>
+      </div>
+
+      <div class="control-item">
+        <label><span>🌊 Military escalation</span><span id="escalationDisplay">0%</span></label>
+        <input type="range" id="escalationSlider" min="0" max="100" step="5" value="0">
+        <div class="esc-scale">
+          <div class="level-wrap level-0"><span class="pct">0%</span><span class="label">peace</span></div>
+          <div class="level-wrap level-1"><span class="pct">20%</span><span class="label">preparations</span></div>
+          <div class="level-wrap level-2"><span class="pct">40%</span><span class="label">blockade</span></div>
+          <div class="level-wrap level-3"><span class="pct">60%</span><span class="label">strikes</span></div>
+          <div class="level-wrap level-4"><span class="pct">80%</span><span class="label">active combat</span></div>
+          <div class="level-wrap level-5"><span class="pct">100%</span><span class="label">war</span></div>
+        </div>
+        <span class="sub">⚡ penalty: <span class="danger" id="escPenalty">0.0%</span></span>
+      </div>
+
+      <div class="control-item">
+        <label><span>🏛️ Fed rate</span><span id="frsDisplay">3.75%</span></label>
+        <input type="range" id="frsSlider" min="0" max="8" step="0.25" value="3.75">
+        <span class="sub">high ⬇️ pressure</span>
+      </div>
+
+      <div class="control-item">
+        <label><span>🌙 Astrology intensity</span><span id="astroDisplay">0%</span></label>
+        <input type="range" id="astroFactor" min="0" max="100" step="5" value="0">
+        <span class="sub">activates factors <span class="highlight" id="astroBonusDisplay">+0.00%</span></span>
+      </div>
+    </div>
+
+    <div class="scene-row">
+      <div class="scene-btn" data-mult="0.85" data-esc="70" data-frs="6.0">🔻 Crash</div>
+      <div class="scene-btn" data-mult="0.95" data-esc="50" data-frs="5.5">📉 Moderate</div>
+      <div class="scene-btn" data-mult="1.05" data-esc="20" data-frs="4.25">📊 Neutral</div>
+      <div class="scene-btn active" data-mult="1.12" data-esc="0" data-frs="3.75">📈 Base</div>
+      <div class="scene-btn" data-mult="1.35" data-esc="0" data-frs="2.5">🚀 Growth</div>
+    </div>
+
+    <div class="forecast-strip">
+      <span>📊 Scenario:</span>
+      <div class="points" id="forecastPoints"></div>
+      <span class="total" id="totalMultiplierDisplay">×1.000</span>
+    </div>
+
+    <div class="controls-extra">
+      <div class="extra-item">
+        <span>💰 Price:</span>
+        <input type="number" id="manualPriceInput" value="4080" step="10">
+        <button id="setPriceBtn" class="primary">Set</button>
+        <button id="refreshPriceBtn">🔄 Refresh</button>
+        <button id="updateAllBtn" style="background:#2a4a6a; border-color:#4a8aca;">📊 Update index</button>
+        <button id="resetBtn">⟳ Reset</button>
+        <button id="exportBtn">📸 PNG</button>
+        <span class="status ok" id="dataStatusExtra">● live</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ASTROLOGY BLOCK ===== -->
+  <div class="astro-wrap">
+    <div class="astro-header" id="astroToggle">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <h3>🔮 Astrological factors</h3>
+        <span class="badge" id="astroActiveLabelBig">disabled (0%)</span>
+      </div>
+      <span class="arrow" id="astroArrow">▾</span>
+    </div>
+    <div class="astro-body" id="astroBody">
+      
+      <div class="astro-explanation">
+        <div class="title">📖 How it works</div>
+        <div class="text">
+          🔮 Astrological factors — hypothetical influence of planetary configurations on investor sentiment.<br>
+          <span class="pos">🟢 Positive</span> factors boost optimism and capital inflow into gold.<br>
+          <span class="neg">🔴 Negative</span> factors create uncertainty, which may pressure the price.<br>
+          🟡 <span style="color:#f5b042;">Neutral</span> factors — informational only, no model impact.<br>
+          📅 Each factor is active <span class="highlight">within a specific period</span> — influence is wave-like.<br>
+          ⚙️ Impact strength depends on <span class="highlight">astrology intensity</span> (slider above).<br>
+          <span class="muted">⚠️ Astrology is a recreational feature, not scientifically proven.</span>
+        </div>
+      </div>
+
+      <div class="astro-info-grid" id="astroInfoGrid"></div>
+
+      <div class="astro-active-label">📌 Active factors:</div>
+      <div id="astroListContainer" class="astro-list">
+        <div class="astro-empty">🔮 Increase intensity to see active factors</div>
+      </div>
+
+      <div class="astro-note">
+        <strong>📖 Symbol legend:</strong>
+        <span class="symbols">
+          ☌ — conjunction &nbsp;|&nbsp; △ — trine (120°) &nbsp;|&nbsp; ✻ — sextile (60°) &nbsp;|&nbsp; ☐ — square (90°) &nbsp;|&nbsp; ☍ — opposition (180°)
+        </span>
+        <br>⏳ <strong>Duration:</strong> short aspects (1–3 days) create sharp moves, long (weeks) — trend shifts.
+        <br>📊 <strong>Total bonus</strong> = sum of active factor weights × (intensity / 100).
+        <br>⭐ <strong>Royal stars:</strong> Regulus (fortune) and Antares (war) — ancient markers of fateful events.
+        <br>🌍 <strong>Background factor:</strong> ♄ Saturn in Pisces creates systemic tension throughout the year.
+      </div>
+    </div>
+  </div>
+
+  <div class="verify-wrap">
+    <div class="verify-header">
+      <h3>📊 Model validation on historical data</h3>
+      <span class="verify-badge">economic model only (no astrology)</span>
+    </div>
+    <div class="verify-table-wrap">
+      <table class="verify-table">
+        <thead><tr><th>Start date</th><th>Target date</th><th>Simulation</th><th>Actual</th><th>Error</th></tr></thead>
+        <tbody id="verifyTableBody">
+          <tr><td colspan="5" style="text-align:center;color:#8a9bb8;padding:12px;">⏳ Loading data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="verify-stats" id="verifyStats"><span class="stat">⏳ Calculating stats...</span></div>
+    <div class="verify-note">
+      <span><span class="dot-green">🟢</span> &lt;3%  <span class="dot-yellow">🟡</span> 3–5%  <span class="dot-red">🔴</span> &gt;5%</span>
+      <span style="margin-left:16px;">📌 Simulation uses actual number of days between dates</span>
+      <span style="margin-left:16px;" id="dataStatusVerify">● data updated</span>
+      <span style="margin-left:16px; color:#6a7a9a;">⚠️ Historical accuracy does not guarantee future results</span>
+    </div>
+  </div>
+
+  <div class="about-project">
+    <h2>🧪 About the project</h2>
+    <p class="highlight">AstroFinex — interactive scenario builder for gold price (XAU/USD) until December 2026.</p>
+    <p><strong>🧪 Research & experimental nature:</strong> A <span class="highlight">sandbox platform</span> to visualize how various factors might hypothetically affect gold prices.</p>
+    <div class="steps">
+      <div class="step-item"><span class="num">1</span><span class="step-title">Choose strategy</span><span class="step-desc">Crash, Moderate, Neutral, Base, Growth</span></div>
+      <div class="step-item"><span class="num">2</span><span class="step-title">Adjust parameters</span><span class="step-desc">Economy, Escalation, Fed rate, Astrology</span></div>
+      <div class="step-item"><span class="num">3</span><span class="step-title">Evaluate outcome</span><span class="step-desc">Instant chart and table updates</span></div>
+    </div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-title">⚠️ STRICT DISCLAIMER:</div>
+      <ul>
+        <li><strong>NOT INVESTMENT ADVICE</strong> (Art. 4.1 39-FZ) — No investment recommendations. All calculations are informational and experimental.</li>
+        <li><strong>NO CENTRAL BANK LICENSE</strong> — Not a financial institution, no license from the Bank of Russia.</li>
+        <li><strong>ALL CALCULATIONS ARE HYPOTHETICAL SIMULATIONS</strong> — Based on assumptions, do not guarantee future results.</li>
+        <li><strong>RESEARCH PURPOSES ONLY</strong> — Designed as an experimental research platform.</li>
+        <li><strong>🔮 ASTROLOGY IS RECREATIONAL</strong> — Not scientifically validated.</li>
+        <li><strong>18+</strong> — For adults only.</li>
+      </ul>
+      <div class="disclaimer-footer">The authors assume no responsibility for financial decisions made based on this tool.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-note">© 2026 AstroFinex · All rights reserved · 18+</div>
+  </div>
+
+</div>
+
+<a href="https://forms.yandex.ru/u/6a29c62c90fa7b2605a30770/" target="_blank" class="feedback-btn" id="feedbackBtn">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg>
+  💬 Feedback
+</a>
+
+<script>
+// ============================================================
+//  AstroFinex v12.5 — ENGLISH VERSION
+//  Today: 1 August 2026
+// ============================================================
+
+function getTodayDate() {
+  const d = new Date();
+  const m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`;
+}
+document.getElementById('currentDateBadge').textContent = '📅 ' + getTodayDate();
+
+// ===== HISTORICAL DATA =====
+const historicalData = [
+  { date: "2 June 2026", price: 4530 },
+  { date: "15 June 2026", price: 4280 },
+  { date: "30 June 2026", price: 4010 },
+  { date: "15 July 2026", price: 4060 },
+  { date: "31 July 2026", price: 4052 },
+  { date: "1 August 2026", price: 4080 }
+];
+
+const TABLE_ROWS = [
+  { start: "2 June 2026", target: "15 June 2026" },
+  { start: "15 June 2026", target: "30 June 2026" },
+  { start: "30 June 2026", target: "15 July 2026" },
+  { start: "15 July 2026", target: "31 July 2026" },
+  { start: "31 July 2026", target: "1 August 2026" }
+];
+
+function parseDateEn(s) {
+  const parts = s.split(' ');
+  if (parts.length < 3) return null;
+  const day = parseInt(parts[0], 10);
+  const monthMap = {'January':0,'February':1,'March':2,'April':3,'May':4,'June':5,'July':6,'August':7,'September':8,'October':9,'November':10,'December':11};
+  const month = monthMap[parts[1]];
+  if (month === undefined) return null;
+  const year = parseInt(parts[2], 10) || 2026;
+  return new Date(year, month, day);
+}
+
+function getDaysBetween(date1, date2) {
+  const d1 = parseDateEn(date1);
+  const d2 = parseDateEn(date2);
+  if (!d1 || !d2) return 0;
+  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+}
+
+function getPriceForDate(dateStr) {
+  for (let i = 0; i < historicalData.length; i++) {
+    if (historicalData[i].date === dateStr) return historicalData[i].price;
+  }
+  return null;
+}
+
+// ===== ASTROLOGICAL FACTORS =====
+const astroFactors = [
+  { id: 'sun_exaltation', name: '☀️ Sun in Aries (exaltation)', type: 'positive', weight: 1.5, threshold: 10, start: '2026-03-20', end: '2026-04-20', description: 'Sun in its exaltation — maximum strength, confidence, leadership', effect: 'Boosted market confidence' },
+  { id: 'jupiter_trine_saturn', name: '♃ Jupiter △ Saturn', type: 'positive', weight: 2.0, threshold: 15, start: '2026-08-15', end: '2026-08-25', description: 'Harmony of expansion and stability — institutional trust, systemic resilience', effect: 'Institutional growth' },
+  { id: 'sun_jupiter_conjunct', name: '☀️ Sun ☌ ♃ Jupiter', type: 'positive', weight: 2.5, threshold: 20, start: '2026-09-10', end: '2026-09-15', description: '"Royal" conjunction — optimism, equity rally, capital inflow', effect: 'Capital influx into assets' },
+  { id: 'venus_sextile_jupiter', name: '♀ Venus ✻ ♃ Jupiter', type: 'positive', weight: 1.5, threshold: 20, start: '2026-10-01', end: '2026-10-10', description: 'Aspect of abundance and optimism — capital seeks "safe havens" (gold)', effect: 'Flight to quality' },
+  { id: 'regulus_conjunct_sun', name: '⭐ Regulus ☌ ☀️ Sun', type: 'positive', weight: 2.5, threshold: 10, start: '2026-07-25', end: '2026-07-28', description: 'Royal star of fortune — triumph, leadership success, clarity', effect: 'Amplified optimism' },
+  { id: 'mars_square_uranus', name: '♂ Mars ☐ ♅ Uranus', type: 'negative', weight: -2.0, threshold: 25, start: '2026-09-05', end: '2026-09-08', description: 'Sudden aggressive events — attacks, tech disasters, panic', effect: 'Sudden volatility' },
+  { id: 'mercury_retrograde', name: '☿ Mercury retrograde', type: 'negative', weight: -1.5, threshold: 25, start: '2026-09-10', end: '2026-09-30', description: 'Period of errors, delays, misunderstandings — markets lose direction', effect: 'Chaos and uncertainty' },
+  { id: 'saturn_opposition_uranus', name: '♄ Saturn ☍ ♅ Uranus', type: 'negative', weight: -1.5, threshold: 40, start: '2026-10-25', end: '2026-10-28', description: 'Clash of old and new — institutional crisis, systemic failure', effect: 'Crisis of trust in systems' },
+  { id: 'pluto_square_sun', name: '♇ Pluto ☐ ☀️ Sun', type: 'negative', weight: -2.0, threshold: 30, start: '2026-08-15', end: '2026-08-20', description: 'Power transformation, leadership crisis → flight to gold with correction', effect: 'Leadership crisis' },
+  { id: 'antares', name: '🔥 Antares (Mars)', type: 'negative', weight: -2.0, threshold: 20, start: '2026-08-29', end: '2026-08-31', description: 'Royal star of war — conflict escalation, aggression', effect: 'Military escalation' },
+  { id: 'saturn_in_pisces', name: '♄ Saturn in Pisces (bg)', type: 'negative', weight: -0.5, threshold: 5, start: '2026-01-01', end: '2026-12-31', description: 'Background systemic tension, illusions, crisis of institutional trust', effect: 'Background pressure' },
+  { id: 'new_moon', name: '🌑 New Moon', type: 'neutral', weight: 0, threshold: 0, start: '2026-01-01', end: '2026-12-31', description: 'Emotional swings, no systemic market impact', effect: 'Emotional background' },
+  { id: 'full_moon', name: '🌕 Full Moon', type: 'neutral', weight: 0, threshold: 0, start: '2026-01-01', end: '2026-12-31', description: 'Peak emotional volatility, no market impact', effect: 'Emotional peak' }
+];
+
+function isFactorActive(factor, dateStr) {
+  if (!factor.start || !factor.end) return false;
+  const checkDate = new Date(dateStr);
+  const startDate = new Date(factor.start);
+  const endDate = new Date(factor.end);
+  return checkDate >= startDate && checkDate <= endDate;
+}
+
+function getActiveAstroFactors(pct, dateStr) {
+  if (pct < 1) return [];
+  return astroFactors.filter(f => {
+    if (f.type === 'neutral') return false;
+    const active = pct >= f.threshold && isFactorActive(f, dateStr);
+    return active;
+  });
+}
+
+function calcAstroBonus(pct, dateStr) {
+  if (pct === 0) return 0;
+  const active = getActiveAstroFactors(pct, dateStr);
+  if (active.length === 0) return 0;
+  let total = active.reduce((sum, f) => sum + f.weight, 0);
+  let bonus = total * (pct / 100);
+  return Math.max(-5, Math.min(5, bonus));
+}
+
+function getAstroItems(pct, dateStr) {
+  if (pct < 1) return [];
+  return getActiveAstroFactors(pct, dateStr).map(f => ({
+    name: f.name,
+    type: f.type,
+    weight: f.weight,
+    strength: Math.round(f.weight * (pct / 100) * 100) / 100,
+    period: f.start + ' — ' + f.end,
+    description: f.description,
+    effect: f.effect
+  }));
+}
+
+function getAstroEvents(pct) {
+  if (pct < 1) return [];
+  return astroFactors.filter(f => f.type !== 'neutral' && pct >= f.threshold).map(f => ({
+    name: f.name,
+    type: f.type,
+    weight: f.weight,
+    start: f.start,
+    end: f.end,
+    strength: Math.round(f.weight * (pct / 100) * 100) / 100,
+    description: f.description,
+    effect: f.effect
+  }));
+}
+
+// ===== ECONOMY FACTORS =====
+const WEIGHTS = { rtsi: 0.40, vix: 0.25, oil: 0.20, usd: 0.15 };
+
+const factorsData = {
+  rtsi: { value: 1100 },
+  vix: { value: 16.5 },
+  oil: { value: 70 },
+  usd: { value: 71.9 },
+  escalation: { value: 0 }
+};
+
+function calcFactorContribution(type, rawValue) {
+  if (rawValue === null || rawValue === undefined) return 0;
+  switch(type) {
+    case 'rtsi': return Math.max(-0.30, Math.min(0.30, (rawValue - 1000) / 500));
+    case 'vix': return Math.max(-0.10, Math.min(0.25, (rawValue - 15) / 25));
+    case 'oil': return Math.max(-0.25, Math.min(0.25, (rawValue - 80) / 120));
+    case 'usd': return Math.max(-0.20, Math.min(0.20, (80 - rawValue) / 40));
+    default: return 0;
+  }
+}
+
+function calculateEconomyIndex() {
+  const rtsi = calcFactorContribution('rtsi', factorsData.rtsi.value) * WEIGHTS.rtsi;
+  const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
+  const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
+  const usd = calcFactorContribution('usd', factorsData.usd.value) * WEIGHTS.usd;
+  return Math.max(0.60, Math.min(2.20, 1.0 + rtsi + vix + oil + usd));
+}
+
+// ===== DOM ELEMENTS =====
+const economyIndexSlider = document.getElementById('economyIndexSlider');
+const escalationSlider = document.getElementById('escalationSlider');
+const astroSlider = document.getElementById('astroFactor');
+const frsSlider = document.getElementById('frsSlider');
+const canvas = document.getElementById('forecastCanvas');
+const ctx = canvas.getContext('2d');
+
+let currentGoldPrice = 4080;
+
+// ===== SCENARIO CALCULATION =====
+function getEscalationPenalty() {
+  return -(factorsData.escalation.value / 100) * 0.25;
+}
+
+function getFRSCorrection(rate) {
+  if (rate >= 7) return -0.20;
+  if (rate >= 6) return -0.15;
+  if (rate >= 5) return -0.10;
+  if (rate >= 4.5) return -0.05;
+  if (rate >= 3.5) return 0;
+  if (rate >= 2.5) return +0.05;
+  if (rate >= 1.5) return +0.10;
+  return +0.15;
+}
+
+function getTotalMult(base, astroBonus) {
+  const frs = parseFloat(frsSlider.value);
+  const total = base * (1 + getEscalationPenalty()) * (1 + getFRSCorrection(frs)) * (1 + astroBonus / 100);
+  return Math.max(0.40, Math.min(2.50, total));
+}
+
+function getForecastDates() {
+  return {
+    august: '2026-08-15',
+    september: '2026-09-15',
+    october: '2026-10-15',
+    november: '2026-11-15',
+    december: '2026-12-15'
+  };
+}
+
+function calcForecast(price, baseMult, astroPct) {
+  const dates = getForecastDates();
+  const months = ['august', 'september', 'october', 'november', 'december'];
+  const monthLabels = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
+  
+  const results = {};
+  let totalAstro = 0;
+  
+  for (let i = 0; i < months.length; i++) {
+    const dateStr = dateValues[i];
+    const astroBonus = calcAstroBonus(astroPct, dateStr);
+    totalAstro += astroBonus;
+    const total = getTotalMult(baseMult, astroBonus);
+    const delta = total - 1;
+    const progress = [0.1, 0.3, 0.55, 0.8, 1.0][i];
+    results[months[i]] = {
+      price: Math.round(price * (1 + delta * progress)),
+      totalMult: total,
+      astroBonus: astroBonus,
+      label: monthLabels[i]
+    };
+  }
+  
+  const decTotal = getTotalMult(baseMult, calcAstroBonus(astroPct, dates.december));
+  
+  return {
+    august: results.august.price,
+    september: results.september.price,
+    october: results.october.price,
+    november: results.november.price,
+    december: results.december.price,
+    totalMult: decTotal,
+    astroBonus: totalAstro / 5,
+    details: results
+  };
+}
+
+// ===== UPDATE UI =====
+function renderEconomyComposition() {
+  const list = document.getElementById('compFactorsList');
+  const total = document.getElementById('compTotalValue');
+  const base = parseFloat(economyIndexSlider.value);
+  
+  const factors = [
+    { id: 'rtsi', name: 'RTSI (MOEX)', icon: '📈', weight: '40%', raw: factorsData.rtsi.value },
+    { id: 'vix', name: 'VIX (manual)', icon: '😱', weight: '25%', raw: factorsData.vix.value },
+    { id: 'oil', name: 'Brent Oil (manual)', icon: '🛢️', weight: '20%', raw: factorsData.oil.value },
+    { id: 'usd', name: 'USD/RUB (CBR)', icon: '💵', weight: '15%', raw: factorsData.usd.value }
+  ];
+
+  let html = '';
+  for (const f of factors) {
+    const contrib = calcFactorContribution(f.id, f.raw) * WEIGHTS[f.id];
+    const pct = contrib * 100;
+    const cls = pct > 0.01 ? 'positive' : (pct < -0.01 ? 'negative' : 'neutral');
+    const val = f.raw !== undefined && f.raw !== null ? (f.id === 'usd' ? f.raw.toFixed(1) : Math.round(f.raw)) : '--';
+    html += `<div class="comp-row">
+      <span class="factor-name"><span class="icon">${f.icon}</span> ${f.name}</span>
+      <span class="factor-value">${val}</span>
+      <span class="factor-weight">${f.weight}</span>
+      <span class="factor-contrib ${cls}">${pct > 0 ? '+' : ''}${pct.toFixed(2)}%</span>
+    </div>`;
+  }
+  list.innerHTML = html;
+  total.textContent = base.toFixed(2) + 'x';
+}
+
+function renderAstroCards(pct) {
+  const grid = document.getElementById('astroInfoGrid');
+  if (!grid) return;
+  
+  let html = '';
+  for (const f of astroFactors) {
+    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, '2026-08-01');
+    const cardClass = f.type;
+    const badgeClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neu');
+    const badgeText = f.type === 'positive' ? '🟢 Positive' : (f.type === 'negative' ? '🔴 Negative' : '🟡 Neutral');
+    const impactClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neutral');
+    const impactText = f.type === 'positive' ? '+' : (f.type === 'negative' ? '' : '');
+    const activeStatus = f.type === 'neutral' ? 'ℹ️ Informational' :
+      (isActive ? '✅ Active — impact ' + impactText + (f.weight * pct / 100).toFixed(2) + '%' : '⏳ Inactive (needs ' + f.threshold + '%)');
+    
+    html += `
+      <div class="astro-info-card ${cardClass}" style="${(f.type === 'neutral' || isActive) ? '' : 'opacity:0.6;'}">
+        <div class="card-title">
+          ${f.name}
+          <span class="badge-type ${badgeClass}">${badgeText}</span>
+          <span class="weight">${f.type !== 'neutral' ? 'weight ' + impactText + f.weight + '%' : ''}</span>
+        </div>
+        <div class="card-desc">${f.description}</div>
+        <div class="card-period">📅 ${f.start} — ${f.end}</div>
+        <div class="card-impact ${f.type === 'neutral' ? 'neutral' : (isActive ? impactClass : 'inactive')}">
+          ${activeStatus}
+        </div>
+      </div>
+    `;
+  }
+  grid.innerHTML = html;
+}
+
+function updateUI() {
+  const price = currentGoldPrice;
+  const base = parseFloat(economyIndexSlider.value);
+  const astro = parseFloat(astroSlider.value);
+  const frs = parseFloat(frsSlider.value);
+  const f = calcForecast(price, base, astro);
+
+  const el = (id) => document.getElementById(id);
+  
+  if (el('escPenalty')) el('escPenalty').textContent = Math.round(getEscalationPenalty() * 100) + '%';
+  if (el('priceValueDisplay')) el('priceValueDisplay').textContent = '$' + price;
+  if (el('economyIndexDisplay')) el('economyIndexDisplay').textContent = base.toFixed(2) + 'x';
+  if (el('escalationDisplay')) el('escalationDisplay').textContent = factorsData.escalation.value + '%';
+  if (el('astroDisplay')) el('astroDisplay').textContent = astro + '%';
+  if (el('frsDisplay')) el('frsDisplay').textContent = frs.toFixed(2) + '%';
+  if (el('totalMultiplierDisplay')) el('totalMultiplierDisplay').textContent = '×' + f.totalMult.toFixed(3);
+
+  const bonus = f.astroBonus || 0;
+  const bonusDisplay = el('astroBonusDisplay');
+  if (bonusDisplay) {
+    bonusDisplay.textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
+    bonusDisplay.style.color = bonus > 0.1 ? '#6fcf97' : (bonus < -0.1 ? '#ff6b6b' : '#f5d77b');
+  }
+
+  const hint = el('economyIndexHint');
+  if (hint) {
+    if (base < 0.98) hint.innerHTML = 'base trend <span class="highlight">−' + Math.round((1 - base)*100) + '%</span> to December';
+    else if (base > 1.02) hint.innerHTML = 'base trend <span class="highlight">+' + Math.round((base - 1)*100) + '%</span> to December';
+    else hint.innerHTML = '→ flat to December';
+  }
+
+  const rtsi = calcFactorContribution('rtsi', factorsData.rtsi.value) * WEIGHTS.rtsi;
+  const vix = calcFactorContribution('vix', factorsData.vix.value) * WEIGHTS.vix;
+  const oil = calcFactorContribution('oil', factorsData.oil.value) * WEIGHTS.oil;
+  const usd = calcFactorContribution('usd', factorsData.usd.value) * WEIGHTS.usd;
+
+  if (el('fRTSI')) el('fRTSI').textContent = (factorsData.rtsi.value ? Math.round(factorsData.rtsi.value) : '--') + ' (contrib ' + (rtsi*100).toFixed(2) + '%)';
+  if (el('fUsd')) el('fUsd').textContent = (factorsData.usd.value ? factorsData.usd.value.toFixed(1) : '--') + ' (contrib ' + (usd*100).toFixed(2) + '%)';
+
+  if (el('fEsc')) el('fEsc').textContent = Math.round(getEscalationPenalty() * 100) + '%';
+  if (el('fFrs')) el('fFrs').textContent = Math.round(getFRSCorrection(frs) * 100) + '%';
+  if (el('fAstro')) el('fAstro').textContent = (bonus >= 0 ? '+' : '') + bonus.toFixed(2) + '%';
+  if (el('fResult')) el('fResult').textContent = f.totalMult.toFixed(3);
+
+  const pts = el('forecastPoints');
+  if (pts) {
+    const data = [
+      { label: 'Aug', val: f.august },
+      { label: 'Sep', val: f.september },
+      { label: 'Oct', val: f.october },
+      { label: 'Nov', val: f.november },
+      { label: 'Dec', val: f.december }
+    ];
+    pts.innerHTML = data.map(d => `<span class="point"><span class="date">${d.label}</span> <span class="price">$${d.val}</span></span>`).join('');
+  }
+
+  const vixStatus = el('vixStatus');
+  if (vixStatus) vixStatus.textContent = factorsData.vix.value.toFixed(1);
+  
+  const oilStatus = el('oilStatus');
+  if (oilStatus) oilStatus.textContent = '$' + factorsData.oil.value.toFixed(1);
+
+  renderAstroCards(astro);
+  
+  const currentDate = '2026-08-01';
+  const astroItems = getAstroItems(astro, currentDate);
+  const container = el('astroListContainer');
+  const badge = el('astroActiveLabelBig');
+  
+  if (container) {
+    if (astroItems.length === 0) {
+      container.innerHTML = '<span class="astro-empty">🔮 Increase intensity to see active factors</span>';
+      if (badge) badge.textContent = 'disabled (' + astro + '%)';
+    } else {
+      let pos=0, neg=0;
+      container.innerHTML = astroItems.map(a => {
+        if (a.type === 'positive') pos++; else neg++;
+        return `<span class="item ${a.type}"><span class="sign">${a.type === 'positive' ? '+' : '–'}</span> ${a.name} <span style="opacity:0.6;font-size:0.9em;">(${(a.strength >= 0 ? '+' : '') + a.strength.toFixed(2)}%)</span> <span class="period">${a.period}</span></span>`;
+      }).join('');
+      if (badge) {
+        const totalWeight = astroItems.reduce((sum, a) => sum + a.strength, 0);
+        badge.textContent = 'active ' + astroItems.length + ' (🟢' + pos + ' 🔴' + neg + ') bonus ' + (totalWeight >= 0 ? '+' : '') + totalWeight.toFixed(2) + '%';
+        badge.style.color = totalWeight > 0.1 ? '#6fcf97' : (totalWeight < -0.1 ? '#ff6b6b' : '#b87cff');
+      }
+    }
+  }
+
+  renderEconomyComposition();
+  renderVerifyTable();
+  drawChart(price, base, astro);
+}
+
+// ===== VALIDATION TABLE =====
+function renderVerifyTable() {
+  const tbody = document.getElementById('verifyTableBody');
+  const statsDiv = document.getElementById('verifyStats');
+  if (!tbody) return;
+
+  const base = parseFloat(economyIndexSlider.value);
+  let html = '';
+  const errors = [];
+  let directionCorrect = 0, totalValid = 0;
+
+  for (const row of TABLE_ROWS) {
+    const startPrice = getPriceForDate(row.start);
+    const targetPrice = getPriceForDate(row.target);
+    if (startPrice === null || targetPrice === null) continue;
+
+    totalValid++;
+    const days = getDaysBetween(row.start, row.target);
+    const total = getTotalMult(base, 0);
+    const delta = total - 1;
+    const forecastPrice = Math.round(startPrice * (1 + delta * days / 180));
+    
+    const error = Math.round(((forecastPrice - targetPrice) / targetPrice) * 1000) / 10;
+    const absError = Math.abs(error);
+    let errorClass = 'error-good';
+    if (absError >= 5) errorClass = 'error-bad';
+    else if (absError >= 3) errorClass = 'error-mid';
+
+    const actualDir = targetPrice - startPrice;
+    const forecastDir = forecastPrice - startPrice;
+    if ((actualDir >= 0 && forecastDir >= 0) || (actualDir <= 0 && forecastDir <= 0)) directionCorrect++;
+    errors.push(absError);
+
+    html += `<tr><td>${row.start}</td><td>${row.target}<span class="horizon"> (${days} d)</span></td><td class="price-gold">$${forecastPrice}</td><td class="price-green">$${targetPrice}</td><td class="${errorClass}">${error > 0 ? '+' : ''}${error}%</td></tr>`;
+  }
+
+  if (html === '') {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#f5b042;padding:12px;">⚠️ Insufficient data</td></tr>';
+    if (statsDiv) statsDiv.innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = html;
+
+  if (errors.length > 0 && statsDiv) {
+    const avg = errors.reduce((a,b) => a+b, 0) / errors.length;
+    const max = Math.max(...errors);
+    const min = Math.min(...errors);
+    const avgClass = avg < 3 ? 'good' : (avg < 5 ? 'mid' : 'bad');
+    statsDiv.innerHTML = `
+      <span class="stat">🔹 Average: <span class="val ${avgClass}">${avg.toFixed(1)}%</span></span>
+      <span class="stat">🔹 Max: <span class="val ${max < 3 ? 'good' : (max < 5 ? 'mid' : 'bad')}">${max.toFixed(1)}%</span></span>
+      <span class="stat">🔹 Min: <span class="val ${min < 3 ? 'good' : (min < 5 ? 'mid' : 'bad')}">${min.toFixed(1)}%</span></span>
+      <span class="stat">🔹 Direction: <span class="val ${directionCorrect === totalValid ? 'good' : 'mid'}">${directionCorrect}/${totalValid}</span></span>
+    `;
+  }
+}
+
+// ===== CHART =====
+function drawChart(todayPrice, baseMult, astroPct) {
+  if (!canvas || !ctx) { 
+    setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 100); 
+    return; 
+  }
+
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) {
+    setTimeout(() => drawChart(todayPrice, baseMult, astroPct), 50);
+    return;
+  }
+
+  const dpr = window.devicePixelRatio || 1;
+  const displayWidth = rect.width;
+  const displayHeight = rect.height || (rect.width * 350 / 1000);
+  
+  if (canvas.width !== Math.round(displayWidth * dpr) || canvas.height !== Math.round(displayHeight * dpr)) {
+    canvas.width = Math.round(displayWidth * dpr);
+    canvas.height = Math.round(displayHeight * dpr);
+    ctx.scale(dpr, dpr);
+  }
+
+  const W = canvas.width / dpr;
+  const H = canvas.height / dpr;
+  if (W < 10 || H < 10) return;
+
+  const f = calcForecast(todayPrice, baseMult, astroPct);
+  const points = [];
+  
+  for (const h of historicalData) {
+    const parts = h.date.split(' ');
+    points.push({ label: parts[0] + ' ' + parts[1], price: h.price, isHistory: true });
+  }
+  
+  points.push({ label: 'today', price: todayPrice, isToday: true });
+  
+  const forecastLabels = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const forecastPrices = [f.august, f.september, f.october, f.november, f.december];
+  for (let i = 0; i < forecastLabels.length; i++) {
+    points.push({ label: forecastLabels[i], price: forecastPrices[i], isForecast: true });
+  }
+
+  const astroEvents = getAstroEvents(astroPct);
+  const dates = getForecastDates();
+  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
+
+  const prices = points.map(p => p.price);
+  const maxP = Math.max(...prices);
+  const minP = Math.min(...prices);
+  const range = maxP - minP || 100;
+  const yMax = maxP + range * 0.18;
+  const yMin = Math.max(minP - range * 0.18, 2500);
+
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#1e2a3e';
+  ctx.lineWidth = 0.5;
+  ctx.font = 'bold 12px Inter, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i <= 5; i++) {
+    const y = 15 + i * (H - 30) / 5;
+    ctx.beginPath();
+    ctx.moveTo(35, y);
+    ctx.lineTo(W - 10, y);
+    ctx.stroke();
+    ctx.fillStyle = '#6a7a9a';
+    ctx.fillText('$' + Math.round(yMax - i * (yMax - yMin) / 5), 30, y);
+  }
+
+  const getX = (i) => 45 + (i / (points.length - 1)) * (W - 80);
+  const getY = (p) => 15 + (1 - (p - yMin) / (yMax - yMin)) * (H - 30);
+
+  const forecastStartIdx = points.findIndex(p => p.isForecast);
+  const todayIdx = points.findIndex(p => p.isToday);
+
+  const historyPoints = points.filter((p, idx) => idx <= todayIdx);
+  if (historyPoints.length > 1) {
+    ctx.beginPath();
+    ctx.strokeStyle = '#e35f5f';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < historyPoints.length; i++) {
+      const idx = points.indexOf(historyPoints[i]);
+      const x = getX(idx);
+      const y = getY(historyPoints[i].price);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  if (todayIdx !== -1 && forecastStartIdx < points.length) {
+    ctx.beginPath();
+    const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
+    ctx.moveTo(xToday, yToday);
+    for (let i = forecastStartIdx; i < points.length; i++) {
+      const x = getX(i), y = getY(points[i].price);
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#6fcf97';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < points.length; i++) {
+    const x = getX(i), y = getY(points[i].price);
+    let color = '#6fcf97';
+    if (points[i].isHistory) color = '#e35f5f';
+    else if (points[i].isToday) color = '#ffaa44';
+
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 5;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = '#d0d8ee';
+    ctx.font = 'bold 9px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(points[i].label, x, y - 6);
+
+    ctx.fillStyle = '#f5d77b';
+    ctx.font = 'bold 10px Inter, sans-serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText('$' + points[i].price, x, y + 4);
+  }
+
+  if (astroEvents.length > 0 && forecastStartIdx !== -1) {
+    for (const event of astroEvents) {
+      const eventDate = new Date(event.start);
+      const monthIdx = dateValues.findIndex(d => {
+        const dDate = new Date(d);
+        return dDate.getMonth() === eventDate.getMonth() && dDate.getFullYear() === eventDate.getFullYear();
+      });
+      
+      if (monthIdx !== -1) {
+        const idx = forecastStartIdx + monthIdx;
+        if (idx < points.length) {
+          const x = getX(idx);
+          const y = getY(points[idx].price);
+          
+          const color = event.type === 'positive' ? '#6fcf97' : '#ff6b6b';
+          const size = Math.min(12, 6 + Math.abs(event.weight) * 2);
+          
+          ctx.shadowColor = 'rgba(0,0,0,0.9)';
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(x, y - 18, size / 2, 0, 2 * Math.PI);
+          ctx.fillStyle = color + '60';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          
+          ctx.beginPath();
+          ctx.arc(x, y - 18, size / 2, 0, 2 * Math.PI);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          
+          ctx.fillStyle = color;
+          ctx.font = 'bold 9px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(event.type === 'positive' ? '🟢' : '🔴', x, y - 22);
+        }
+      }
+    }
+  }
+}
+
+function forceDraw() {
+  drawChart(currentGoldPrice, parseFloat(economyIndexSlider.value), parseFloat(astroSlider.value));
+}
+
+// ===== DATA LOADING =====
+async function fetchRTSI() {
+  try {
+    const url = 'https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/RTSI.json';
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    
+    if (data && data.analytics && data.analytics.data && data.analytics.data.length > 0) {
+      const rows = data.analytics.data;
+      const columns = data.analytics.columns || [];
+      const weightIndex = columns.indexOf('weight');
+      
+      let totalRTSI = 0;
+      for (let row of rows) {
+        if (weightIndex !== -1 && row[weightIndex]) {
+          totalRTSI += parseFloat(row[weightIndex]);
+        }
+      }
+      
+      if (totalRTSI > 0) {
+        console.log('✅ RTSI (sum weights):', totalRTSI);
+        const scaled = totalRTSI * 28.5;
+        console.log('✅ RTSI (scaled):', scaled);
+        return scaled;
+      }
+    }
+    return null;
+  } catch(e) {
+    console.warn('RTSI fetch error:', e.message);
+    return null;
+  }
+}
+
+function loadUSDRUB() {
+  return new Promise((resolve, reject) => {
+    const oldScript = document.getElementById('cbrJsonp');
+    if (oldScript) oldScript.remove();
+    
+    window.CBR_XML_Daily_Ru = function(data) {
+      if (data && data.Valute && data.Valute.USD) {
+        const rate = parseFloat(data.Valute.USD.Value.toString().replace(',', '.'));
+        resolve(rate);
+      } else {
+        reject(new Error('Failed to get exchange rate'));
+      }
+      delete window.CBR_XML_Daily_Ru;
+    };
+    
+    const script = document.createElement('script');
+    script.id = 'cbrJsonp';
+    script.src = 'https://www.cbr-xml-daily.ru/daily_jsonp.js';
+    script.onerror = function() {
+      reject(new Error('JSONP load error'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+async function fetchGold() {
+  const status = document.getElementById('priceSourceText');
+  if (status) {
+    status.textContent = '⏳...';
+    status.style.color = '#f5b042';
+  }
+
+  try {
+    const resp = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=XAUTUSDT');
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.price && parseFloat(data.price) > 0) {
+        currentGoldPrice = Math.round(parseFloat(data.price));
+        if (status) {
+          status.textContent = '✓ Binance';
+          status.style.color = '#6fcf97';
+        }
+        document.getElementById('manualPriceInput').value = currentGoldPrice;
+        updateUI();
+        return;
+      }
+    }
+  } catch(e) {
+    console.warn('Binance XAUTUSDT error:', e.message);
+  }
+
+  if (status) {
+    status.textContent = '⚠ local';
+    status.style.color = '#ff6b6b';
+  }
+  if (currentGoldPrice <= 0) currentGoldPrice = 4080;
+  document.getElementById('manualPriceInput').value = currentGoldPrice;
+  updateUI();
+}
+
+async function loadAllData() {
+  const status = document.getElementById('dataStatusExtra');
+  if (status) {
+    status.textContent = '⏳ loading...';
+    status.className = 'status loading';
+  }
+
+  try {
+    const [rtsi, usd] = await Promise.all([
+      fetchRTSI(),
+      loadUSDRUB()
+    ]);
+
+    let updated = false;
+
+    if (rtsi !== null && rtsi > 100) {
+      factorsData.rtsi.value = rtsi;
+      updated = true;
+      console.log('✅ RTSI updated (scaled):', rtsi);
+    } else {
+      console.log('⚠️ RTSI not fetched, default: 1100');
+    }
+
+    if (usd !== null && usd > 0) {
+      factorsData.usd.value = usd;
+      updated = true;
+      console.log('✅ USD/RUB updated:', usd);
+    }
+
+    if (updated) {
+      const newIndex = calculateEconomyIndex();
+      economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+      
+      const timeEl = document.getElementById('dataUpdateTime');
+      if (timeEl) timeEl.textContent = new Date().toLocaleTimeString();
+      const sourceEl = document.getElementById('dataSourceLabel');
+      if (sourceEl) sourceEl.textContent = 'MOEX (scaled) + CBR ✓';
+      
+      try {
+        localStorage.setItem('astrofinex_factors', JSON.stringify({
+          timestamp: Date.now(),
+          rtsi: factorsData.rtsi.value,
+          vix: factorsData.vix.value,
+          oil: factorsData.oil.value,
+          usd: factorsData.usd.value
+        }));
+      } catch(e) {}
+
+      if (status) {
+        status.textContent = '✅ updated';
+        status.className = 'status ok';
+      }
+    } else {
+      try {
+        const cached = localStorage.getItem('astrofinex_factors');
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
+            if (data.rtsi) factorsData.rtsi.value = data.rtsi;
+            if (data.vix) factorsData.vix.value = data.vix;
+            if (data.oil) factorsData.oil.value = data.oil;
+            if (data.usd) factorsData.usd.value = data.usd;
+            const newIndex = calculateEconomyIndex();
+            economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+            const timeEl = document.getElementById('dataUpdateTime');
+            if (timeEl) timeEl.textContent = 'from cache';
+            const sourceEl = document.getElementById('dataSourceLabel');
+            if (sourceEl) sourceEl.textContent = 'cache';
+            if (status) {
+              status.textContent = '⚠ from cache';
+              status.className = 'status ok';
+            }
+            updateUI();
+            return;
+          }
+        }
+      } catch(e2) {}
+      
+      if (status) {
+        status.textContent = '⚠ error';
+        status.className = 'status error';
+      }
+    }
+    updateUI();
+  } catch(e) {
+    console.error('Load error:', e);
+    if (status) {
+      status.textContent = '⚠ error';
+      status.className = 'status error';
+    }
+  }
+}
+
+// ===== EVENT HANDLERS =====
+document.getElementById('vixApplyBtn').addEventListener('click', function() {
+  const input = document.getElementById('vixManualInput');
+  const value = parseFloat(input.value);
+  if (value && value > 0) {
+    factorsData.vix.value = value;
+    const newIndex = calculateEconomyIndex();
+    economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+    updateUI();
+    const status = document.getElementById('vixStatus');
+    if (status) {
+      status.textContent = value.toFixed(1);
+      status.style.color = '#6fcf97';
+      setTimeout(() => { status.style.color = '#6a7a9a'; }, 1500);
+    }
+  }
+});
+
+document.getElementById('vixManualInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('vixApplyBtn').click();
+  }
+});
+
+document.getElementById('oilApplyBtn').addEventListener('click', function() {
+  const input = document.getElementById('oilManualInput');
+  const value = parseFloat(input.value);
+  if (value && value > 0) {
+    factorsData.oil.value = value;
+    const newIndex = calculateEconomyIndex();
+    economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+    updateUI();
+    const status = document.getElementById('oilStatus');
+    if (status) {
+      status.textContent = '$' + value.toFixed(1);
+      status.style.color = '#6fcf97';
+      setTimeout(() => { status.style.color = '#6a7a9a'; }, 1500);
+    }
+  }
+});
+
+document.getElementById('oilManualInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('oilApplyBtn').click();
+  }
+});
+
+economyIndexSlider.addEventListener('input', updateUI);
+escalationSlider.addEventListener('input', () => {
+  factorsData.escalation.value = parseInt(escalationSlider.value);
+  updateUI();
+});
+astroSlider.addEventListener('input', updateUI);
+frsSlider.addEventListener('input', updateUI);
+
+document.getElementById('compToggle').addEventListener('click', () => {
+  document.getElementById('compBody').classList.toggle('open');
+  document.getElementById('compArrow').classList.toggle('open');
+});
+
+document.getElementById('formulaToggle').addEventListener('click', () => {
+  const details = document.getElementById('formulaDetails');
+  const arrow = document.getElementById('formulaArrow');
+  details.classList.toggle('open');
+  arrow.classList.toggle('open');
+});
+
+document.querySelectorAll('.scene-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.scene-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mult = parseFloat(btn.dataset.mult);
+    const esc = parseInt(btn.dataset.esc);
+    const frs = parseFloat(btn.dataset.frs);
+    if (!isNaN(mult)) economyIndexSlider.value = mult;
+    if (!isNaN(esc)) { escalationSlider.value = esc; factorsData.escalation.value = esc; }
+    if (!isNaN(frs)) frsSlider.value = frs;
+    updateUI();
+  });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  economyIndexSlider.value = '1.00';
+  escalationSlider.value = '0';
+  factorsData.escalation.value = 0;
+  astroSlider.value = '0';
+  frsSlider.value = '3.75';
+  
+  document.getElementById('vixManualInput').value = '16.5';
+  factorsData.vix.value = 16.5;
+  document.getElementById('vixStatus').textContent = '16.5';
+  
+  document.getElementById('oilManualInput').value = '70';
+  factorsData.oil.value = 70;
+  document.getElementById('oilStatus').textContent = '$70.0';
+  
+  updateUI();
+});
+
+document.getElementById('refreshPriceBtn').addEventListener('click', fetchGold);
+document.getElementById('updateAllBtn').addEventListener('click', loadAllData);
+document.getElementById('setPriceBtn').addEventListener('click', () => {
+  const price = parseFloat(document.getElementById('manualPriceInput').value);
+  if (price && price > 0) {
+    currentGoldPrice = Math.round(price);
+    updateUI();
+  } else alert('Enter a valid price');
+});
+document.getElementById('manualPriceInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') document.getElementById('setPriceBtn').click();
+});
+
+document.getElementById('exportBtn').addEventListener('click', function() {
+  const exportCanvas = document.createElement('canvas');
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  exportCanvas.width = Math.round(rect.width * dpr);
+  exportCanvas.height = Math.round(rect.height * dpr);
+  const exportCtx = exportCanvas.getContext('2d');
+  exportCtx.fillStyle = '#0a101c';
+  exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+  exportCtx.drawImage(canvas, 0, 0);
+  const link = document.createElement('a');
+  link.download = 'astrofinex_gold_' + getTodayDate().replace(/\s/g, '_') + '.png';
+  link.href = exportCanvas.toDataURL('image/png');
+  link.click();
+});
+
+document.getElementById('astroToggle').addEventListener('click', () => {
+  document.getElementById('astroBody').classList.toggle('open');
+  document.getElementById('astroArrow').classList.toggle('open');
+});
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(forceDraw, 100);
+});
+
+// ===== STARTUP =====
+try {
+  const cached = localStorage.getItem('astrofinex_factors');
+  if (cached) {
+    const data = JSON.parse(cached);
+    if (data.timestamp && (Date.now() - data.timestamp) < 3600000) {
+      if (data.rtsi) factorsData.rtsi.value = data.rtsi;
+      if (data.vix) factorsData.vix.value = data.vix;
+      if (data.oil) factorsData.oil.value = data.oil;
+      if (data.usd) factorsData.usd.value = data.usd;
+      
+      document.getElementById('vixManualInput').value = factorsData.vix.value;
+      document.getElementById('vixStatus').textContent = factorsData.vix.value.toFixed(1);
+      document.getElementById('oilManualInput').value = factorsData.oil.value;
+      document.getElementById('oilStatus').textContent = '$' + factorsData.oil.value.toFixed(1);
+      
+      const newIndex = calculateEconomyIndex();
+      economyIndexSlider.value = Math.min(2.20, Math.max(0.60, newIndex));
+      document.getElementById('dataUpdateTime').textContent = 'from cache';
+      document.getElementById('dataSourceLabel').textContent = 'cache';
+    }
+  }
+} catch(e) {}
+
+currentGoldPrice = 4080;
+document.getElementById('manualPriceInput').value = 4080;
+
+updateUI();
+
+setTimeout(loadAllData, 500);
+setTimeout(fetchGold, 800);
+setTimeout(() => { forceDraw(); renderVerifyTable(); }, 1000);
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    forceDraw();
+    renderVerifyTable();
+  }, 300);
+  setTimeout(fetchGold, 2000);
+  setTimeout(loadAllData, 2500);
+});
+
+console.log('✅ AstroFinex v12.5 — ENGLISH VERSION');
+console.log('📅 Today: 1 August 2026');
+console.log('⭐ Royal stars: Regulus and Antares');
+console.log('🌍 Background: Saturn in Pisces');
+</script>
+</body>
+</html>
