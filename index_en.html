@@ -22,7 +22,6 @@
   <!-- /Yandex.Metrika counter -->
 
   <style>
-    /* Тот же CSS, что и в русской версии */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 100%;
@@ -1165,7 +1164,7 @@
 <script>
 // ============================================================
 //  AstroFinex v12.5 — ENGLISH VERSION
-//  Today: 1 August 2026
+//  Today: calculated automatically
 // ============================================================
 
 function getTodayDate() {
@@ -1182,7 +1181,8 @@ const historicalData = [
   { date: "30 June 2026", price: 4010 },
   { date: "15 July 2026", price: 4060 },
   { date: "31 July 2026", price: 4052 },
-  { date: "1 August 2026", price: 4080 }
+  { date: "1 August 2026", price: 4080 },
+  { date: "31 August 2026", price: 4448 }
 ];
 
 const TABLE_ROWS = [
@@ -1190,7 +1190,8 @@ const TABLE_ROWS = [
   { start: "15 June 2026", target: "30 June 2026" },
   { start: "30 June 2026", target: "15 July 2026" },
   { start: "15 July 2026", target: "31 July 2026" },
-  { start: "31 July 2026", target: "1 August 2026" }
+  { start: "31 July 2026", target: "1 August 2026" },
+  { start: "1 August 2026", target: "31 August 2026" }
 ];
 
 function parseDateEn(s) {
@@ -1352,7 +1353,6 @@ function getTotalMult(base, astroBonus) {
 
 function getForecastDates() {
   return {
-    august: '2026-08-15',
     september: '2026-09-15',
     october: '2026-10-15',
     november: '2026-11-15',
@@ -1362,9 +1362,9 @@ function getForecastDates() {
 
 function calcForecast(price, baseMult, astroPct) {
   const dates = getForecastDates();
-  const months = ['august', 'september', 'october', 'november', 'december'];
-  const monthLabels = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
+  const months = ['september', 'october', 'november', 'december'];
+  const monthLabels = ['Sep', 'Oct', 'Nov', 'Dec'];
+  const dateValues = [dates.september, dates.october, dates.november, dates.december];
   
   const results = {};
   let totalAstro = 0;
@@ -1375,7 +1375,7 @@ function calcForecast(price, baseMult, astroPct) {
     totalAstro += astroBonus;
     const total = getTotalMult(baseMult, astroBonus);
     const delta = total - 1;
-    const progress = [0.1, 0.3, 0.55, 0.8, 1.0][i];
+    const progress = [0.1, 0.35, 0.65, 1.0][i];
     results[months[i]] = {
       price: Math.round(price * (1 + delta * progress)),
       totalMult: total,
@@ -1387,13 +1387,12 @@ function calcForecast(price, baseMult, astroPct) {
   const decTotal = getTotalMult(baseMult, calcAstroBonus(astroPct, dates.december));
   
   return {
-    august: results.august.price,
     september: results.september.price,
     october: results.october.price,
     november: results.november.price,
     december: results.december.price,
     totalMult: decTotal,
-    astroBonus: totalAstro / 5,
+    astroBonus: totalAstro / 4,
     details: results
   };
 }
@@ -1432,9 +1431,11 @@ function renderAstroCards(pct) {
   const grid = document.getElementById('astroInfoGrid');
   if (!grid) return;
   
+  const todayStr = new Date().toISOString().split('T')[0];
+  
   let html = '';
   for (const f of astroFactors) {
-    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, '2026-08-01');
+    const isActive = f.type !== 'neutral' && pct >= f.threshold && isFactorActive(f, todayStr);
     const cardClass = f.type;
     const badgeClass = f.type === 'positive' ? 'pos' : (f.type === 'negative' ? 'neg' : 'neu');
     const badgeText = f.type === 'positive' ? '🟢 Positive' : (f.type === 'negative' ? '🔴 Negative' : '🟡 Neutral');
@@ -1508,7 +1509,6 @@ function updateUI() {
   const pts = el('forecastPoints');
   if (pts) {
     const data = [
-      { label: 'Aug', val: f.august },
       { label: 'Sep', val: f.september },
       { label: 'Oct', val: f.october },
       { label: 'Nov', val: f.november },
@@ -1525,8 +1525,8 @@ function updateUI() {
 
   renderAstroCards(astro);
   
-  const currentDate = '2026-08-01';
-  const astroItems = getAstroItems(astro, currentDate);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const astroItems = getAstroItems(astro, todayStr);
   const container = el('astroListContainer');
   const badge = el('astroActiveLabelBig');
   
@@ -1641,22 +1641,44 @@ function drawChart(todayPrice, baseMult, astroPct) {
   const f = calcForecast(todayPrice, baseMult, astroPct);
   const points = [];
   
+  // Get today's date for comparison
+  const today = new Date();
+  const todayDay = today.getDate();
+  const todayMonth = today.getMonth();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  
+  // All historical points
   for (const h of historicalData) {
     const parts = h.date.split(' ');
-    points.push({ label: parts[0] + ' ' + parts[1], price: h.price, isHistory: true });
+    const day = parseInt(parts[0], 10);
+    const month = monthNames.indexOf(parts[1]);
+    const isToday = (day === todayDay && month === todayMonth);
+    let label = parts[0] + ' ' + parts[1];
+    points.push({ 
+      label: isToday ? 'today' : label, 
+      price: h.price, 
+      isHistory: !isToday,
+      isToday: isToday,
+      isForecast: false
+    });
   }
   
-  points.push({ label: 'today', price: todayPrice, isToday: true });
+  // Check if "today" point already exists in historical data
+  const hasTodayPoint = points.some(p => p.isToday);
+  if (!hasTodayPoint) {
+    points.push({ label: 'today', price: todayPrice, isToday: true, isHistory: false, isForecast: false });
+  }
   
-  const forecastLabels = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const forecastPrices = [f.august, f.september, f.october, f.november, f.december];
+  // Forecast points (from September to December)
+  const forecastLabels = ['Sep', 'Oct', 'Nov', 'Dec'];
+  const forecastPrices = [f.september, f.october, f.november, f.december];
   for (let i = 0; i < forecastLabels.length; i++) {
     points.push({ label: forecastLabels[i], price: forecastPrices[i], isForecast: true });
   }
 
   const astroEvents = getAstroEvents(astroPct);
   const dates = getForecastDates();
-  const dateValues = [dates.august, dates.september, dates.october, dates.november, dates.december];
+  const dateValues = [dates.september, dates.october, dates.november, dates.december];
 
   const prices = points.map(p => p.price);
   const maxP = Math.max(...prices);
@@ -1685,9 +1707,14 @@ function drawChart(todayPrice, baseMult, astroPct) {
   const getX = (i) => 45 + (i / (points.length - 1)) * (W - 80);
   const getY = (p) => 15 + (1 - (p - yMin) / (yMax - yMin)) * (H - 30);
 
-  const forecastStartIdx = points.findIndex(p => p.isForecast);
-  const todayIdx = points.findIndex(p => p.isToday);
+  // Find "today" index
+  let todayIdx = points.findIndex(p => p.isToday);
+  if (todayIdx === -1) todayIdx = points.length - 1;
+  
+  // Forecast starts from the next point after "today"
+  const forecastStartIdx = todayIdx + 1;
 
+  // Draw historical line
   const historyPoints = points.filter((p, idx) => idx <= todayIdx);
   if (historyPoints.length > 1) {
     ctx.beginPath();
@@ -1702,6 +1729,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
+  // Draw forecast line
   if (todayIdx !== -1 && forecastStartIdx < points.length) {
     ctx.beginPath();
     const xToday = getX(todayIdx), yToday = getY(points[todayIdx].price);
@@ -1715,6 +1743,7 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.stroke();
   }
 
+  // Draw points
   for (let i = 0; i < points.length; i++) {
     const x = getX(i), y = getY(points[i].price);
     let color = '#6fcf97';
@@ -1741,7 +1770,8 @@ function drawChart(todayPrice, baseMult, astroPct) {
     ctx.fillText('$' + points[i].price, x, y + 4);
   }
 
-  if (astroEvents.length > 0 && forecastStartIdx !== -1) {
+  // Astrological events
+  if (astroEvents.length > 0 && forecastStartIdx < points.length) {
     for (const event of astroEvents) {
       const eventDate = new Date(event.start);
       const monthIdx = dateValues.findIndex(d => {
@@ -1864,6 +1894,7 @@ async function fetchGold() {
           status.style.color = '#6fcf97';
         }
         document.getElementById('manualPriceInput').value = currentGoldPrice;
+        document.getElementById('priceValueDisplay').textContent = '$' + currentGoldPrice;
         updateUI();
         return;
       }
@@ -2156,7 +2187,7 @@ window.addEventListener('load', () => {
 });
 
 console.log('✅ AstroFinex v12.5 — ENGLISH VERSION');
-console.log('📅 Today: 1 August 2026');
+console.log('📅 Today: ' + getTodayDate());
 console.log('⭐ Royal stars: Regulus and Antares');
 console.log('🌍 Background: Saturn in Pisces');
 </script>
